@@ -47,6 +47,37 @@ body.interna header{position:relative;background:var(--paper);border-bottom:1px 
 header{height:auto}.nav{height:auto;min-height:132px}.brand{min-width:0}.brand img{width:94px;height:116px}.hero{padding-top:170px}.footer-brand img{width:70px;height:86px}
 @media(max-width:900px){.brand{min-width:0}}
 @media(max-width:650px){.nav{min-height:0}.brand img{width:76px;height:96px}.hero{padding-top:55px}}
+/* ===== ajustes: botão canal, hero-tags, soluções ===== */
+.nav-cta{background:#0d1418;color:#fff;border:1.5px solid var(--orange);padding:13px 24px!important;gap:10px;font-size:14px;font-weight:600;box-shadow:0 6px 18px rgba(0,0,0,.22);transition:.2s}
+.nav-cta svg{width:19px;height:19px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.nav-cta:hover{background:var(--orange);transform:translateY(-1px)}
+.hero-tags{right:3%;top:50%;transform:translateY(-50%);border-left:0;padding:0;display:flex;flex-direction:column;gap:10px;line-height:1;font-size:12px;letter-spacing:2px}
+.hero-tags .tag{display:flex;align-items:center;gap:12px;background:rgba(12,18,22,.62);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.16);border-left:3px solid var(--orange);border-radius:12px;padding:10px 20px 10px 10px;font-weight:700;color:#fff;box-shadow:0 8px 24px rgba(0,0,0,.28)}
+.hero-tags .tag i{width:32px;height:32px;border-radius:50%;background:var(--orange);display:grid;place-items:center;flex:none}
+.hero-tags .tag svg{width:17px;height:17px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.solutions{padding:64px 0 56px}
+.section-head{margin-bottom:40px}.section-head .eyebrow{border:0;padding:0;max-width:none;margin:0 0 12px;font-size:12px;letter-spacing:2.5px;color:var(--orange);line-height:1}.section-head h2{font-size:42px;line-height:1.05}
+.solutions .service-grid{grid-template-columns:repeat(3,1fr);gap:22px}
+.solutions .service{position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:18px;padding:32px 28px 26px!important;min-height:0;overflow:hidden;transition:transform .25s,box-shadow .25s,border-color .25s}
+.solutions .service:before{content:"";position:absolute;left:0;top:0;height:4px;width:56px;background:var(--orange);transition:width .35s}
+.solutions .service:hover{transform:translateY(-6px);box-shadow:0 20px 44px rgba(16,32,43,.13);border-color:#f3c6ab}.solutions .service:hover:before{width:100%}
+.service .ico{width:72px;height:72px;border-radius:20px;background:linear-gradient(135deg,#fff3ea,#ffdcc4);display:grid;place-items:center;margin-bottom:22px;transition:background .25s}
+.solutions .service svg{width:40px;height:40px;stroke:var(--orange);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin:0;transition:stroke .25s}
+.solutions .service:hover .ico{background:var(--orange)}.solutions .service:hover svg{stroke:#fff}
+.solutions .service h3{font:400 24px/1.15 Georgia,serif;letter-spacing:-.3px;color:#102231;margin:0 0 10px}
+.solutions .service p{font-size:14px;line-height:1.6;color:var(--muted);margin:0 0 20px;flex:1}
+.service .more{font-size:12px;font-weight:700;letter-spacing:.6px;color:var(--orange)}.service .more span{display:inline-block;transition:transform .2s}.service:hover .more span{transform:translateX(5px)}
+.all-solutions{margin-top:42px;font-size:12px}
+@media(max-width:900px){.hero-tags{display:none}.solutions .service-grid{grid-template-columns:repeat(2,1fr)}.section-head h2{font-size:34px}}
+@media(max-width:650px){.nav-cta{font-size:12px;padding:10px 14px!important;gap:7px}.nav-cta svg{width:16px;height:16px}.solutions{padding:44px 0 40px}.section-head .eyebrow{margin-bottom:10px}}
+@media(max-width:560px){.solutions .service-grid{grid-template-columns:1fr}.solutions .service{padding:26px 24px 22px!important}.section-head h2{font-size:30px}.solutions .service h3{font-size:22px}}
+/* cabeçalho mobile centralizado */
+@media(max-width:650px){
+.nav{flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px 0 18px}
+.brand{order:1;width:100%;justify-content:center}
+.links{order:2;width:100%;justify-content:center;text-align:center;overflow:visible;flex-wrap:wrap;gap:0 20px;padding:0}
+.nav-cta{order:3;margin:6px auto 0}
+}
 </style>
 <script src="{{ url_for('static', filename='lead.js') }}" defer></script>
 <script>document.addEventListener('DOMContentLoaded',function(){var p=new URLSearchParams(location.search);document.querySelectorAll('.form input[type=hidden]').forEach(function(i){if(i.name==='referrer')i.value=document.referrer||'';else if(p.get(i.name))i.value=p.get(i.name)})})</script>
@@ -57,7 +88,7 @@ header{height:auto}.nav{height:auto;min-height:132px}.brand{min-width:0}.brand i
 <nav class="links" aria-label="Navegação principal">
 {%- for rotulo, href, ativo in menu %}<a{% if caminho == ativo %} class="active"{% endif %} href="{{ href }}">{{ rotulo }}</a>{% endfor %}
 </nav>
-<a class="nav-cta" href="{{ canal_url }}"><span>♧</span> Canal de Denúncias</a>
+<a class="nav-cta" href="{{ canal_url }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v5c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg> Canal de Denúncias</a>
 </div></header>
 <main>
 <section class="hero" id="inicio"><div class="wrap"><div class="hero-copy">
@@ -65,16 +96,16 @@ header{height:auto}.nav{height:auto;min-height:132px}.brand{min-width:0}.brand i
 <h1>Ética não é apenas<br>um valor. <em>É a forma<br>de conduzir os negócios.</em></h1>
 <p>Soluções em Compliance, proteção de dados e gestão de riscos para empresas que querem crescer com responsabilidade.</p>
 <a class="btn" href="#contato">Fale com uma especialista <span>→</span></a>
-</div></div><div class="hero-tags">Integridade<br>Privacidade<br>Governança<br>Conformidade</div></section>
+</div></div><div class="hero-tags"><span class="tag"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v5c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg></i>Integridade</span><span class="tag"><i><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></i>Privacidade</span><span class="tag"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-5 9 5"/><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"/></svg></i>Governança</span><span class="tag"><i><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4h6v3H9z"/><path d="m9 14 2 2 4-4"/></svg></i>Conformidade</span></div></section>
 <section class="solutions" id="solucoes"><div class="wrap">
 <div class="section-head"><div><p class="eyebrow">Nossas soluções</p><h2>Proteção e estratégia<br>para o seu negócio.</h2></div><p>Unimos conhecimento técnico e experiência prática para ajudar sua empresa a fortalecer a governança, prevenir riscos e construir uma cultura ética, com soluções personalizadas.</p></div>
 <div class="service-grid">
-<article class="service"><svg viewBox="0 0 40 40"><path d="M20 3 34 9v10c0 9-6 14-14 18C12 33 6 28 6 19V9z"/><path d="m13 20 5 5 10-11"/></svg><h3>Compliance</h3><p>Integridade e prevenção de riscos.</p></article>
-<article class="service"><svg viewBox="0 0 40 40"><rect x="7" y="17" width="26" height="19" rx="3"/><path d="M12 17v-5a8 8 0 0 1 16 0v5M20 24v5"/></svg><h3>LGPD</h3><p>Privacidade e proteção de dados.</p></article>
-<article class="service"><svg viewBox="0 0 40 40"><circle cx="20" cy="11" r="7"/><path d="M6 35v-4c0-7 6-11 14-11s14 4 14 11v4z"/></svg><h3>DPO as a Service</h3><p>Apoio especializado em privacidade.</p></article>
-<article class="service"><svg viewBox="0 0 40 40"><circle cx="16" cy="16" r="11"/><path d="m24 24 11 11"/></svg><h3>Due Diligence</h3><p>Análise e avaliação de riscos.</p></article>
-<article class="service"><svg viewBox="0 0 40 40"><path d="M5 20 12 13l8 5 7-7a4 4 0 0 1 6 6L22 29a6 6 0 0 1-8 0z"/><path d="m13 19 7 7m-3-10 8 7m-4-10 7 6"/></svg><h3>Canal de Denúncias</h3><p>Um ambiente seguro e sigiloso.</p></article>
-<article class="service"><svg viewBox="0 0 40 40"><circle cx="20" cy="11" r="6"/><circle cx="7" cy="16" r="4"/><circle cx="33" cy="16" r="4"/><path d="M9 35v-5c0-6 5-10 11-10s11 4 11 10v5M1 33v-4c0-4 2-7 6-8m32 12v-4c0-4-2-7-6-8"/></svg><h3>Treinamentos</h3><p>Capacitação para uma cultura ética.</p></article>
+<article class="service"><span class="ico"><svg viewBox="0 0 40 40"><path d="M20 3 34 9v10c0 9-6 14-14 18C12 33 6 28 6 19V9z"/><path d="m13 20 5 5 10-11"/></svg></span><h3>Compliance</h3><p>Integridade e prevenção de riscos.</p><a class="more" href="/solucoes">Saiba mais <span>→</span></a></article>
+<article class="service"><span class="ico"><svg viewBox="0 0 40 40"><rect x="7" y="17" width="26" height="19" rx="3"/><path d="M12 17v-5a8 8 0 0 1 16 0v5M20 24v5"/></svg></span><h3>LGPD</h3><p>Privacidade e proteção de dados.</p><a class="more" href="/solucoes">Saiba mais <span>→</span></a></article>
+<article class="service"><span class="ico"><svg viewBox="0 0 40 40"><circle cx="20" cy="11" r="7"/><path d="M6 35v-4c0-7 6-11 14-11s14 4 14 11v4z"/></svg></span><h3>DPO as a Service</h3><p>Apoio especializado em privacidade.</p><a class="more" href="/solucoes">Saiba mais <span>→</span></a></article>
+<article class="service"><span class="ico"><svg viewBox="0 0 40 40"><circle cx="16" cy="16" r="11"/><path d="m24 24 11 11"/></svg></span><h3>Due Diligence</h3><p>Análise e avaliação de riscos.</p><a class="more" href="/solucoes">Saiba mais <span>→</span></a></article>
+<article class="service"><span class="ico"><svg viewBox="0 0 40 40"><path d="M6 7h28a2 2 0 0 1 2 2v17a2 2 0 0 1-2 2H18l-9 8v-8H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z"/><circle cx="20" cy="15.5" r="3"/><path d="M20 18.5v4"/></svg></span><h3>Canal de Denúncias</h3><p>Um ambiente seguro e sigiloso.</p><a class="more" href="/solucoes">Saiba mais <span>→</span></a></article>
+<article class="service"><span class="ico"><svg viewBox="0 0 40 40"><circle cx="20" cy="11" r="6"/><circle cx="7" cy="16" r="4"/><circle cx="33" cy="16" r="4"/><path d="M9 35v-5c0-6 5-10 11-10s11 4 11 10v5M1 33v-4c0-4 2-7 6-8m32 12v-4c0-4-2-7-6-8"/></svg></span><h3>Treinamentos</h3><p>Capacitação para uma cultura ética.</p><a class="more" href="/solucoes">Saiba mais <span>→</span></a></article>
 </div><a class="all-solutions" href="/solucoes">CONHEÇA TODAS AS SOLUÇÕES <span>→</span></a>
 </div></section>
 <section class="why"><div class="wrap"><div class="why-copy"><p class="eyebrow">Por que escolher a Ética em Ação?</p><h2>Mais do que consultoria,<br>uma parceira na sua jornada.</h2><p>A Ética em Ação! é uma consultoria especializada em Compliance, Proteção de Dados e Governança Corporativa. Unimos experiência, técnica e sensibilidade para ajudar empresas a tomarem decisões seguras e sustentáveis.</p><a class="btn outline" href="/quem-somos">Conheça nossa história <span>→</span></a></div></div></section>
@@ -107,7 +138,7 @@ header{height:auto}.nav{height:auto;min-height:132px}.brand{min-width:0}.brand i
 <footer><div class="wrap"><div class="footer-top">
 <a class="footer-brand" href="/"><img src="{{ img_url('logo', w=400) }}" alt=""></a>
 <nav class="footer-links">{% for rotulo, href, ativo in menu %}<a href="{{ href }}">{{ rotulo }}</a>{% endfor %}</nav>
-<a class="nav-cta" href="{{ canal_url }}">Canal de Denúncias</a>
+<a class="nav-cta" href="{{ canal_url }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v5c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg> Canal de Denúncias</a>
 </div>
 <div class="footer-bottom"><span>© 2026 Ética em Ação! Todos os direitos reservados.</span><span><a href="/privacidade">Política de Privacidade</a></span></div></div></footer>
 </body></html>
