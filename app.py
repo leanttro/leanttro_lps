@@ -120,6 +120,7 @@ class Config:
     DOMINIO_OK_PUBLICO = _bool("DOMINIO_OK_PUBLICO")
     ADMIN_USER = os.environ.get("ADMIN_USER", "").strip()
     ADMIN_PASS_HASH = os.environ.get("ADMIN_PASS_HASH", "").strip()
+    ADMIN_PASS = os.environ.get("ADMIN_PASS", "").strip()      # alternativa simples ao hash: senha direto no ambiente
     SESSION_COOKIE_NAME = "lp_sessao"
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = "Lax"
@@ -2177,16 +2178,20 @@ def _antes_superadmin():
 @bp_superadmin.route("/login", methods=["GET", "POST"], endpoint="login")
 def login_superadmin():
     cfg = current_app.config
-    if not cfg["ADMIN_USER"] or not cfg["ADMIN_PASS_HASH"]:
+    if not cfg["ADMIN_USER"] or not (cfg["ADMIN_PASS"] or cfg["ADMIN_PASS_HASH"]):
         return render_template("erro.html", codigo=503,
-                               mensagem="Defina ADMIN_USER e ADMIN_PASS_HASH no .env (veja o README)."), 503
+                               mensagem="Defina ADMIN_USER e ADMIN_PASS (ou ADMIN_PASS_HASH) nas variáveis de ambiente."), 503
     if request.method == "POST":
         chave = f"admin:{request.remote_addr}"
         if excedido(chave, 5, 900):
             flash("Muitas tentativas. Aguarde 15 minutos.", "error")
             return render_template("superadmin/login.html"), 429
         usuario_ok = hmac.compare_digest(request.form.get("usuario", ""), cfg["ADMIN_USER"])
-        senha_ok = check_password_hash(cfg["ADMIN_PASS_HASH"], request.form.get("senha", ""))
+        senha_digitada = request.form.get("senha", "")
+        if cfg["ADMIN_PASS"]:
+            senha_ok = hmac.compare_digest(senha_digitada.encode("utf-8"), cfg["ADMIN_PASS"].encode("utf-8"))
+        else:
+            senha_ok = check_password_hash(cfg["ADMIN_PASS_HASH"], senha_digitada)
         if usuario_ok and senha_ok:
             session.clear()
             session["sa"] = {"u": cfg["ADMIN_USER"]}
