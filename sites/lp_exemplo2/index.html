@@ -78,6 +78,19 @@ header{height:auto}.nav{height:auto;min-height:132px}.brand{min-width:0}.brand i
 .links{order:2;width:100%;justify-content:center;text-align:center;overflow:visible;flex-wrap:wrap;gap:0 20px;padding:0}
 .nav-cta{order:3;margin:6px auto 0}
 }
+/* mobile: menu com fundo delicado + cards centralizados */
+@media(max-width:650px){
+.links{background:rgba(255,255,255,.75);border:1px solid #f0dccb;border-radius:999px;padding:5px 6px;gap:2px;justify-content:center;box-shadow:0 6px 18px rgba(16,32,43,.07);width:auto;max-width:100%;flex-wrap:wrap}
+.links a{padding:7px 12px;border-radius:999px;border-bottom:0;font-size:12px;font-weight:500;color:#17222a;transition:background .2s,color .2s}
+.links a.active{background:linear-gradient(135deg,#fff3ea,#ffdcc4);color:var(--orange);border-bottom:0;font-weight:600}
+.hero{padding-top:18px}
+}
+@media(max-width:560px){
+.solutions .service{align-items:center;text-align:center}
+.solutions .service .ico{margin-left:auto;margin-right:auto}
+.solutions .service p{flex:0 0 auto;margin-bottom:18px}
+.solutions .service .more{display:inline-block}
+}
 </style>
 <script src="{{ url_for('static', filename='lead.js') }}" defer></script>
 <script>document.addEventListener('DOMContentLoaded',function(){var p=new URLSearchParams(location.search);document.querySelectorAll('.form input[type=hidden]').forEach(function(i){if(i.name==='referrer')i.value=document.referrer||'';else if(p.get(i.name))i.value=p.get(i.name)})})</script>
