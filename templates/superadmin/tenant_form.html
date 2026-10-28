@@ -1,0 +1,28 @@
+{% extends "superadmin/base.html" %}
+{% block titulo %}{{ t.nome if t else 'Novo cliente' }} · Super-admin{% endblock %}
+{% block conteudo %}
+<div class="flex items-center gap-2 mb-4"><a href="{{ url_for('superadmin.lista') }}" class="btn btn-s !py-1.5"><i data-lucide="arrow-left" class="w-4 h-4"></i></a><h1 class="text-xl font-bold">{{ t.nome if t else 'Novo cliente' }}</h1></div>
+<div class="grid gap-4 lg:grid-cols-3">
+<form method="post" class="lg:col-span-2 bg-white rounded-2xl shadow-sm p-5 space-y-4"><input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+<div class="grid sm:grid-cols-2 gap-4"><label class="block text-sm font-medium">Nome do cliente<input class="campo mt-1" name="nome" id="nome" value="{{ d.nome }}" required></label>
+<label class="block text-sm font-medium">Código (lp...){% if t %}<input class="campo mt-1 bg-slate-100 font-mono" value="{{ d.codigo }}" disabled>{% else %}<input class="campo mt-1 font-mono" name="codigo" id="codigo" value="{{ d.codigo }}" required pattern="lp[a-z0-9_]+" placeholder="lpjulia">{% endif %}</label></div>
+<label class="block text-sm font-medium">Domínios <span class="font-normal text-slate-500">(um por linha; www é tratado automaticamente)</span><textarea class="campo mt-1 font-mono" name="dominios" rows="3" placeholder="julia.com.br" required>{{ d.dominios }}</textarea></label>
+<label class="block text-sm font-medium">Template (pasta em sites/)<select class="campo mt-1 font-mono" name="template" required><option value="">— escolha —</option>{% for tpl, nome in sites_lista %}<option value="{{ tpl }}" {{ 'selected' if d.template == tpl }}>{{ tpl }}{% if nome != tpl %} — {{ nome }}{% endif %}</option>{% endfor %}</select></label>
+<div class="grid sm:grid-cols-2 gap-4"><label class="block text-sm font-medium">E-mail que recebe os leads<input class="campo mt-1" type="email" name="email_aviso" value="{{ d.email_aviso }}"></label>
+<label class="block text-sm font-medium">WhatsApp<input class="campo mt-1" name="whatsapp" value="{{ d.whatsapp }}" placeholder="11 99999-9999"></label></div>
+<label class="block text-sm font-medium">Webhook de leads <span class="font-normal text-slate-500">(Make/n8n/Zapier, opcional)</span><input class="campo mt-1" name="webhook_url" value="{{ d.webhook_url }}" placeholder="https://hook.make.com/..."></label>
+{% if not t %}<label class="block text-sm font-medium">Senha inicial do painel <span class="font-normal text-slate-500">(em branco = gerar automaticamente)</span><input class="campo mt-1" name="senha" value="{{ d.senha }}" autocomplete="off"></label>
+{% else %}<label class="flex items-center gap-2 text-sm font-medium"><input type="checkbox" name="ativo" value="1" {{ 'checked' if t.ativo }}> Cliente ativo (site no ar)</label>{% endif %}
+<button class="btn btn-p"><i data-lucide="save" class="w-4 h-4"></i>{{ 'Salvar alterações' if t else 'Criar cliente' }}</button></form>
+{% if t %}<aside class="space-y-4">
+<div class="bg-white rounded-2xl shadow-sm p-5 text-sm space-y-2"><h2 class="font-semibold mb-1">Resumo</h2>
+<p>Leads: <strong>{{ total_leads }}</strong> · <a class="text-teal-700 hover:underline" href="{{ url_for('superadmin.leads', tid=t.id) }}">ver</a> · <a class="text-teal-700 hover:underline" href="{{ url_for('superadmin.leads_csv', tid=t.id) }}">CSV</a></p>
+<p>Disco usado: <strong>{{ disco }}</strong></p><p>Criado em: {{ t.criado_em|data_br }}</p>
+<form method="post" action="{{ url_for('superadmin.entrar', tid=t.id) }}" target="_blank" class="pt-2"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="btn btn-s w-full justify-center"><i data-lucide="log-in" class="w-4 h-4"></i>Entrar no painel do cliente</button></form></div>
+<div class="bg-white rounded-2xl shadow-sm p-5 text-sm space-y-3"><h2 class="font-semibold">Senha do painel</h2>
+<form method="post" action="{{ url_for('superadmin.resetar_senha', tid=t.id) }}" onsubmit="return confirm('Gerar nova senha? Sessões abertas do cliente serão encerradas.')"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="btn btn-s w-full justify-center"><i data-lucide="key-round" class="w-4 h-4"></i>Resetar senha</button></form></div>
+<div class="bg-white rounded-2xl shadow-sm p-5 text-sm space-y-3 border border-red-100"><h2 class="font-semibold text-red-700">Zona de perigo</h2><p class="text-slate-500 text-xs">Exclui leads, posts, domínios e todas as imagens do cliente. Não tem volta.</p>
+<form method="post" action="{{ url_for('superadmin.excluir', tid=t.id) }}" class="space-y-2"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><input class="campo font-mono" name="confirmar" placeholder="Digite {{ t.codigo }} para confirmar" autocomplete="off"><button class="btn btn-d w-full justify-center"><i data-lucide="trash-2" class="w-4 h-4"></i>Excluir cliente</button></form></div></aside>{% endif %}</div>
+{% endblock %}
+{% block scripts %}{% if not t %}<script>var n=document.getElementById('nome'),c=document.getElementById('codigo'),manual=c.value!=='';
+c.addEventListener('input',function(){manual=true});n.addEventListener('input',function(){if(!manual)c.value='lp'+n.value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'').slice(0,30)});</script>{% endif %}{% endblock %}

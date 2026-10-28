@@ -1,0 +1,31 @@
+{% extends "painel/base.html" %}
+{% block titulo %}Leads{% endblock %}
+{% block conteudo %}
+<div class="flex items-center justify-between gap-3 mb-4"><div><h1 class="text-xl font-bold">Leads</h1>
+<p class="text-sm text-slate-500">{{ pag.total }} contato(s){% if novos %} · <span class="text-indigo-600 font-semibold">{{ novos }} novo(s)</span>{% endif %}</p></div>
+<a class="btn btn-sec" href="{{ url_for('painel.leads_csv', **f) }}"><i data-lucide="download" class="w-4 h-4"></i>Exportar CSV</a></div>
+<form method="get" class="cartao p-3 mb-4 grid gap-2 sm:grid-cols-[1fr_auto_auto_auto_auto]">
+<input class="campo" type="search" name="q" value="{{ f.q }}" placeholder="Buscar nome, telefone, e-mail ou mensagem">
+<input class="campo" type="date" name="de" value="{{ f.de }}" title="De"><input class="campo" type="date" name="ate" value="{{ f.ate }}" title="Até">
+<select class="campo" name="status"><option value="">Todos</option><option value="novos" {{ 'selected' if f.status == 'novos' }}>Novos</option><option value="atendidos" {{ 'selected' if f.status == 'atendidos' }}>Atendidos</option></select>
+<button class="btn btn-primario"><i data-lucide="search" class="w-4 h-4"></i>Filtrar</button></form>
+{% if pag.items %}<div class="space-y-3">{% for l in pag.items %}
+<article class="cartao p-4 {{ 'opacity-70' if l.atendido }}"><div class="flex flex-wrap items-start justify-between gap-2"><div class="min-w-0">
+<h2 class="font-semibold">{{ l.nome or 'Sem nome' }}{% if l.atendido %}<span class="ml-1 text-xs font-medium bg-green-100 text-green-700 px-2 py-0.5 rounded-full">Atendido</span>{% else %}<span class="ml-1 text-xs font-medium bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full">Novo</span>{% endif %}</h2>
+<p class="text-xs text-slate-500">{{ l.criado_em|tempo }} · {{ l.criado_em|data_br }}</p></div>
+<div class="flex gap-2">{% if l.telefone and l.telefone|wa_numero %}<a class="btn btn-sec !py-1.5" target="_blank" rel="noopener" href="https://wa.me/{{ l.telefone|wa_numero }}"><i data-lucide="message-circle" class="w-4 h-4 text-green-600"></i>WhatsApp</a>{% endif %}
+<form method="post" action="{{ url_for('painel.lead_atendido', lid=l.id) }}"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><input type="hidden" name="voltar" value="{{ request.full_path.rstrip('?') }}">
+<button class="btn btn-sec !py-1.5"><i data-lucide="{{ 'rotate-ccw' if l.atendido else 'check' }}" class="w-4 h-4"></i>{{ 'Reabrir' if l.atendido else 'Marcar atendido' }}</button></form></div></div>
+<div class="mt-2 text-sm text-slate-700 flex flex-wrap gap-x-5 gap-y-1">{% if l.telefone %}<span class="flex items-center gap-1"><i data-lucide="phone" class="w-4 h-4 text-slate-400"></i>{{ l.telefone }}</span>{% endif %}
+{% if l.email %}<a class="flex items-center gap-1 hover:underline" href="mailto:{{ l.email }}"><i data-lucide="mail" class="w-4 h-4 text-slate-400"></i>{{ l.email }}</a>{% endif %}</div>
+{% if l.mensagem %}<p class="mt-2 text-sm text-slate-600 whitespace-pre-line">{{ l.mensagem }}</p>{% endif %}
+<details class="mt-3 text-sm"><summary class="cursor-pointer text-slate-500 hover:text-slate-800">Origem e detalhes</summary>
+<dl class="mt-2 grid sm:grid-cols-2 gap-x-6 gap-y-1 text-slate-600">
+{% for rot, val in [('utm_source', l.utm_source), ('utm_medium', l.utm_medium), ('utm_campaign', l.utm_campaign), ('utm_term', l.utm_term), ('utm_content', l.utm_content), ('Referrer', l.referrer), ('Página', l.pagina)] %}{% if val %}<div class="flex gap-2"><dt class="font-medium shrink-0">{{ rot }}:</dt><dd class="break-all">{{ val }}</dd></div>{% endif %}{% endfor %}
+{% if l.extras %}{% for k, v in l.extras.items() %}<div class="flex gap-2"><dt class="font-medium shrink-0">{{ k }}:</dt><dd class="break-all">{{ v }}</dd></div>{% endfor %}{% endif %}
+{% if not (l.utm_source or l.utm_medium or l.utm_campaign or l.referrer or l.pagina or l.extras) %}<div>Sem dados de origem.</div>{% endif %}</dl></details></article>{% endfor %}</div>
+{% if pag.pages > 1 %}<nav class="flex items-center justify-center gap-2 mt-6 text-sm">
+{% if pag.has_prev %}<a class="btn btn-sec" href="{{ url_for('painel.leads', pagina=pag.prev_num, **f) }}">← Anterior</a>{% endif %}<span class="text-slate-500">Página {{ pag.page }} de {{ pag.pages }}</span>
+{% if pag.has_next %}<a class="btn btn-sec" href="{{ url_for('painel.leads', pagina=pag.next_num, **f) }}">Próxima →</a>{% endif %}</nav>{% endif %}
+{% else %}<div class="cartao p-10 text-center text-slate-500"><i data-lucide="inbox" class="w-10 h-10 mx-auto mb-2 text-slate-300"></i>Nenhum lead encontrado.</div>{% endif %}
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "superadmin/base.html" %}
+{% block titulo %}Clientes · Super-admin{% endblock %}
+{% block conteudo %}
+{% if not volume.gravavel %}<div class="mb-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm p-3"><strong>Volume sem permissão de escrita:</strong> {{ volume.erro }}</div>
+{% elif not volume.montado %}<div class="mb-4 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 text-sm p-3"><strong>Atenção:</strong> <code>{{ volume.caminho }}</code> não está em um volume montado. Imagens e banco podem ser perdidos no próximo deploy.</div>{% endif %}
+<div class="flex items-center justify-between mb-4 flex-wrap gap-2"><div><h1 class="text-xl font-bold">Clientes</h1><p class="text-sm text-slate-500">{{ linhas|length }} cadastrado(s) · {{ sites_lista|length }} template(s) em sites/</p></div>
+<a href="{{ url_for('superadmin.novo') }}" class="btn btn-p"><i data-lucide="plus" class="w-4 h-4"></i>Novo cliente</a></div>
+<div class="bg-white rounded-2xl shadow-sm overflow-x-auto"><table class="w-full text-sm"><thead class="text-left text-slate-500 border-b"><tr><th class="p-3">Cliente</th><th class="p-3">Domínios</th><th class="p-3">Template</th><th class="p-3">Leads</th><th class="p-3">Disco</th><th class="p-3">Status</th><th class="p-3"></th></tr></thead><tbody class="divide-y">
+{% for l in linhas %}{% set t = l.t %}<tr><td class="p-3"><a class="font-semibold hover:underline" href="{{ url_for('superadmin.editar', tid=t.id) }}">{{ t.nome }}</a><div class="text-xs text-slate-500 font-mono">{{ t.codigo }}</div></td>
+<td class="p-3">{% for d in t.dominios_lista %}<div class="text-xs">{{ d }}</div>{% endfor %}</td>
+<td class="p-3 font-mono text-xs">{{ t.template }}{% if not l.site_ok %} <span class="text-red-600 font-sans">(não encontrado!)</span>{% endif %}</td>
+<td class="p-3"><a class="hover:underline" href="{{ url_for('superadmin.leads', tid=t.id) }}">{{ l.leads }}</a></td><td class="p-3">{{ l.disco }}</td>
+<td class="p-3"><span class="text-xs font-medium px-2 py-1 rounded-full {{ 'bg-green-100 text-green-700' if t.ativo else 'bg-slate-200 text-slate-600' }}">{{ 'Ativo' if t.ativo else 'Inativo' }}</span></td>
+<td class="p-3"><div class="flex gap-1.5 justify-end">
+<form method="post" action="{{ url_for('superadmin.entrar', tid=t.id) }}" target="_blank"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="btn btn-s !py-1" title="Abrir painel do cliente"><i data-lucide="log-in" class="w-4 h-4"></i></button></form>
+<form method="post" action="{{ url_for('superadmin.alternar_ativo', tid=t.id) }}"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="btn btn-s !py-1" title="Ativar/desativar"><i data-lucide="power" class="w-4 h-4"></i></button></form></div></td></tr>
+{% else %}<tr><td colspan="7" class="p-8 text-center text-slate-500">Nenhum cliente ainda.</td></tr>{% endfor %}</tbody></table></div>
+{% endblock %}

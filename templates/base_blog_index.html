@@ -1,0 +1,13 @@
+{% extends "_blog_layout.html" %}
+{% block conteudo %}
+<h1 class="text-3xl font-bold mb-8">Blog</h1>
+{% if posts %}<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+{% for p in posts %}<a href="{{ url_for('site.blog_post', slug=p.slug) }}" class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition flex flex-col">
+{% if capa_url(p) %}<img src="{{ capa_url(p, 800) }}" alt="" loading="lazy" class="w-full aspect-video object-cover">{% else %}<div class="w-full aspect-video bg-slate-200"></div>{% endif %}
+<div class="p-5 flex-1"><time class="text-xs text-slate-500">{{ p.publicado_em|data_br(False) }}</time><h2 class="font-semibold text-lg mt-1 group-hover:underline">{{ p.titulo }}</h2>{% if p.resumo %}<p class="text-sm text-slate-600 mt-2">{{ p.resumo }}</p>{% endif %}</div></a>{% endfor %}</div>
+{% if pag.pages > 1 %}<nav class="flex justify-center gap-2 mt-10 text-sm">
+{% if pag.has_prev %}<a class="px-4 py-2 rounded-lg bg-white border" href="{{ url_for('site.blog_lista', pagina=pag.prev_num) }}">← Anteriores</a>{% endif %}
+<span class="px-4 py-2 text-slate-500">Página {{ pag.page }} de {{ pag.pages }}</span>
+{% if pag.has_next %}<a class="px-4 py-2 rounded-lg bg-white border" href="{{ url_for('site.blog_lista', pagina=pag.next_num) }}">Próximos →</a>{% endif %}</nav>{% endif %}
+{% else %}<p class="text-slate-500">Ainda não há posts publicados.</p>{% endif %}
+{% endblock %}

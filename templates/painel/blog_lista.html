@@ -1,0 +1,12 @@
+{% extends "painel/base.html" %}
+{% block titulo %}Blog{% endblock %}
+{% block conteudo %}
+<div class="flex items-center justify-between mb-4"><h1 class="text-xl font-bold">Posts do blog</h1><a href="{{ url_for('painel.blog_novo') }}" class="btn btn-primario"><i data-lucide="plus" class="w-4 h-4"></i>Novo post</a></div>
+{% if posts %}<div class="cartao divide-y">{% for p in posts %}<div class="p-4 flex items-center gap-3 flex-wrap">
+<div class="flex-1 min-w-[12rem]"><a href="{{ url_for('painel.blog_editar', pid=p.id) }}" class="font-semibold hover:underline">{{ p.titulo }}</a><p class="text-xs text-slate-500">/blog/{{ p.slug }} · {{ (p.publicado_em or p.criado_em)|data_br(False) }}</p></div>
+<span class="text-xs font-medium px-2 py-1 rounded-full {{ 'bg-green-100 text-green-700' if p.status == 'publicado' else 'bg-slate-200 text-slate-600' }}">{{ 'Publicado' if p.status == 'publicado' else 'Rascunho' }}</span>
+<div class="flex gap-2">{% if p.status == 'publicado' %}<a class="btn btn-sec !py-1.5" target="_blank" href="{{ url_for('site.blog_post', slug=p.slug) }}"><i data-lucide="eye" class="w-4 h-4"></i></a>{% endif %}
+<a class="btn btn-sec !py-1.5" href="{{ url_for('painel.blog_editar', pid=p.id) }}"><i data-lucide="pencil" class="w-4 h-4"></i>Editar</a>
+<form method="post" action="{{ url_for('painel.blog_excluir', pid=p.id) }}" onsubmit="return confirm('Excluir este post? Não dá para desfazer.')"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="btn btn-perigo !py-1.5"><i data-lucide="trash-2" class="w-4 h-4"></i></button></form></div></div>{% endfor %}</div>
+{% else %}<div class="cartao p-10 text-center text-slate-500">Você ainda não escreveu nenhum post.</div>{% endif %}
+{% endblock %}

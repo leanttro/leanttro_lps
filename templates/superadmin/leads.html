@@ -1,0 +1,18 @@
+{% extends "superadmin/base.html" %}
+{% block titulo %}Leads de {{ t.codigo }}{% endblock %}
+{% block conteudo %}
+<div class="flex items-center justify-between mb-4 flex-wrap gap-2"><div class="flex items-center gap-2"><a href="{{ url_for('superadmin.editar', tid=t.id) }}" class="btn btn-s !py-1.5"><i data-lucide="arrow-left" class="w-4 h-4"></i></a>
+<div><h1 class="text-xl font-bold">Leads — {{ t.nome }}</h1><p class="text-sm text-slate-500">{{ pag.total }} contato(s)</p></div></div>
+<a class="btn btn-p" href="{{ url_for('superadmin.leads_csv', tid=t.id, **f) }}"><i data-lucide="download" class="w-4 h-4"></i>Baixar CSV</a></div>
+<form method="get" class="bg-white rounded-xl p-3 mb-4 grid gap-2 sm:grid-cols-[1fr_auto_auto_auto_auto]"><input class="campo" type="search" name="q" value="{{ f.q }}" placeholder="Buscar">
+<input class="campo" type="date" name="de" value="{{ f.de }}"><input class="campo" type="date" name="ate" value="{{ f.ate }}">
+<select class="campo" name="status"><option value="">Todos</option><option value="novos" {{ 'selected' if f.status == 'novos' }}>Novos</option><option value="atendidos" {{ 'selected' if f.status == 'atendidos' }}>Atendidos</option></select><button class="btn btn-p justify-center">Filtrar</button></form>
+<div class="bg-white rounded-2xl shadow-sm overflow-x-auto"><table class="w-full text-sm"><thead class="text-left text-slate-500 border-b"><tr><th class="p-3">Data</th><th class="p-3">Nome</th><th class="p-3">Contato</th><th class="p-3">Mensagem</th><th class="p-3">Origem</th><th class="p-3">Aviso</th></tr></thead><tbody class="divide-y">
+{% for l in pag.items %}<tr class="align-top"><td class="p-3 whitespace-nowrap">{{ l.criado_em|data_br }}</td><td class="p-3">{{ l.nome }}{% if l.atendido %} <span class="text-xs text-green-700">✓</span>{% endif %}</td>
+<td class="p-3">{{ l.telefone or '' }}<div class="text-xs text-slate-500">{{ l.email or '' }}</div></td><td class="p-3 max-w-xs"><div class="line-clamp-3">{{ l.mensagem or '' }}</div></td>
+<td class="p-3 text-xs">{{ [l.utm_source, l.utm_medium, l.utm_campaign]|select|join(' / ') or (l.referrer or '—') }}</td><td class="p-3 text-xs">e-mail: {{ l.notif_email or '—' }}<br>webhook: {{ l.notif_webhook or '—' }}</td></tr>
+{% else %}<tr><td colspan="6" class="p-8 text-center text-slate-500">Nenhum lead.</td></tr>{% endfor %}</tbody></table></div>
+{% if pag.pages > 1 %}<nav class="flex items-center justify-center gap-2 mt-4 text-sm">
+{% if pag.has_prev %}<a class="btn btn-s" href="{{ url_for('superadmin.leads', tid=t.id, pagina=pag.prev_num, **f) }}">← Anterior</a>{% endif %}<span class="text-slate-500">{{ pag.page }} / {{ pag.pages }}</span>
+{% if pag.has_next %}<a class="btn btn-s" href="{{ url_for('superadmin.leads', tid=t.id, pagina=pag.next_num, **f) }}">Próxima →</a>{% endif %}</nav>{% endif %}
+{% endblock %}

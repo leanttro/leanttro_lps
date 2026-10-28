@@ -1,0 +1,12 @@
+Flask>=3.0,<4
+Flask-SQLAlchemy>=3.1,<4
+SQLAlchemy>=2.0,<2.1
+gunicorn>=22.0
+Pillow>=10.4
+python-dotenv>=1.0
+nh3>=0.2.18,<0.3
+Markdown>=3.6
+requests>=2.31
+tzdata
+# Postgres (DATABASE_URL=postgresql://...): inclua também
+psycopg2-binary>=2.9

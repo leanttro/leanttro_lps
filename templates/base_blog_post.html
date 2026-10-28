@@ -1,0 +1,11 @@
+{% extends "_blog_layout.html" %}
+{% block og_type %}article{% endblock %}
+{% block head_extra %}<script type="application/ld+json">{{ jsonld|tojson }}</script>{% endblock %}
+{% block conteudo %}
+<article class="max-w-3xl mx-auto"><a href="/blog" class="text-sm text-slate-500 hover:underline">← Voltar ao blog</a>
+<h1 class="text-3xl sm:text-4xl font-bold mt-3 mb-2">{{ post.titulo }}</h1><time class="text-sm text-slate-500">{{ post.publicado_em|data_br(False) }}</time>
+{% if capa_url(post) %}<img src="{{ capa_url(post, 1200) }}" alt="{{ post.titulo }}" class="w-full rounded-2xl my-6">{% endif %}
+<div class="prose prose-slate max-w-none mt-6">{{ post.corpo_html|safe }}</div></article>
+{% if relacionados %}<section class="max-w-3xl mx-auto mt-14 pt-8 border-t"><h2 class="font-bold text-xl mb-4">Leia também</h2><ul class="space-y-2">
+{% for r in relacionados %}<li><a class="text-blue-700 hover:underline" href="{{ url_for('site.blog_post', slug=r.slug) }}">{{ r.titulo }}</a></li>{% endfor %}</ul></section>{% endif %}
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "painel/base.html" %}
+{% block titulo %}Dados básicos{% endblock %}
+{% block conteudo %}
+<h1 class="text-xl font-bold mb-4">Dados básicos</h1>
+<div class="grid gap-4 md:grid-cols-2">
+<form method="post" class="cartao p-4 space-y-4"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><h2 class="font-semibold">Contato</h2>
+<label class="block text-sm font-medium">WhatsApp do site<input class="campo mt-1" name="whatsapp" value="{{ g.t.whatsapp or '' }}" placeholder="11 99999-9999" inputmode="tel"></label>
+<label class="block text-sm font-medium">E-mail que recebe o aviso de novos leads<input class="campo mt-1" type="email" name="email_aviso" value="{{ g.t.email_aviso or '' }}" placeholder="voce@empresa.com.br"></label>
+<button class="btn btn-primario"><i data-lucide="save" class="w-4 h-4"></i>Salvar</button></form>
+<form method="post" action="{{ url_for('painel.dados_senha') }}" class="cartao p-4 space-y-4"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><h2 class="font-semibold">Trocar senha</h2>
+<label class="block text-sm font-medium">Senha atual<input class="campo mt-1" type="password" name="atual" required autocomplete="current-password"></label>
+<label class="block text-sm font-medium">Nova senha (mín. 8 caracteres)<input class="campo mt-1" type="password" name="nova" required minlength="8" autocomplete="new-password"></label>
+<label class="block text-sm font-medium">Repita a nova senha<input class="campo mt-1" type="password" name="confirmar" required minlength="8" autocomplete="new-password"></label>
+<button class="btn btn-primario"><i data-lucide="key-round" class="w-4 h-4"></i>Alterar senha</button></form></div>
+{% endblock %}

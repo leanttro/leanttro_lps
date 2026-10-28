@@ -1,0 +1,25 @@
+{% extends "painel/base.html" %}
+{% block titulo %}Imagens do site{% endblock %}
+{% block conteudo %}
+<h1 class="text-xl font-bold">Imagens do site</h1>
+<p class="text-sm text-slate-500 mb-4">Troque as fotos do seu site. Ao enviar, o site já passa a usar a nova imagem. Espaço usado: {{ uso|bytes_h }}.</p>
+{% if not volume.gravavel %}<div class="mb-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm p-3"><strong>Atenção:</strong> o servidor não consegue gravar imagens agora ({{ volume.erro }}). Avise o suporte.</div>
+{% elif not volume.montado %}<div class="mb-4 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 text-sm p-3"><strong>Atenção:</strong> as imagens estão em <code>{{ volume.caminho }}</code>, que NÃO é um volume montado. Elas podem sumir na próxima atualização. Avise o suporte.</div>{% endif %}
+{% if cards %}<div class="grid gap-4 sm:grid-cols-2">{% for c in cards %}
+<section id="slot-{{ c.chave }}" class="cartao p-4 flex flex-col gap-3"><div class="flex items-start justify-between gap-2"><div><h2 class="font-semibold">{{ c.nome }}</h2><p class="text-xs text-slate-500">Tamanho máximo: {{ c.max }} px{% if c.svg %} · aceita SVG{% endif %}</p></div>
+<span class="text-xs font-medium px-2 py-1 rounded-full shrink-0 {{ 'bg-green-100 text-green-700' if c.enviada else 'bg-slate-200 text-slate-600' }}">{{ 'Enviada' if c.enviada else 'Padrão do site' }}</span></div>
+<div class="rounded-xl bg-slate-100 border flex items-center justify-center overflow-hidden aspect-video"><img src="{{ img_url(c.chave, 400) }}" alt="{{ c.nome }}" class="max-h-full max-w-full object-contain" loading="lazy"></div>
+{% if c.dica %}<p class="text-xs text-slate-500">{{ c.dica }}</p>{% endif %}
+<div class="flex gap-2 mt-auto"><form method="post" enctype="multipart/form-data" action="{{ url_for('painel.imagem_slot', slot=c.chave) }}" class="flex-1"><input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+<label class="btn btn-primario w-full cursor-pointer"><i data-lucide="upload" class="w-4 h-4"></i>{{ 'Trocar' if c.enviada else 'Enviar' }}<input type="file" name="arquivo" class="hidden" accept="image/png,image/jpeg,image/webp{{ ',image/svg+xml' if c.svg }}" onchange="this.closest('label').classList.add('opacity-60');this.form.submit()"></label></form>
+{% if c.enviada %}<form method="post" action="{{ url_for('painel.imagem_slot_remover', slot=c.chave) }}" onsubmit="return confirm('Remover esta imagem? O site volta a usar a padrão.')"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="btn btn-perigo" title="Remover"><i data-lucide="trash-2" class="w-4 h-4"></i></button></form>{% endif %}</div></section>{% endfor %}</div>
+{% else %}<div class="cartao p-6 text-sm text-slate-500">Este site não tem imagens editáveis. Use a galeria abaixo para os posts do blog.</div>{% endif %}
+<section id="galeria" class="mt-8"><h2 class="text-lg font-bold">Galeria livre</h2><p class="text-sm text-slate-500 mb-3">Envie imagens avulsas e copie o endereço (URL) para usar onde precisar, como em posts do blog.</p>
+<form method="post" enctype="multipart/form-data" action="{{ url_for('painel.galeria_enviar') }}" class="cartao p-4 flex flex-wrap items-center gap-3"><input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+<input type="file" name="arquivos" multiple accept="image/png,image/jpeg,image/webp" required class="text-sm flex-1 min-w-[12rem]"><button class="btn btn-primario"><i data-lucide="upload" class="w-4 h-4"></i>Enviar imagens</button></form>
+{% if galeria %}<div class="grid gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 mt-4">{% for i in galeria %}<div class="cartao overflow-hidden flex flex-col">
+<img src="{{ i.thumb }}" alt="" class="aspect-square object-cover w-full bg-slate-100" loading="lazy"><div class="p-2 flex gap-1.5">
+<button type="button" class="btn btn-sec !py-1.5 !px-2 flex-1 text-xs" onclick='copiar({{ i.url_abs|tojson }}, this)'><i data-lucide="copy" class="w-3.5 h-3.5"></i>Copiar URL</button>
+<form method="post" action="{{ url_for('painel.galeria_excluir', nome=i.nome) }}" onsubmit="return confirm('Excluir esta imagem?')"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="btn btn-perigo !py-1.5 !px-2" title="Excluir"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button></form></div>
+<p class="px-2 pb-2 text-[11px] text-slate-400">{{ i.tamanho|bytes_h }}</p></div>{% endfor %}</div>{% endif %}</section>
+{% endblock %}

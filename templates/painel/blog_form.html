@@ -1,0 +1,39 @@
+{% extends "painel/base.html" %}
+{% block titulo %}{{ 'Editar post' if post else 'Novo post' }}{% endblock %}
+{% block conteudo %}
+<div class="flex items-center gap-2 mb-4"><a href="{{ url_for('painel.blog_lista') }}" class="btn btn-sec !py-1.5"><i data-lucide="arrow-left" class="w-4 h-4"></i></a><h1 class="text-xl font-bold">{{ 'Editar post' if post else 'Novo post' }}</h1></div>
+<form method="post" enctype="multipart/form-data" class="space-y-4"><input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+<div class="cartao p-4 space-y-4">
+<label class="block text-sm font-medium">Título<input class="campo mt-1" name="titulo" id="titulo" value="{{ d.titulo }}" required maxlength="200"></label>
+<label class="block text-sm font-medium">Endereço (slug) <span class="font-normal text-slate-500">— gerado do título, você pode editar</span><div class="flex items-center mt-1"><span class="text-slate-400 text-sm mr-2">/blog/</span><input class="campo" name="slug" id="slug" value="{{ d.slug }}" maxlength="110"></div></label>
+<label class="block text-sm font-medium">Resumo <span class="font-normal text-slate-500">(aparece na lista do blog)</span><textarea class="campo mt-1" name="resumo" rows="2" maxlength="500">{{ d.resumo }}</textarea></label></div>
+<div class="cartao p-4 space-y-3"><div class="flex flex-wrap items-center justify-between gap-2"><h2 class="font-semibold">Conteúdo</h2>
+<div class="flex items-center gap-2 text-sm"><label class="flex items-center gap-1">Formato <select class="campo !w-auto !py-1.5" name="formato" id="formato"><option value="markdown" {{ 'selected' if d.formato == 'markdown' }}>Markdown</option><option value="html" {{ 'selected' if d.formato == 'html' }}>HTML</option></select></label>
+<button type="button" class="btn btn-sec !py-1.5" id="btn-img"><i data-lucide="image-plus" class="w-4 h-4"></i>Inserir imagem</button>
+<button type="button" class="btn btn-sec !py-1.5" id="btn-previa"><i data-lucide="eye" class="w-4 h-4"></i>Pré-visualizar</button></div></div>
+<input type="file" id="arq-corpo" accept="image/png,image/jpeg,image/webp" class="hidden">
+<textarea class="campo font-mono text-sm" name="corpo" id="corpo" rows="16" placeholder="Escreva aqui...">{{ d.corpo }}</textarea>
+<p class="text-xs text-slate-500" id="ajuda-formato"></p>
+<div id="previa" class="hidden border border-dashed border-slate-300 rounded-xl p-4 bg-slate-50 text-sm leading-relaxed [&_h2]:text-lg [&_h2]:font-bold [&_h3]:font-bold [&_p]:my-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_img]:max-w-full [&_img]:rounded-lg [&_a]:text-blue-700 [&_a]:underline"></div></div>
+<div class="cartao p-4 grid gap-4 sm:grid-cols-2"><div><p class="text-sm font-medium mb-1">Imagem de capa</p>
+{% if d.capa %}<img src="{{ url_for('site.media', codigo=tenant.codigo, arquivo=d.capa, w=400) }}" alt="" class="rounded-xl mb-2 max-h-40"><label class="text-sm flex items-center gap-2 mb-2"><input type="checkbox" name="remover_capa" value="1"> Remover capa</label>{% endif %}
+<input type="file" name="capa" accept="image/png,image/jpeg,image/webp" class="text-sm w-full"></div>
+<div class="space-y-4"><label class="block text-sm font-medium">Descrição para o Google (meta description)<textarea class="campo mt-1" name="meta_description" rows="2" maxlength="300" placeholder="Até 160 caracteres é o ideal">{{ d.meta_description }}</textarea></label>
+<label class="block text-sm font-medium">Data de publicação<input class="campo mt-1" type="datetime-local" name="publicado_em" value="{{ d.publicado_em }}"></label>
+<label class="block text-sm font-medium">Status<select class="campo mt-1" name="status"><option value="rascunho" {{ 'selected' if d.status != 'publicado' }}>Rascunho (não aparece no site)</option><option value="publicado" {{ 'selected' if d.status == 'publicado' }}>Publicado</option></select></label></div></div>
+<div class="flex gap-2 sticky bottom-20 md:bottom-4"><button class="btn btn-primario shadow-lg"><i data-lucide="save" class="w-4 h-4"></i>Salvar post</button></div></form>
+{% endblock %}
+{% block scripts %}<script>(function(){
+var csrf={{ csrf_token()|tojson }},titulo=document.getElementById('titulo'),slug=document.getElementById('slug'),corpo=document.getElementById('corpo'),formato=document.getElementById('formato'),ajuda=document.getElementById('ajuda-formato'),previa=document.getElementById('previa'),slugManual=slug.value.trim()!=='';
+function gs(t){return t.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,80)}
+titulo.addEventListener('input',function(){if(!slugManual)slug.value=gs(titulo.value)});slug.addEventListener('input',function(){slugManual=true});
+function ta(){ajuda.textContent=formato.value==='markdown'?'Markdown: ## Título, **negrito**, *itálico*, [link](https://...), listas com "- ".':'HTML: use <h2>, <p>, <ul>, <a>, <img>. Scripts, estilos e iframes são removidos automaticamente.'}formato.addEventListener('change',ta);ta();
+var arq=document.getElementById('arq-corpo');document.getElementById('btn-img').onclick=function(){arq.click()};
+arq.onchange=function(){if(!arq.files.length)return;var fd=new FormData();fd.append('arquivo',arq.files[0]);
+fetch({{ url_for('painel.blog_upload')|tojson }},{method:'POST',headers:{'X-CSRF-Token':csrf},body:fd}).then(function(r){return r.json()}).then(function(j){
+if(!j.ok){alert(j.erro||'Falha no envio.');return}var ins=formato.value==='markdown'?'\n!['+'descrição da imagem]('+j.url+')\n':'\n<img src="'+j.url+'" alt="descrição da imagem">\n';
+var p=corpo.selectionStart;corpo.value=corpo.value.slice(0,p)+ins+corpo.value.slice(corpo.selectionEnd);corpo.focus()}).catch(function(){alert('Falha de conexão no envio da imagem.')}).finally(function(){arq.value=''})};
+document.getElementById('btn-previa').onclick=function(){if(!previa.classList.contains('hidden')){previa.classList.add('hidden');return}
+var fd=new FormData();fd.append('corpo',corpo.value);fd.append('formato',formato.value);
+fetch({{ url_for('painel.blog_previa')|tojson }},{method:'POST',headers:{'X-CSRF-Token':csrf},body:fd}).then(function(r){return r.json()}).then(function(j){previa.innerHTML=j.html||'<em>(vazio)</em>';previa.classList.remove('hidden')})};
+})();</script>{% endblock %}

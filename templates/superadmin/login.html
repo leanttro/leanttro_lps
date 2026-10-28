@@ -1,0 +1,7 @@
+{% extends "superadmin/base.html" %}
+{% block titulo %}Entrar · Super-admin{% endblock %}
+{% block conteudo %}<main class="max-w-sm mx-auto mt-16 bg-white rounded-2xl shadow p-7"><h1 class="text-xl font-bold mb-4">Super-admin</h1>
+<form method="post" class="space-y-4"><input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+<label class="block text-sm font-medium">Usuário<input class="campo mt-1" name="usuario" required autofocus autocomplete="username"></label>
+<label class="block text-sm font-medium">Senha<input class="campo mt-1" type="password" name="senha" required autocomplete="current-password"></label>
+<button class="btn btn-p w-full justify-center">Entrar</button></form></main>{% endblock %}
