@@ -243,6 +243,21 @@ nav.open{display:flex}nav a{padding:12px 14px;border-radius:9px}nav a:hover{back
 @media(max-width:900px){#precos .plan.main{transform:none}#precos .plan{padding:28px 22px}}
 </style>
 <style>#precos .plan .price .pfrom{display:block;font-size:15px;font-weight:800;letter-spacing:0;color:#51608a;margin-bottom:4px}</style>
+<style>
+@media(min-width:901px){
+.fr-grid{grid-template-columns:1fr 1fr;grid-template-areas:"copy shot" "stats proof";gap:34px 46px;align-items:center}
+.fr-visual{display:contents}
+.fr-copy{grid-area:copy}
+.fr-shot{grid-area:shot;transform:none;background:#000}
+.fr-shot img{height:auto;max-height:none;object-fit:initial}
+.fr-stats{grid-area:stats;grid-template-columns:1fr;gap:18px;align-self:stretch}
+.fr-stat{display:flex;flex-direction:column;justify-content:center;padding:24px 28px}
+.fr-stat strong{font-size:clamp(48px,5.6vw,76px)}.fr-stat span{font-size:16px;margin-top:10px}
+.fr-proof{grid-area:proof;padding:12px}
+.fr-proof img{height:auto;object-fit:initial}
+.fr-proof small{font-size:12px;padding:9px 4px 0}
+}
+</style>
 </head>
 <body>
 <div class="page">
