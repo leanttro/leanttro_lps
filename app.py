@@ -2,7 +2,7 @@
 
   Dev:   python app.py            (servidor local; use DEBUG=1)
   Prod:  gunicorn app:app
-  CLI:   python app.py init-db | criar-tenant | listar-tenants | listar-sites | resetar-senha | gerar-hash
+  CLI:   python app.py init-db | criar-tenant | listar-tenants | listar-sites | resetar-senha | gerar-hash | importar-exemplo
 
 Procure por "# ═══" para pular entre as seções. Regra: toda consulta de leads/posts filtra por tenant_id.
 """
@@ -33,7 +33,7 @@ import uuid
 import xml.etree.ElementTree as ET
 from PIL import Image, ImageOps
 from dataclasses import dataclass
-from datetime import date, datetime, time as dtime, timezone
+from datetime import date, datetime, time as dtime, timedelta, timezone
 from dotenv import load_dotenv
 from email.message import EmailMessage
 from email.utils import format_datetime
@@ -239,6 +239,66 @@ class Post(db.Model):
     atualizado_em = db.Column(db.DateTime, nullable=False, default=agora_utc, onupdate=agora_utc)
 
 
+class Categoria(db.Model):
+    """Categoria do catálogo (só em sites que têm categoria.html + produto.html)."""
+    __tablename__ = "categorias"
+    __table_args__ = (db.UniqueConstraint("tenant_id", "slug", name="uq_categoria_tenant_slug"),
+                      db.Index("ix_categorias_tenant_ordem", "tenant_id", "ativo", "ordem"))
+    id = db.Column(db.Integer, primary_key=True)
+    tenant_id = db.Column(db.Integer, db.ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False)
+    slug = db.Column(db.String(80), nullable=False)
+    nome = db.Column(db.String(120), nullable=False)
+    icone = db.Column(db.String(20), nullable=False, default="estrela")
+    eyebrow = db.Column(db.String(120))
+    titulo = db.Column(db.String(200))
+    descricao = db.Column(db.Text)
+    descricao_curta = db.Column(db.String(200))
+    interesse_form = db.Column(db.String(120))
+    fotos = db.Column(db.JSON, default=list)             # nomes de arquivo da galeria do tenant (só a 1ª é usada)
+    imagem_url = db.Column(db.String(500))               # alternativa: URL https externa
+    destaques = db.Column(db.JSON, default=list)
+    diferenciais = db.Column(db.JSON, default=list)      # [{"i","t","d"}]
+    materiais_titulo = db.Column(db.String(120))
+    materiais_texto = db.Column(db.Text)
+    materiais_itens = db.Column(db.JSON, default=list)
+    faq = db.Column(db.JSON, default=list)               # [{"q","a"}]
+    passos = db.Column(db.JSON, default=list)            # [{"t","d"}] (vazio = padrão do site)
+    tabela = db.Column(db.JSON, default=list)            # padrão dos produtos: [[item, valor]]
+    opcoes = db.Column(db.JSON, default=list)            # padrão dos produtos: [{"t","itens"}]
+    aplicacoes = db.Column(db.JSON, default=list)
+    ordem = db.Column(db.Integer, nullable=False, default=0)
+    ativo = db.Column(db.Boolean, nullable=False, default=True)
+    criado_em = db.Column(db.DateTime, nullable=False, default=agora_utc)
+    atualizado_em = db.Column(db.DateTime, nullable=False, default=agora_utc, onupdate=agora_utc)
+    produtos = db.relationship("Produto", backref="categoria", cascade="all, delete-orphan")
+
+
+class Produto(db.Model):
+    __tablename__ = "produtos"
+    __table_args__ = (db.UniqueConstraint("tenant_id", "slug", name="uq_produto_tenant_slug"),
+                      db.Index("ix_produtos_tenant_cat", "tenant_id", "categoria_id", "ativo"))
+    id = db.Column(db.Integer, primary_key=True)
+    tenant_id = db.Column(db.Integer, db.ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False)
+    categoria_id = db.Column(db.Integer, db.ForeignKey("categorias.id", ondelete="CASCADE"), nullable=False)
+    slug = db.Column(db.String(100), nullable=False)
+    nome = db.Column(db.String(160), nullable=False)
+    tipo = db.Column(db.String(80))
+    resumo = db.Column(db.String(500))
+    descricao = db.Column(db.Text)                       # parágrafos separados por linha em branco
+    specs = db.Column(db.JSON, default=list)
+    tabela = db.Column(db.JSON, default=list)            # vazio = padrão da categoria
+    opcoes = db.Column(db.JSON, default=list)
+    aplicacoes = db.Column(db.JSON, default=list)
+    faq = db.Column(db.JSON, default=list)
+    fotos = db.Column(db.JSON, default=list)             # a 1ª é a principal
+    imagem_url = db.Column(db.String(500))
+    destaque = db.Column(db.Boolean, nullable=False, default=False)   # aparece na home
+    ordem = db.Column(db.Integer, nullable=False, default=0)
+    ativo = db.Column(db.Boolean, nullable=False, default=True)
+    criado_em = db.Column(db.DateTime, nullable=False, default=agora_utc)
+    atualizado_em = db.Column(db.DateTime, nullable=False, default=agora_utc, onupdate=agora_utc)
+
+
 class RateHit(db.Model):
     """Rate limit persistente (compartilhado entre workers)."""
     __tablename__ = "rate_hits"
@@ -259,7 +319,7 @@ class SchemaInfo(db.Model):
 # ═══════════════════════════════════════════════════════════════════════════
 CODIGO_RE = re.compile(r"^lp[a-z0-9_]+$")
 CAMINHO_RE = re.compile(r"^(/[a-z0-9][a-z0-9_-]{0,59}){1,4}$")
-CAMINHOS_RESERVADOS = {"painel", "_admin", "m", "s", "static", "blog", "lead", "api", "healthz", "obrigado",
+CAMINHOS_RESERVADOS = {"painel", "_admin", "m", "s", "static", "blog", "lead", "api", "healthz", "obrigado", "categoria", "produto",
                        "sitemap.xml", "robots.txt", "favicon.ico", "placeholder.svg", "_dominio_ok"}
 DOMINIO_RE = re.compile(r"^(?=.{1,253}$)([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$")
 EMAIL_RE = re.compile(r"^[^@\s]{1,64}@[^@\s]+\.[^@\s]{2,}$")
@@ -1199,13 +1259,65 @@ def whatsapp_link(texto=""):
     return wa_link(t.whatsapp, texto) if t and t.whatsapp else ""
 
 
+def usa_catalogo(template=None):
+    """O site tem catálogo? Sim se a pasta dele tem categoria.html e produto.html."""
+    if template is None:
+        t = g.get("tenant")
+        template = t.template if t else None
+    return bool(template and arquivo_existe(template, "categoria.html") and arquivo_existe(template, "produto.html"))
+
+
+def arquivo_url(nome, w=None):
+    """URL de um arquivo da galeria do tenant atual ('' se não existir mais)."""
+    t = g.get("tenant")
+    if not nome or t is None:
+        return ""
+    r = indice(t.codigo).get(nome.rsplit(".", 1)[0])
+    if not r or r[0] != nome:
+        return ""
+    args = {"v": r[1]}
+    largura = snap_largura(w)
+    if largura and not nome.endswith(".svg"):
+        args["w"] = largura
+    return url_for("site.media", codigo=t.codigo, arquivo=nome, **args)
+
+
+def fotos_item(item, w=1200, w_thumb=400):
+    """Fotos de uma categoria/produto: [{'url','thumb'}]. Sem upload, usa a URL externa (se houver)."""
+    out = []
+    for n in (item.fotos or []):
+        u = arquivo_url(n, w)
+        if u:
+            out.append({"url": u, "thumb": arquivo_url(n, w_thumb)})
+    if not out and item.imagem_url:
+        out.append({"url": item.imagem_url, "thumb": item.imagem_url})
+    return out
+
+
+def foto_url(item, w=800):
+    f = fotos_item(item, w)
+    return f[0]["url"] if f else ""
+
+
+def catalogo_categorias():
+    """Categorias ativas do tenant atual (uma consulta por requisição)."""
+    t = g.get("tenant")
+    if t is None or not usa_catalogo():
+        return []
+    if not hasattr(g, "_cat_cache"):
+        g._cat_cache = db.session.scalars(select(Categoria).where(Categoria.tenant_id == t.id, Categoria.ativo.is_(True))
+                                          .order_by(Categoria.ordem, Categoria.id)).all()
+    return g._cat_cache
+
+
 def registrar_helpers(app):
     @app.context_processor
     def _contexto():
         return {"tenant": g.get("tenant"), "csrf_token": csrf_token, "img": img, "img_url": img_url,
                 "img_abs": img_abs, "img_srcset": img_srcset, "tem_img": tem_img, "site_static": site_static_helpers,
                 "capa_url": capa_url, "ultimos_posts": ultimos_posts, "whatsapp_link": whatsapp_link,
-                "base_url": base_url, "canonical_url": canonical_url}
+                "base_url": base_url, "canonical_url": canonical_url, "usa_catalogo": usa_catalogo,
+                "foto_url": foto_url, "fotos_item": fotos_item, "catalogo_categorias": catalogo_categorias}
 
     app.add_template_filter(filtro_data_br, "data_br")
     app.add_template_filter(filtro_tempo, "tempo")
@@ -1376,6 +1488,8 @@ def trocar_senha_propria(t, atual, nova, confirmar):
 def excluir_tenant(t):
     codigo, tid = t.codigo, t.id
     db.session.execute(delete(Lead).where(Lead.tenant_id == tid))
+    db.session.execute(delete(Produto).where(Produto.tenant_id == tid))
+    db.session.execute(delete(Categoria).where(Categoria.tenant_id == tid))
     db.session.execute(delete(Post).where(Post.tenant_id == tid))
     db.session.delete(t)
     db.session.commit()
@@ -1585,12 +1699,25 @@ def _render_blog(nome_site, nome_base, **ctx):
     return render_template(nome_base, **ctx)
 
 
+def _ctx_catalogo():
+    """Categorias e produtos em destaque para a home de sites com catálogo."""
+    if not usa_catalogo():
+        return {}
+    prods = db.session.scalars(
+        select(Produto).join(Categoria, Produto.categoria_id == Categoria.id)
+        .where(Produto.tenant_id == g.tenant.id, Produto.ativo.is_(True), Categoria.ativo.is_(True))
+        .order_by(Produto.ordem, Produto.id)).all()
+    dest = [p for p in prods if p.destaque] or prods
+    return {"categorias": catalogo_categorias(), "produtos_destaque": dest[:8]}
+
+
 @bp_site.get("/")
 def index():
     if not arquivo_existe(g.tenant.template, "index.html"):
         current_app.logger.error("Template %s sem index.html (tenant %s)", g.tenant.template, g.tenant.codigo)
         return render_template("erro.html", codigo=503, mensagem="Site temporariamente indisponível."), 503
-    return _render_site("index.html", posts_recentes=ultimos_posts(3), blog_url=url_for("site.blog_lista"))
+    return _render_site("index.html", posts_recentes=ultimos_posts(3), blog_url=url_for("site.blog_lista"),
+                        **_ctx_catalogo())
 
 
 @bp_site.get("/obrigado")
@@ -1598,6 +1725,39 @@ def obrigado():
     if arquivo_existe(g.tenant.template, "obrigado.html"):
         return _render_site("obrigado.html")
     return render_template("obrigado.html")
+
+
+def _paragrafos(txt):
+    return [p.strip() for p in re.split(r"\n\s*\n", txt or "") if p.strip()]
+
+
+@bp_site.get("/categoria/<slug>", endpoint="categoria")
+def categoria_site(slug):
+    if not usa_catalogo() or not SLUG_RE.match(slug):
+        abort(404)
+    cat = db.session.scalars(select(Categoria).where(Categoria.tenant_id == g.tenant.id, Categoria.slug == slug,
+                                                     Categoria.ativo.is_(True))).first()
+    if not cat:
+        abort(404)
+    produtos = db.session.scalars(select(Produto).where(Produto.tenant_id == g.tenant.id, Produto.categoria_id == cat.id,
+                                                        Produto.ativo.is_(True)).order_by(Produto.ordem, Produto.id)).all()
+    return _render_site("categoria.html", categoria=cat, produtos=produtos,
+                        outras=[c for c in catalogo_categorias() if c.id != cat.id])
+
+
+@bp_site.get("/produto/<slug>", endpoint="produto")
+def produto_site(slug):
+    if not usa_catalogo() or not SLUG_RE.match(slug):
+        abort(404)
+    p = db.session.scalars(select(Produto).where(Produto.tenant_id == g.tenant.id, Produto.slug == slug,
+                                                 Produto.ativo.is_(True))).first()
+    if not p or not p.categoria.ativo:
+        abort(404)
+    relacionados = db.session.scalars(select(Produto).where(
+        Produto.tenant_id == g.tenant.id, Produto.categoria_id == p.categoria_id, Produto.ativo.is_(True),
+        Produto.id != p.id).order_by(Produto.ordem, Produto.id).limit(3)).all()
+    return _render_site("produto.html", produto=p, categoria=p.categoria, relacionados=relacionados,
+                        paragrafos=_paragrafos(p.descricao))
 
 
 @bp_site.get("/blog", endpoint="blog_lista")
@@ -1654,6 +1814,12 @@ def sitemap():
     urls = [(f"{base}/", None), (f"{base}/blog", None)]
     for p in db.session.scalars(stmt_publicados(g.tenant.id).limit(5000)):
         urls.append((f"{base}/blog/{p.slug}", p.atualizado_em))
+    if usa_catalogo():
+        for c in catalogo_categorias():
+            urls.append((f"{base}/categoria/{c.slug}", c.atualizado_em))
+        for p in db.session.scalars(select(Produto).join(Categoria, Produto.categoria_id == Categoria.id).where(
+                Produto.tenant_id == g.tenant.id, Produto.ativo.is_(True), Categoria.ativo.is_(True)).limit(5000)):
+            urls.append((f"{base}/produto/{p.slug}", p.atualizado_em))
     corpo = "".join(f"<url><loc>{xml_escape(u)}</loc>" + (f"<lastmod>{d.strftime('%Y-%m-%d')}</lastmod>" if d else "")
                     + "</url>" for u, d in urls)
     return Response("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
@@ -2185,6 +2351,415 @@ def galeria_excluir(nome):
     return redirect(url_for("painel.imagens") + "#galeria")
 
 
+# ───── catálogo: categorias e produtos (só em sites que têm categoria.html + produto.html) ─────
+ICONES_PADRAO = ("etiqueta", "presente", "camiseta", "adesivo", "estrela", "escudo", "paleta", "caixa")
+MAX_FOTOS_PRODUTO = 8
+
+
+def _exigir_catalogo():
+    if not usa_catalogo(g.t.template):
+        abort(404)
+
+
+def _icones_do_site():
+    site = obter(g.t.template)
+    ic = site.meta.get("icones") if site else None
+    return list(ic) if ic else list(ICONES_PADRAO)
+
+
+def _linhas(txt, n=30, limite=300):
+    out = []
+    for l in str(txt or "").splitlines():
+        l = sanitize_input(l)[:limite]
+        if l:
+            out.append(l)
+        if len(out) >= n:
+            break
+    return out
+
+
+def _pares(txt, n=30, limite=800):
+    """'a | b' por linha → [[a, b], ...]."""
+    out = []
+    for l in _linhas(txt, n, limite):
+        a, _, b = l.partition("|")
+        a, b = a.strip(), b.strip()
+        if a and b:
+            out.append([a, b])
+    return out
+
+
+def _diferenciais_de(txt, icones):
+    out = []
+    for l in _linhas(txt, 8, 400):
+        p = [x.strip() for x in l.split("|")]
+        if len(p) >= 3 and p[1] and p[2]:
+            out.append({"i": p[0].lower() if p[0].lower() in icones else "estrela", "t": p[1], "d": "|".join(p[2:]).strip()})
+        elif len(p) == 2 and p[0] and p[1]:
+            out.append({"i": "estrela", "t": p[0], "d": p[1]})
+    return out
+
+
+def _opcoes_de(txt):
+    out = []
+    for l in _linhas(txt, 10, 600):
+        t, _, resto = l.partition(":")
+        itens = [x.strip() for x in resto.split(",") if x.strip()][:20]
+        if t.strip() and itens:
+            out.append({"t": t.strip(), "itens": itens})
+    return out
+
+
+def _txt_dict2(lst, k1, k2):
+    return "\n".join(f"{x.get(k1, '')} | {x.get(k2, '')}" for x in (lst or []))
+
+
+def _txt_pares(lst):
+    return "\n".join(f"{x[0]} | {x[1]}" for x in (lst or []) if len(x) == 2)
+
+
+def _txt_opcoes(lst):
+    return "\n".join(f"{o.get('t', '')}: {', '.join(o.get('itens', []))}" for o in (lst or []))
+
+
+def _txt_dif(lst):
+    return "\n".join(f"{d.get('i', 'estrela')} | {d.get('t', '')} | {d.get('d', '')}" for d in (lst or []))
+
+
+def _url_https(v):
+    v = (v or "").strip()
+    if not v:
+        return None
+    if not re.match(r"^https://[^\s\"'<>]{3,480}$", v):
+        raise ErroNegocio("A URL da imagem precisa começar com https://")
+    return v
+
+
+def _int_ordem(v):
+    try:
+        return max(-9999, min(int(str(v).strip() or 0), 9999))
+    except ValueError:
+        return 0
+
+
+def _slug_unico_em(modelo, base, ignorar_id=None):
+    slug, n = base, 1
+    while True:
+        q = select(modelo.id).where(modelo.tenant_id == g.t.id, modelo.slug == slug)
+        if ignorar_id:
+            q = q.where(modelo.id != ignorar_id)
+        if not db.session.scalar(q):
+            return slug
+        n += 1
+        slug = f"{base[:70]}-{n}"
+
+
+def _remover_arquivos(nomes):
+    for n in nomes or []:
+        if isinstance(n, str) and n.startswith(PREFIXO_GALERIA):
+            remover(g.t.codigo, n)
+
+
+def _cat_do_tenant(cid):
+    c = db.session.scalars(select(Categoria).where(Categoria.id == cid, Categoria.tenant_id == g.t.id)).first()
+    if not c:
+        abort(404)
+    return c
+
+
+def _prod_do_tenant(pid):
+    p = db.session.scalars(select(Produto).where(Produto.id == pid, Produto.tenant_id == g.t.id)).first()
+    if not p:
+        abort(404)
+    return p
+
+
+def _seed_existe(template):
+    return os.path.isfile(os.path.join(current_app.config["SITES_DIR"], template, "seed.json"))
+
+
+def importar_exemplo(tenant):
+    """Carrega sites/<template>/seed.json (categorias, produtos e posts de exemplo) num catálogo vazio."""
+    arq = os.path.join(current_app.config["SITES_DIR"], tenant.template, "seed.json")
+    if not os.path.isfile(arq):
+        raise ErroNegocio("Este site não tem catálogo de exemplo.")
+    if (db.session.scalar(select(func.count(Categoria.id)).where(Categoria.tenant_id == tenant.id))
+            or db.session.scalar(select(func.count(Produto.id)).where(Produto.tenant_id == tenant.id))):
+        raise ErroNegocio("O catálogo já tem itens. O exemplo só carrega em um catálogo vazio.")
+    with open(arq, encoding="utf-8") as fh:
+        dados = json.load(fh)
+    n_cat = n_prod = n_posts = 0
+    for ci, c in enumerate(dados.get("categorias", [])):
+        cat = Categoria(
+            tenant_id=tenant.id, slug=gerar_slug(c.get("slug") or c["nome"], 70), nome=c["nome"][:120],
+            icone=c.get("icone") or "estrela", eyebrow=c.get("eyebrow"), titulo=c.get("titulo"),
+            descricao=c.get("descricao"), descricao_curta=c.get("descricao_curta"),
+            interesse_form=c.get("interesse_form") or c["nome"], imagem_url=c.get("imagem_url"), fotos=[],
+            destaques=c.get("destaques", []), diferenciais=c.get("diferenciais", []),
+            materiais_titulo=c.get("materiais_titulo"), materiais_texto=c.get("materiais_texto"),
+            materiais_itens=c.get("materiais_itens", []), faq=c.get("faq", []), passos=c.get("passos", []),
+            tabela=c.get("tabela", []), opcoes=c.get("opcoes", []), aplicacoes=c.get("aplicacoes", []),
+            ordem=c.get("ordem", ci), ativo=True)
+        db.session.add(cat)
+        db.session.flush()
+        n_cat += 1
+        for pi, p in enumerate(c.get("produtos", [])):
+            db.session.add(Produto(
+                tenant_id=tenant.id, categoria_id=cat.id, slug=gerar_slug(p.get("slug") or p["nome"], 90),
+                nome=p["nome"][:160], tipo=p.get("tipo"), resumo=p.get("resumo"), descricao=p.get("descricao"),
+                specs=p.get("specs", []), tabela=p.get("tabela", []), opcoes=p.get("opcoes", []),
+                aplicacoes=p.get("aplicacoes", []), faq=p.get("faq", []), fotos=[], imagem_url=p.get("imagem_url"),
+                destaque=bool(p.get("destaque")), ordem=p.get("ordem", pi), ativo=True))
+            n_prod += 1
+    for i, p in enumerate(dados.get("posts", [])):
+        slug = gerar_slug(p.get("slug") or p["titulo"], 110)
+        if db.session.scalar(select(Post.id).where(Post.tenant_id == tenant.id, Post.slug == slug)):
+            continue
+        db.session.add(Post(
+            tenant_id=tenant.id, titulo=p["titulo"][:200], slug=slug, resumo=p.get("resumo"), formato="markdown",
+            corpo=p.get("corpo", ""), corpo_html=markdown_html(p.get("corpo", ""), tenant.codigo),
+            meta_description=p.get("meta_description"), status="publicado",
+            publicado_em=agora_utc() - timedelta(minutes=i)))
+        n_posts += 1
+    db.session.commit()
+    return n_cat, n_prod, n_posts
+
+
+@bp_painel.post("/catalogo/exemplo", endpoint="catalogo_exemplo")
+def catalogo_exemplo():
+    _exigir_catalogo()
+    try:
+        n_cat, n_prod, n_posts = importar_exemplo(g.t)
+        flash(f"Exemplo carregado: {n_cat} categorias, {n_prod} produtos e {n_posts} posts. Edite ou exclua à vontade.", "success")
+    except ErroNegocio as e:
+        db.session.rollback()
+        flash(str(e), "error")
+    except Exception:
+        db.session.rollback()
+        current_app.logger.exception("Falha ao importar o exemplo")
+        flash("Não foi possível carregar o exemplo.", "error")
+    return redirect(url_for("painel.categorias"))
+
+
+# categorias
+@bp_painel.get("/catalogo/categorias", endpoint="categorias")
+def categorias_painel():
+    _exigir_catalogo()
+    cats = db.session.scalars(select(Categoria).where(Categoria.tenant_id == g.t.id)
+                              .order_by(Categoria.ordem, Categoria.id)).all()
+    cont = dict(db.session.execute(select(Produto.categoria_id, func.count(Produto.id))
+                                   .where(Produto.tenant_id == g.t.id).group_by(Produto.categoria_id)).all())
+    vazio = not cats and not db.session.scalar(select(func.count(Produto.id)).where(Produto.tenant_id == g.t.id))
+    return render_template("painel/categorias.html", aba="categorias", cats=cats, cont=cont,
+                           tem_exemplo=bool(vazio and _seed_existe(g.t.template)))
+
+
+def _form_categoria(c):
+    if c is None:
+        return {"nome": "", "slug": "", "icone": "estrela", "eyebrow": "", "titulo": "", "descricao": "",
+                "descricao_curta": "", "interesse_form": "", "imagem_url": "", "destaques": "", "diferenciais": "",
+                "materiais_titulo": "", "materiais_texto": "", "materiais_itens": "", "faq": "", "passos": "",
+                "tabela": "", "opcoes": "", "aplicacoes": "", "ordem": "0", "ativo": True, "fotos": []}
+    return {"nome": c.nome, "slug": c.slug, "icone": c.icone or "estrela", "eyebrow": c.eyebrow or "",
+            "titulo": c.titulo or "", "descricao": c.descricao or "", "descricao_curta": c.descricao_curta or "",
+            "interesse_form": c.interesse_form or "", "imagem_url": c.imagem_url or "",
+            "destaques": "\n".join(c.destaques or []), "diferenciais": _txt_dif(c.diferenciais),
+            "materiais_titulo": c.materiais_titulo or "", "materiais_texto": c.materiais_texto or "",
+            "materiais_itens": "\n".join(c.materiais_itens or []), "faq": _txt_dict2(c.faq, "q", "a"),
+            "passos": _txt_dict2(c.passos, "t", "d"), "tabela": _txt_pares(c.tabela),
+            "opcoes": _txt_opcoes(c.opcoes), "aplicacoes": "\n".join(c.aplicacoes or []),
+            "ordem": str(c.ordem), "ativo": bool(c.ativo), "fotos": list(c.fotos or [])}
+
+
+@bp_painel.route("/catalogo/categorias/nova", methods=["GET", "POST"], endpoint="categoria_nova")
+@bp_painel.route("/catalogo/categorias/<int:cid>/editar", methods=["GET", "POST"], endpoint="categoria_editar")
+def categoria_form(cid=None):
+    _exigir_catalogo()
+    cat = _cat_do_tenant(cid) if cid else None
+    d = _form_categoria(cat)
+    icones = _icones_do_site()
+    if request.method == "POST":
+        f = request.form
+        d.update({k: f.get(k, "") for k in d if k not in ("ativo", "fotos")})
+        d["ativo"] = bool(f.get("ativo"))
+        try:
+            nome = sanitize_input(d["nome"])[:120]
+            if not nome:
+                raise ErroNegocio("Informe o nome da categoria.")
+            slug = _slug_unico_em(Categoria, gerar_slug(d["slug"] or nome, 70), cat.id if cat else None)
+            if cat is None:
+                cat = Categoria(tenant_id=g.t.id, nome=nome, slug=slug, fotos=[])
+                db.session.add(cat)
+            cat.nome, cat.slug = nome, slug
+            cat.icone = d["icone"] if d["icone"] in icones else "estrela"
+            cat.eyebrow = sanitize_input(d["eyebrow"])[:120] or f"CATEGORIA · {nome.upper()}"[:120]
+            cat.titulo = sanitize_input(d["titulo"])[:200] or None
+            cat.descricao = sanitize_input(d["descricao"])[:1500] or None
+            cat.descricao_curta = sanitize_input(d["descricao_curta"])[:200] or None
+            cat.interesse_form = sanitize_input(d["interesse_form"])[:120] or nome
+            cat.imagem_url = _url_https(d["imagem_url"])
+            cat.destaques = _linhas(d["destaques"], 6, 120)
+            cat.diferenciais = _diferenciais_de(d["diferenciais"], icones)
+            cat.materiais_titulo = sanitize_input(d["materiais_titulo"])[:120] or None
+            cat.materiais_texto = sanitize_input(d["materiais_texto"])[:600] or None
+            cat.materiais_itens = _linhas(d["materiais_itens"], 20, 80)
+            cat.faq = [{"q": a, "a": b} for a, b in _pares(d["faq"], 20)]
+            cat.passos = [{"t": a, "d": b} for a, b in _pares(d["passos"], 8)]
+            cat.tabela = _pares(d["tabela"], 12)
+            cat.opcoes = _opcoes_de(d["opcoes"])
+            cat.aplicacoes = _linhas(d["aplicacoes"], 12, 120)
+            cat.ordem = _int_ordem(d["ordem"])
+            cat.ativo = d["ativo"]
+            antigas = list(cat.fotos or [])
+            arq = request.files.get("foto")
+            if arq and arq.filename:
+                cat.fotos = [salvar_galeria(g.t.codigo, arq, 1600)]
+                _remover_arquivos(antigas)
+            elif f.get("remover_foto"):
+                cat.fotos = []
+                _remover_arquivos(antigas)
+            db.session.commit()
+            flash("Categoria salva.", "success")
+            return redirect(url_for("painel.categoria_editar", cid=cat.id))
+        except (ErroNegocio, UploadError) as e:
+            db.session.rollback()
+            flash(str(e), "error")
+        except Exception:
+            db.session.rollback()
+            current_app.logger.exception("Erro ao salvar categoria")
+            flash("Não foi possível salvar a categoria. Tente novamente.", "error")
+        cat = _cat_do_tenant(cid) if cid else None
+        d["fotos"] = list(cat.fotos or []) if cat else []
+    return render_template("painel/categoria_form.html", aba="categorias", cat=cat, d=d, icones=icones)
+
+
+@bp_painel.post("/catalogo/categorias/<int:cid>/excluir", endpoint="categoria_excluir")
+def categoria_excluir(cid):
+    _exigir_catalogo()
+    cat = _cat_do_tenant(cid)
+    arquivos = list(cat.fotos or []) + [n for p in cat.produtos for n in (p.fotos or [])]
+    db.session.delete(cat)
+    db.session.commit()
+    _remover_arquivos(arquivos)
+    flash("Categoria excluída (e os produtos dela).", "success")
+    return redirect(url_for("painel.categorias"))
+
+
+# produtos
+@bp_painel.get("/catalogo/produtos", endpoint="produtos")
+def produtos_painel():
+    _exigir_catalogo()
+    cats = db.session.scalars(select(Categoria).where(Categoria.tenant_id == g.t.id)
+                              .order_by(Categoria.ordem, Categoria.id)).all()
+    filtro = request.args.get("categoria", type=int)
+    q = select(Produto).where(Produto.tenant_id == g.t.id)
+    if filtro:
+        q = q.where(Produto.categoria_id == filtro)
+    prods = db.session.scalars(q.order_by(Produto.categoria_id, Produto.ordem, Produto.id)).all()
+    return render_template("painel/produtos.html", aba="produtos", cats=cats, prods=prods, filtro=filtro,
+                           nomes={c.id: c.nome for c in cats})
+
+
+def _form_produto(p, categoria_id=None):
+    if p is None:
+        return {"categoria_id": categoria_id or 0, "nome": "", "slug": "", "tipo": "", "resumo": "", "descricao": "",
+                "specs": "", "tabela": "", "opcoes": "", "aplicacoes": "", "faq": "", "imagem_url": "",
+                "ordem": "0", "ativo": True, "destaque": False, "fotos": []}
+    return {"categoria_id": p.categoria_id, "nome": p.nome, "slug": p.slug, "tipo": p.tipo or "",
+            "resumo": p.resumo or "", "descricao": p.descricao or "", "specs": "\n".join(p.specs or []),
+            "tabela": _txt_pares(p.tabela), "opcoes": _txt_opcoes(p.opcoes),
+            "aplicacoes": "\n".join(p.aplicacoes or []), "faq": _txt_dict2(p.faq, "q", "a"),
+            "imagem_url": p.imagem_url or "", "ordem": str(p.ordem), "ativo": bool(p.ativo),
+            "destaque": bool(p.destaque), "fotos": list(p.fotos or [])}
+
+
+def _paragrafos_txt(txt):
+    """Mantém quebras de parágrafo (linha em branco), limpa tags e limita o tamanho."""
+    linhas = [sanitize_input(l)[:1500] for l in str(txt or "")[:8000].splitlines()]
+    return "\n\n".join(p.strip() for p in re.split(r"\n\s*\n", "\n".join(linhas)) if p.strip()) or None
+
+
+@bp_painel.route("/catalogo/produtos/novo", methods=["GET", "POST"], endpoint="produto_novo")
+@bp_painel.route("/catalogo/produtos/<int:pid>/editar", methods=["GET", "POST"], endpoint="produto_editar")
+def produto_form(pid=None):
+    _exigir_catalogo()
+    cats = db.session.scalars(select(Categoria).where(Categoria.tenant_id == g.t.id)
+                              .order_by(Categoria.ordem, Categoria.id)).all()
+    if not cats:
+        flash("Crie ao menos uma categoria antes de cadastrar produtos.", "error")
+        return redirect(url_for("painel.categoria_nova"))
+    prod = _prod_do_tenant(pid) if pid else None
+    d = _form_produto(prod, request.args.get("categoria", type=int))
+    if request.method == "POST":
+        f = request.form
+        d.update({k: f.get(k, "") for k in d if k not in ("ativo", "destaque", "fotos", "categoria_id")})
+        d["ativo"], d["destaque"] = bool(f.get("ativo")), bool(f.get("destaque"))
+        d["categoria_id"] = f.get("categoria_id", type=int) or 0
+        try:
+            if d["categoria_id"] not in {c.id for c in cats}:
+                raise ErroNegocio("Escolha a categoria do produto.")
+            nome = sanitize_input(d["nome"])[:160]
+            if not nome:
+                raise ErroNegocio("Informe o nome do produto.")
+            slug = _slug_unico_em(Produto, gerar_slug(d["slug"] or nome, 90), prod.id if prod else None)
+            if prod is None:
+                prod = Produto(tenant_id=g.t.id, categoria_id=d["categoria_id"], nome=nome, slug=slug, fotos=[])
+                db.session.add(prod)
+            prod.categoria_id, prod.nome, prod.slug = d["categoria_id"], nome, slug
+            prod.tipo = sanitize_input(d["tipo"])[:80] or None
+            prod.resumo = sanitize_input(d["resumo"])[:500] or None
+            prod.descricao = _paragrafos_txt(d["descricao"])
+            prod.specs = _linhas(d["specs"], 8, 80)
+            prod.tabela = _pares(d["tabela"], 12)
+            prod.opcoes = _opcoes_de(d["opcoes"])
+            prod.aplicacoes = _linhas(d["aplicacoes"], 12, 120)
+            prod.faq = [{"q": a, "a": b} for a, b in _pares(d["faq"], 20)]
+            prod.imagem_url = _url_https(d["imagem_url"])
+            prod.destaque, prod.ativo = d["destaque"], d["ativo"]
+            prod.ordem = _int_ordem(d["ordem"])
+            fotos = list(prod.fotos or [])
+            retirar = [n for n in f.getlist("remover_foto") if n in fotos]
+            fotos = [n for n in fotos if n not in retirar]
+            erros = []
+            for arq in [a for a in request.files.getlist("fotos") if a and a.filename]:
+                if len(fotos) >= MAX_FOTOS_PRODUTO:
+                    erros.append(f"Limite de {MAX_FOTOS_PRODUTO} fotos por produto.")
+                    break
+                try:
+                    fotos.append(salvar_galeria(g.t.codigo, arq, 1600))
+                except UploadError as e:
+                    erros.append(f"{arq.filename[:50]}: {e}")
+            prod.fotos = fotos
+            db.session.commit()
+            _remover_arquivos(retirar)
+            for e in erros:
+                flash(e, "error")
+            flash("Produto salvo.", "success")
+            return redirect(url_for("painel.produto_editar", pid=prod.id))
+        except ErroNegocio as e:
+            db.session.rollback()
+            flash(str(e), "error")
+        except Exception:
+            db.session.rollback()
+            current_app.logger.exception("Erro ao salvar produto")
+            flash("Não foi possível salvar o produto. Tente novamente.", "error")
+        prod = _prod_do_tenant(pid) if pid else None
+        d["fotos"] = list(prod.fotos or []) if prod else []
+    return render_template("painel/produto_form.html", aba="produtos", prod=prod, d=d, cats=cats)
+
+
+@bp_painel.post("/catalogo/produtos/<int:pid>/excluir", endpoint="produto_excluir")
+def produto_excluir(pid):
+    _exigir_catalogo()
+    prod = _prod_do_tenant(pid)
+    arquivos = list(prod.fotos or [])
+    db.session.delete(prod)
+    db.session.commit()
+    _remover_arquivos(arquivos)
+    flash("Produto excluído.", "success")
+    return redirect(url_for("painel.produtos"))
+
+
 # ───── dados básicos ─────
 @bp_painel.route("/dados", methods=["GET", "POST"])
 def dados():
@@ -2499,6 +3074,8 @@ def main():
     r.add_argument("--codigo", required=True)
     r.add_argument("--senha", help="nova senha (padrão: gerada)")
     sub.add_parser("gerar-hash", help="gera o ADMIN_PASS_HASH do super-admin")
+    ie = sub.add_parser("importar-exemplo", help="carrega categorias/produtos/posts de exemplo (seed.json do site) num cliente")
+    ie.add_argument("--codigo", required=True)
     args = ap.parse_args()
     if args.cmd in (None, "run"):
         _app = create_app()
@@ -2539,6 +3116,15 @@ def main():
                 n = db.session.scalar(select(func.count(Lead.id)).where(Lead.tenant_id == t.id))
                 print(f"{t.id:3} {t.codigo:20} {'ativo  ' if t.ativo else 'INATIVO'} {t.template:18} leads={n:<5} "
                       f"{', '.join(t.dominios_lista)}")
+        elif args.cmd == "importar-exemplo":
+            t = db.session.scalars(select(Tenant).where(Tenant.codigo == args.codigo)).first()
+            if not t:
+                sys.exit(f"Cliente {args.codigo} não encontrado.")
+            try:
+                n = importar_exemplo(t)
+            except ErroNegocio as e:
+                sys.exit(f"Erro: {e}")
+            print(f"Exemplo carregado em {t.codigo}: {n[0]} categorias, {n[1]} produtos, {n[2]} posts.")
         elif args.cmd == "resetar-senha":
             t = db.session.scalars(select(Tenant).where(Tenant.codigo == args.codigo)).first()
             if not t:
