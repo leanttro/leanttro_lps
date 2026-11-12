@@ -11,7 +11,7 @@
 {% if session.get('p', {}).get('imp') %}<div class="bg-amber-400 text-amber-950 text-sm text-center py-2 px-3 font-medium">Modo suporte: você está vendo o painel deste cliente.</div>{% endif %}
 <header class="bg-white border-b sticky top-0 z-30"><div class="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between gap-3">
 <div class="flex items-center gap-2 font-bold min-w-0"><i data-lucide="layout-dashboard" class="text-indigo-600 w-5 h-5 shrink-0"></i><span class="truncate">{{ tenant.nome }}</span></div>
-<div class="flex items-center gap-2 shrink-0"><a href="/" target="_blank" rel="noopener" class="btn btn-sec !py-1.5"><i data-lucide="external-link" class="w-4 h-4"></i><span class="hidden sm:inline">Ver site</span></a>
+<div class="flex items-center gap-2 shrink-0"><a href="{{ url_for('site.index') }}" target="_blank" rel="noopener" class="btn btn-sec !py-1.5"><i data-lucide="external-link" class="w-4 h-4"></i><span class="hidden sm:inline">Ver site</span></a>
 <form method="post" action="{{ url_for('painel.sair') }}"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="btn btn-sec !py-1.5"><i data-lucide="log-out" class="w-4 h-4"></i><span class="hidden sm:inline">Sair</span></button></form></div></div>
 <nav class="hidden md:block border-t"><div class="max-w-5xl mx-auto px-4 flex gap-1">{% for chave, rotulo, icone, rota in abas %}
 <a href="{{ url_for(rota) }}" class="flex items-center gap-2 px-4 py-3 text-sm font-semibold border-b-2 {{ 'border-indigo-600 text-indigo-700' if aba == chave else 'border-transparent text-slate-500 hover:text-slate-800' }}"><i data-lucide="{{ icone }}" class="w-4 h-4"></i>{{ rotulo }}</a>{% endfor %}</div></nav></header>
