@@ -1,0 +1,480 @@
+{% raw %}<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#fff8e8">
+<meta name="description" content="1ª Feira de Rua Engrena Meu Bairro — sábado, 05 de dezembro de 2026, das 11h às 21h, na Rua Tapés, Jardim Aeroporto, São Paulo.">
+<title>1ª Feira de Rua | Engrena Meu Bairro</title>
+<link rel="canonical" href="{% endraw %}{{ canonical_url() }}{% raw %}">
+<link rel="icon" href="https://directus.leanttro.com/assets/8b4ac80a-f97f-4edf-b37d-01bc5f187ba3?quality=80&format=webp">
+<meta property="og:type" content="website"><meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Engrena Meu Bairro"><meta property="og:url" content="{% endraw %}{{ canonical_url() }}{% raw %}">
+<meta property="og:title" content="1ª Feira de Rua | Engrena Meu Bairro">
+<meta property="og:description" content="Sábado, 05 de dezembro de 2026, das 11h às 21h, na Rua Tapés, Jardim Aeroporto, São Paulo.">
+<meta property="og:image" content="{% endraw %}{{ img_abs('og', w=1200) if tem_img('og') else img_abs('fundo', w=1200) }}{% raw %}">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root{
+  --navy:#082f55;--navy2:#0d426e;--green:#08733d;--green2:#279348;
+  --orange:#f05a16;--yellow:#ffc943;--cream:#fff8e8;--paper:#fffdf6;
+  --ink:#132f4b;--muted:#4b5b68;--line:#eadfc9;--shadow:0 12px 32px #17314a18;
+  --radius:24px;--max:1200px
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:100px}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+a{color:inherit;text-decoration:none}
+button,a{-webkit-tap-highlight-color:transparent}
+img{max-width:100%;display:block}
+.ico{width:1.35em;height:1.35em;display:inline-block;vertical-align:middle;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ico-lg{width:2.1em;height:2.1em}
+.ico-xl{width:2.7em;height:2.7em}
+
+.wrap{width:min(var(--max),calc(100% - 48px));margin-inline:auto}
+.top{position:sticky;top:0;z-index:50;background:#fffdf5f2;backdrop-filter:blur(12px);box-shadow:0 4px 20px #0a31500d;border-bottom:1px solid #e9dfca}
+.nav{min-height:88px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.brand{display:flex;align-items:center;gap:12px;min-width:230px}
+.brand img{width:70px;height:70px;object-fit:contain}
+.brand strong{font-size:22px;line-height:.95;letter-spacing:-.8px;color:var(--navy)}
+.brand strong span{color:var(--green)}
+.brand small{display:block;font-size:10px;letter-spacing:2px;margin-top:6px}
+.navlinks{display:flex;align-items:center;gap:clamp(12px,2vw,28px);font-weight:900;color:var(--navy);font-size:14px}
+.navlinks a{padding:12px 0;border-bottom:3px solid transparent}
+.navlinks a:hover{color:var(--green);border-color:var(--orange)}
+.nav-cta{background:var(--green);color:white;padding:13px 19px;border-radius:30px;font-weight:950;white-space:nowrap}
+.menu-toggle{display:none}
+.hero{position:relative;isolation:isolate;overflow:hidden;
+  background-image:linear-gradient(90deg,rgba(255,248,232,.96) 0%,rgba(255,248,232,.91) 42%,rgba(255,248,232,.38) 100%),
+  url("{% endraw %}{{ img_url('fundo', w=2000) }}{% raw %}");
+  background-size:cover;background-position:center 52%;padding:64px 0 70px}
+.hero:before{content:"";position:absolute;z-index:-1;inset:0;pointer-events:none;
+  background:linear-gradient(0deg,rgba(255,248,232,.82) 0%,transparent 22%,transparent 78%,rgba(255,248,232,.08) 100%)}
+.hero:after{content:"";position:absolute;z-index:-1;width:330px;height:330px;right:-150px;top:-190px;
+  background:rgba(9,118,186,.13);border-radius:50%;pointer-events:none}
+.hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:38px}
+.hero-copy{text-align:left}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;background:#fff;border:2px solid #f7d88b;color:var(--orange);border-radius:30px;padding:9px 17px;font-weight:1000;text-transform:uppercase;letter-spacing:1px;font-size:13px}
+.hero h1{font-size:clamp(48px,6.5vw,82px);line-height:.9;letter-spacing:-4px;text-transform:uppercase;color:var(--navy);margin:22px 0 14px;font-weight:1000}
+.hero h1 span{display:block;color:var(--orange)}
+.hero-sub{font-size:clamp(20px,2.2vw,27px);font-weight:950;color:var(--green);margin:0 0 24px}
+.event-pills{display:flex;gap:12px;flex-wrap:wrap;margin:0 0 24px}
+.event-pill{background:#ffe0a1;border-radius:22px;padding:14px 18px;display:flex;align-items:center;gap:12px;color:var(--navy);font-weight:1000;font-size:17px;line-height:1.12}
+.event-pill .symbol{font-size:30px;color:var(--green)}
+.address{display:flex;align-items:flex-start;gap:12px;color:var(--navy);font-size:18px;font-weight:900;line-height:1.3;margin:18px 0 26px}
+.address .pin{font-size:36px;color:var(--orange);line-height:1}
+.actions{display:flex;gap:13px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 23px;border-radius:32px;font-weight:1000;font-size:15px;text-transform:uppercase;box-shadow:0 5px 0 #0002;transition:transform .18s,filter .18s}
+.btn:hover{transform:translateY(-3px);filter:brightness(1.05)}
+.btn.navy{background:var(--navy);color:#fff}.btn.orange{background:var(--orange);color:#fff}.btn.green{background:var(--green);color:#fff}.btn.light{background:#fff;color:var(--navy);border:2px solid #e7dfcf;box-shadow:none}
+.hero-art{position:relative;min-height:410px;display:grid;place-items:center}
+.hero-logo{width:min(100%,370px);max-height:340px;object-fit:contain;filter:drop-shadow(0 12px 12px #0a315022);background:rgba(255,253,246,.74);border:1px solid rgba(255,255,255,.78);border-radius:44%;padding:16px;backdrop-filter:blur(5px)}
+.float-tag{position:absolute;display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.95);border:2px solid #fff;border-radius:22px;padding:12px 16px;box-shadow:var(--shadow);font-weight:1000;color:var(--navy);font-size:15px;backdrop-filter:blur(6px)}
+.float-tag b{font-size:27px;display:grid;place-items:center;color:var(--green)}
+.tag-a{left:0;top:50px}.tag-b{right:0;top:95px}.tag-c{left:10px;bottom:50px}.tag-d{right:0;bottom:38px}
+.section{padding:64px 0}
+.section-head{text-align:center;margin:0 auto 34px;max-width:850px}
+.section-head .kicker{color:var(--orange);font-size:13px;font-weight:1000;letter-spacing:1.5px;text-transform:uppercase}
+.section-head h2{font-size:clamp(34px,4.4vw,54px);line-height:.98;letter-spacing:-2px;color:var(--navy);text-transform:uppercase;margin:10px 0}
+.section-head p{font-size:18px;line-height:1.5;margin:0;color:var(--muted)}
+.about{background:#fffdf7}
+.about-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:36px;align-items:center}
+.about-visual{min-height:300px;border-radius:30px 90px 30px 30px;background:
+  radial-gradient(circle at 20% 22%,#ffca3b 0 8%,transparent 8.5%),
+  linear-gradient(145deg,#0c6c43,#a8cf75 55%,#ffbd63);position:relative;overflow:hidden;display:grid;place-items:center}
+.about-visual:before{content:"";position:absolute;inset:30% -5% -10%;background:repeating-linear-gradient(90deg,#f6a83c 0 44px,#f8d88b 44px 88px,#fff3d8 88px 132px);clip-path:polygon(0 25%,100% 0,100% 100%,0 100%)}
+.about-visual span{z-index:1;font-size:clamp(70px,9vw,115px);filter:drop-shadow(0 7px 3px #17314a33)}
+.about-copy h2{font-size:clamp(34px,4vw,49px);line-height:.98;letter-spacing:-2px;color:var(--navy);margin:0 0 12px}
+.about-copy h2 span{color:var(--green)}
+.about-copy p{font-size:19px;line-height:1.55;margin:0 0 22px;color:#30475a}
+.values{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.value{border-left:3px solid var(--yellow);padding:8px 12px;font-weight:1000;color:var(--navy);font-size:15px}
+.value b{display:grid;place-items:center;font-size:34px;margin-bottom:7px;color:var(--green)}
+.program{background:var(--cream)}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.card{border-radius:26px;overflow:hidden;border:2px solid var(--edge);background:var(--tint);box-shadow:0 8px 20px #19334a10;display:flex;flex-direction:column;min-width:0}
+.card-top{background:var(--head);color:#fff;display:flex;align-items:center;gap:12px;padding:17px 18px;min-height:78px}
+.card-icon{font-size:37px;line-height:1;flex:0 0 auto;display:flex;align-items:center;color:inherit}
+.card-top h3{font-size:clamp(18px,2vw,23px);line-height:1.02;text-transform:uppercase;margin:0;font-weight:1000;letter-spacing:-.5px}
+.card-sub{background:var(--sub);color:var(--subink);font-size:16px;line-height:1.15;font-weight:1000;text-align:center;padding:10px 12px;text-transform:uppercase}
+.card-body{padding:17px 19px 12px;flex:1}
+.card-body p{font-size:16px;line-height:1.42;text-align:center;margin:0 0 12px;color:#1d3554;font-weight:600}
+.card-list{list-style:none;margin:0;padding:0}
+.card-list li{font-size:15px;line-height:1.35;padding:8px 0;border-top:1px solid #ffffffaa;color:#1b3551}
+.card-list li:first-child{border-top:0}
+.callout{background:var(--callout);color:var(--calloutink);font-size:15px;line-height:1.3;font-weight:900;padding:12px 15px;text-align:center;display:flex;align-items:center;justify-content:center;gap:8px}
+.card-hours{background:var(--hours);color:var(--hoursink);padding:13px 12px;text-align:center;font-size:22px;line-height:1;font-weight:1000;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:9px}
+.card-hours .ico{width:1.15em;height:1.15em}
+.sport{--head:#f21d2c;--tint:#fff0eb;--edge:#f8b4ad;--sub:#ffd3c9;--subink:#143553;--callout:#ffe3d8;--calloutink:#a91620;--hours:#ffc8be;--hoursink:#082f55}
+.food{--head:#ff650f;--tint:#fff4d7;--edge:#ffd58d;--sub:#ffe6a6;--subink:#bb4e25;--callout:#ff6815;--calloutink:white;--hours:#ffe9ae;--hoursink:#082f55}
+.pet{--head:#8722c6;--tint:#fbf0ff;--edge:#dfb6f0;--sub:#efd6fa;--subink:#3b2460;--callout:#f4dfff;--calloutink:#43235f;--hours:#f0d7fa;--hoursink:#241b5c}
+.local{--head:#188a19;--tint:#f7fbdc;--edge:#d5e99c;--sub:#e6f5a7;--subink:#23552b;--callout:#e9f5c2;--calloutink:#24552d;--hours:#eaff9f;--hoursink:#082f55}
+.beauty{--head:#3187f5;--tint:#edf8ff;--edge:#a9d8ff;--sub:#c9eff9;--subink:#123b60;--callout:#4b8cf5;--calloutink:#fff;--hours:#c7edf8;--hoursink:#082f55}
+.info{--head:#76252a;--tint:#fff3e9;--edge:#e2b9a5;--sub:#f7dfd1;--subink:#76252a;--callout:#76252a;--calloutink:white;--hours:#f2d4c5;--hoursink:#76252a}
+.info .card-body p{text-align:left;font-size:16px;font-weight:900}
+.info-row{display:grid;grid-template-columns:34px 1fr;gap:9px;align-items:start;padding:8px 0;border-bottom:1px solid #e8c9b8}
+.info-row:last-child{border:0}.info-row b{font-size:24px}
+.info-row strong{display:block;text-transform:uppercase;color:#76252a;font-size:15px;line-height:1.25}
+.info-row span{font-size:16px;font-weight:1000;color:var(--navy)}
+.map-section{background:#fffdf7}
+.map-board{border-radius:28px;background:#f1f6dc;padding:22px;border:2px solid #d7e6a5;box-shadow:var(--shadow)}
+.map-title{width:max-content;max-width:100%;margin:-43px auto 20px;background:var(--green);color:#fff;border:5px solid #fffdf7;border-radius:22px;padding:10px 25px;font-size:clamp(24px,3vw,34px);font-weight:1000;text-transform:uppercase}
+.map-road{background:#4b4e50;color:white;border:5px solid #fff;border-radius:18px;padding:14px;display:grid;grid-template-columns:90px repeat(6,minmax(0,1fr)) 90px;gap:5px;align-items:stretch}
+.road-end{display:flex;align-items:center;justify-content:center;text-align:center;font-size:13px;line-height:1.25;font-weight:1000;background:#666;border-radius:12px;padding:8px}
+.map-stop{border-radius:14px;padding:15px 7px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:7px;min-height:145px;color:#102f4e;font-weight:1000;text-transform:uppercase}
+.map-stop b{font-size:32px;display:grid;place-items:center;color:inherit}.map-stop span{font-size:14px;line-height:1.12}
+.stop1{background:#d9f5a0}.stop2{background:#ffc4c0}.stop3{background:#ffe28a}.stop4{background:#d9b5f4}.stop5{background:#bfe7ff}.stop6{background:#ffe17a}
+.street-label{margin-top:7px;background:#4b4e50;color:white;text-align:center;border-radius:0 0 14px 14px;padding:10px;font-size:20px;font-weight:1000;letter-spacing:2px}
+.map-note{text-align:center;font-size:15px;color:#40566a;margin:15px 0 0}
+.exhibitors{background:linear-gradient(120deg,#fff0c9,#fff9e9)}
+.expo-box{display:grid;grid-template-columns:110px 1fr auto;gap:24px;align-items:center;padding:30px;background:#fff;border:3px solid #ffcf66;border-radius:30px;box-shadow:var(--shadow)}
+.expo-icon{width:100px;height:100px;border-radius:50%;background:#fff0d2;display:grid;place-items:center;font-size:54px;color:var(--green)}
+.expo-box h2{font-size:clamp(29px,3.6vw,43px);line-height:.98;text-transform:uppercase;color:var(--navy);margin:0 0 10px}
+.expo-box h2 span{color:var(--orange)}
+.expo-box p{font-size:18px;line-height:1.45;margin:0;color:#405064}
+.location{background:#fffdf7}
+.location-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.location-card{padding:27px;border-radius:25px;background:#e7f1d9;border:2px solid #c6df9d}
+.location-card:nth-child(2){background:#e6f3ff;border-color:#b8d9f4}
+.location-card h3{font-size:26px;text-transform:uppercase;color:var(--navy);margin:0 0 12px}
+.location-card p{font-size:18px;line-height:1.5;font-weight:700;margin:0 0 20px}
+.final-cta{background:var(--navy);color:#fff;padding:48px 0;border-top:8px solid var(--yellow)}
+.final-inner{display:flex;align-items:center;justify-content:space-between;gap:25px}
+.final-inner h2{font-size:clamp(28px,3.7vw,43px);line-height:1;margin:0 0 10px}
+.final-inner p{font-size:18px;margin:0;color:#fce5b4}
+.insta{background:#fff;color:var(--navy);border-radius:20px;padding:17px 22px;display:flex;align-items:center;gap:13px;font-weight:1000;white-space:nowrap}
+.insta b{font-size:38px;color:#c13584}
+footer{background:#fff8e8;padding:32px 0 20px}
+.partners-title{text-align:center;font-size:17px;font-weight:1000;color:var(--navy);margin-bottom:18px}
+.partners{display:flex;align-items:center;justify-content:center;gap:15px;flex-wrap:wrap}
+.partner{min-width:125px;text-align:center;padding:12px 16px;border-right:1px solid #d6cdbb;color:var(--navy);font-weight:1000;font-size:16px}
+.partner:last-child{border:0}.partner small{display:block;font-size:10px;letter-spacing:1px;margin-top:5px;color:var(--green)}
+.copyright{text-align:center;color:#718071;font-size:13px;margin:20px 0 0}
+@media(max-width:1000px){
+ .nav{gap:14px}.brand{min-width:190px}.brand img{width:58px;height:58px}.brand strong{font-size:19px}
+ .navlinks{gap:12px;font-size:13px}.nav-cta{font-size:12px;padding:11px 14px}
+ .hero-grid{gap:18px}.hero-art{min-height:350px}.float-tag{font-size:13px;padding:9px 12px}.float-tag b{font-size:22px}
+ .map-road{grid-template-columns:70px repeat(6,minmax(0,1fr)) 70px}.map-stop span{font-size:12px}
+}
+@media(max-width:760px){
+ html{scroll-padding-top:120px}
+ .wrap{width:calc(100% - 30px)}
+ .nav{min-height:0;padding:10px 0;display:grid;grid-template-columns:1fr auto;gap:8px}
+ .brand img{width:48px;height:48px}.brand strong{font-size:17px}.brand small{font-size:8px}
+ .nav-cta{font-size:11px;padding:10px 12px}
+ .navlinks{grid-column:1/-1;display:flex;justify-content:space-between;gap:5px;overflow-x:auto;border-top:1px solid #e8dfce;padding-top:7px}
+ .navlinks a{font-size:11px;white-space:nowrap;padding:7px 2px}
+ .hero{padding:38px 0 42px;background-position:center;background-image:linear-gradient(180deg,rgba(255,248,232,.91) 0%,rgba(255,248,232,.86) 56%,rgba(255,248,232,.94) 100%),url("{% endraw %}{{ img_url('fundo', w=2000) }}{% raw %}")}
+ .hero-grid{grid-template-columns:1fr;gap:12px}
+ .hero-copy{text-align:center}
+ .eyebrow{font-size:11px;padding:8px 13px}
+ .hero h1{font-size:clamp(46px,12vw,68px);letter-spacing:-2.5px;margin:17px 0 10px}
+ .hero-sub{font-size:19px;margin-bottom:17px}
+ .event-pills{justify-content:center;gap:8px}
+ .event-pill{font-size:14px;padding:11px 13px;border-radius:18px}
+ .event-pill .symbol{font-size:24px}
+ .address{justify-content:center;text-align:left;font-size:15px;margin:15px 0 20px}
+ .address .pin{font-size:30px}
+ .actions{flex-direction:column;max-width:420px;margin:auto}
+ .btn{width:100%;font-size:13px;padding:15px 17px}
+ .hero-art{min-height:220px;max-width:500px;width:100%;margin:auto}
+ .hero-logo{width:190px;max-height:190px;padding:10px}
+ .float-tag{font-size:11px;padding:8px 10px;border-width:2px;border-radius:15px}
+ .float-tag b{font-size:19px}.float-tag .ico{width:1.65em;height:1.65em}.tag-a{left:0;top:12px}.tag-b{right:0;top:20px}.tag-c{left:0;bottom:10px}.tag-d{right:0;bottom:8px}
+ .section{padding:44px 0}
+ .section-head{margin-bottom:24px}
+ .section-head h2{font-size:clamp(30px,8vw,42px);letter-spacing:-1.5px}
+ .section-head p{font-size:16px}
+ .about-grid{grid-template-columns:1fr;gap:22px}
+ .about-visual{min-height:185px;border-radius:22px 55px 22px 22px}
+ .about-visual span{font-size:75px}
+ .about-copy{text-align:center}
+ .about-copy h2{font-size:34px}
+ .about-copy p{font-size:16px}
+ .values{gap:4px}.value{font-size:12px;padding:7px 5px}.value b{font-size:28px}
+ .cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+ .card{border-radius:19px}
+ .card-top{min-height:70px;padding:12px 10px;gap:7px}
+ .card-icon{font-size:29px}.card-icon .ico{width:1.25em;height:1.25em}
+ .card-top h3{font-size:clamp(14px,3.5vw,18px)}
+ .card-sub{font-size:13px;padding:9px 7px}
+ .card-body{padding:12px 11px 9px}
+ .card-body p{font-size:13px;line-height:1.35}
+ .card-list li{font-size:12px;line-height:1.3;padding:7px 0}
+ .callout{font-size:12px;padding:10px 8px}
+ .card-hours{font-size:16px;padding:12px 6px;gap:5px}
+ .card-hours .ico{width:1.1em;height:1.1em}
+ .info .card-body p{font-size:13px}.info-row{grid-template-columns:26px 1fr;gap:6px;padding:7px 0}
+ .info-row b{font-size:19px}.info-row strong{font-size:12px}.info-row span{font-size:13px}
+ .map-board{padding:14px 10px;border-radius:20px}
+ .map-title{font-size:23px;margin:-34px auto 15px;padding:8px 15px}
+ .map-road{grid-template-columns:1fr 1fr;gap:7px;padding:9px}
+ .road-end{grid-column:span 1;min-height:65px;font-size:12px}
+ .map-stop{min-height:108px;padding:10px 5px}
+ .map-stop b{font-size:25px}.map-stop span{font-size:12px}
+ .street-label{font-size:16px;padding:9px}
+ .map-note{font-size:13px;line-height:1.4}
+ .expo-box{grid-template-columns:1fr;text-align:center;padding:23px 17px;gap:13px}
+ .expo-icon{width:75px;height:75px;font-size:40px;margin:auto}
+ .expo-box h2{font-size:30px}.expo-box p{font-size:15px}
+ .location-grid{grid-template-columns:1fr;gap:12px}
+ .location-card{padding:22px}.location-card h3{font-size:22px}.location-card p{font-size:16px}
+ .final-inner{flex-direction:column;text-align:center}
+ .final-inner h2{font-size:30px}.final-inner p{font-size:15px}
+ .insta{width:100%;justify-content:center;white-space:normal;font-size:13px}
+ .partners{gap:5px}.partner{border:0;min-width:40%;font-size:13px;padding:9px}
+}
+@media(max-width:390px){
+ .cards{grid-template-columns:1fr}
+ .card-top h3{font-size:19px}.card-sub{font-size:15px}
+ .card-body p{font-size:15px}.card-list li{font-size:14px}
+ .callout{font-size:14px}.card-hours{font-size:20px}
+ .map-road{grid-template-columns:1fr 1fr}
+ .map-stop{min-height:95px}
+ .hero-art{min-height:210px}
+ .hero-logo{width:185px}
+ .float-tag{font-size:10px;padding:7px 8px}
+}
+</style>
+</head>
+<body>
+
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+ <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M8 14h2M14 14h2M8 17h2"/></symbol>
+ <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></symbol>
+ <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+ <symbol id="i-store" viewBox="0 0 24 24"><path d="M3 10h18l-1.6-6H4.6L3 10Z"/><path d="M4 10v10h16V10M8 20v-6h8v6M3 10c0 2 3 2 3 0 0 2 3 2 3 0 0 2 3 2 3 0 0 2 3 2 3 0 0 2 3 2 3 0"/></symbol>
+ <symbol id="i-run" viewBox="0 0 24 24"><circle cx="15.5" cy="4.5" r="2"/><path d="m12 9 3-2 3 3 3 1M12 9l-2 5 4 2 2 5M10 14l-5 2-2 4M14 16l-5 4"/></symbol>
+ <symbol id="i-utensils" viewBox="0 0 24 24"><path d="M7 3v7M4 3v4a3 3 0 0 0 6 0V3M7 10v11M17 3c-2 2-3 5-3 8h4v10M18 3v8"/></symbol>
+ <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></symbol>
+ <symbol id="i-paw" viewBox="0 0 24 24"><ellipse cx="12" cy="16.5" rx="5.5" ry="4"/><ellipse cx="5" cy="9" rx="2" ry="3"/><ellipse cx="10" cy="5.5" rx="2" ry="2.5"/><ellipse cx="16" cy="5.5" rx="2" ry="2.5"/><ellipse cx="20" cy="9" rx="2" ry="3"/></symbol>
+ <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M20 4C10 4 4 8 4 15a5 5 0 0 0 5 5c7 0 11-7 11-16Z"/><path d="M4 21c3-5 7-8 12-11"/></symbol>
+ <symbol id="i-scissors" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="m8.2 7.8 12 12M8.2 16.2 20 4M14 10l-3 3"/></symbol>
+ <symbol id="i-dumbbell" viewBox="0 0 24 24"><path d="M3 9v6M6 6v12M18 6v12M21 9v6M6 12h12"/></symbol>
+ <symbol id="i-gift" viewBox="0 0 24 24"><path d="M3 10h18v11H3zM2 7h20v4H2zM12 7v14M12 7H7a2 2 0 1 1 2-2c0 2 3 2 3 2ZM12 7h5a2 2 0 1 0-2-2c0 2-3 2-3 2Z"/></symbol>
+ <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4"/></symbol>
+ <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20v-1a6 6 0 0 1 12 0v1H3ZM17 5a3 3 0 0 1 0 6M18 14a5 5 0 0 1 3 5v1h-3"/></symbol>
+ <symbol id="i-handshake" viewBox="0 0 24 24"><path d="m3 8 4-4 5 2 2-1 7 4-2 9-5 2-3-2-3 1-5-5Z"/><path d="m7 7 5 5 2-2 5 4M3 8l4 6M21 9l-4 5"/></symbol>
+ <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8M5 10v11h14V10M9 21v-7h6v7"/></symbol>
+ <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 8.8c0 5-8.8 11-8.8 11s-8.8-6-8.8-11A4.8 4.8 0 0 1 12 6a4.8 4.8 0 0 1 8.8 2.8Z"/></symbol>
+ <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="18" r="3"/><circle cx="18" cy="6" r="3"/><path d="M9 18h3a3 3 0 0 0 3-3V9"/></symbol>
+ <symbol id="i-map" viewBox="0 0 24 24"><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Z"/><path d="M9 3v15M15 6v15"/></symbol>
+ <symbol id="i-shopping" viewBox="0 0 24 24"><path d="M4 8h16l-1 13H5L4 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></symbol>
+ <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="m12 2 1.8 7.2L21 11l-7.2 1.8L12 20l-1.8-7.2L3 11l7.2-1.8L12 2ZM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8L19 16Z"/></symbol>
+ <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></symbol>
+ <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 5l7 7-7 7"/></symbol>
+</svg>
+
+<header class="top">
+ <div class="wrap nav">
+  <a class="brand" href="#inicio" aria-label="Engrena Meu Bairro - início">
+   <img src="https://directus.leanttro.com/assets/8b4ac80a-f97f-4edf-b37d-01bc5f187ba3?quality=80&amp;format=webp" alt="Logo Engrena Meu Bairro">
+   <strong>Engrena <span>Meu Bairro</span><small>CONGONHAS SUL</small></strong>
+  </a>
+  <nav class="navlinks" aria-label="Navegação principal">
+   <a href="#inicio">Início</a><a href="#programacao">Programação</a><a href="#expositores">Expositores</a><a href="#mapa">Mapa</a><a href="#local">Localização</a>
+  </nav>
+  <a class="nav-cta" href="https://www.instagram.com/engrenameubairro/" target="_blank" rel="noopener">Instagram ↗</a>
+ </div>
+</header>
+
+<main>
+<section class="hero" id="inicio">
+ <div class="wrap hero-grid">
+  <div class="hero-copy">
+   <div class="eyebrow">☀ 1ª Feira de Rua</div>
+   <h1>Vem aí a <span>Feira de Rua!</span></h1>
+   <p class="hero-sub">Comércio local, cultura, esporte, gastronomia e muito mais!</p>
+   <div class="event-pills">
+    <div class="event-pill"><span class="symbol"><svg class="ico ico-lg"><use href="#i-calendar"/></svg></span><span>SÁBADO<br>05 DE DEZEMBRO DE 2026</span></div>
+    <div class="event-pill"><span class="symbol"><svg class="ico ico-lg"><use href="#i-clock"/></svg></span><span>DAS 11H<br>ÀS 21H</span></div>
+   </div>
+   <div class="address"><span class="pin"><svg class="ico ico-xl"><use href="#i-pin"/></svg></span><span><strong>RUA TAPÉS — JARDIM AEROPORTO</strong><br>Entre as ruas Carlos Pinto Alves e Heloísa Carneiro<br>São Paulo — SP</span></div>
+   <div class="actions">
+    <a class="btn navy" href="#programacao"><svg class="ico"><use href="#i-calendar"/></svg> Ver programação completa</a>
+    <a class="btn orange" href="#expositores">♧ Conhecer expositores</a>
+   </div>
+  </div>
+  <div class="hero-art">
+   <div class="float-tag tag-a"><b><svg class="ico ico-xl"><use href="#i-store"/></svg></b>Barracas e<br>produtos locais</div>
+   <div class="float-tag tag-b"><b><svg class="ico ico-xl"><use href="#i-run"/></svg></b>Esporte e<br>bem-estar</div>
+   <img class="hero-logo" src="https://directus.leanttro.com/assets/8b4ac80a-f97f-4edf-b37d-01bc5f187ba3?quality=80&amp;format=webp" alt="Engrena Meu Bairro — Congonhas Sul">
+   <div class="float-tag tag-c"><b><svg class="ico ico-xl"><use href="#i-utensils"/></svg></b>Gastronomia</div>
+   <div class="float-tag tag-d"><b><svg class="ico ico-xl"><use href="#i-music"/></svg></b>Entretenimento</div>
+  </div>
+ </div>
+</section>
+
+<section class="section about" id="sobre">
+ <div class="wrap about-grid">
+  <div class="about-visual" role="img" aria-label="Ilustração de feira e comércio local"><span><svg class="ico ico-xl"><use href="#i-store"/></svg></span></div>
+  <div class="about-copy">
+   <h2>Muito mais que uma feira.<br><span>Um encontro da nossa comunidade!</span></h2>
+   <p>Uma iniciativa para valorizar o comércio local, conectar moradores e transformar a Rua Tapés em um espaço de cultura, esporte, gastronomia e lazer. Um dia para prestigiar quem empreende no bairro, encontrar os vizinhos e aproveitar atividades para toda a família.</p>
+   <div class="values">
+    <div class="value"><b><svg class="ico ico-xl"><use href="#i-store"/></svg></b>Comércio<br>local</div>
+    <div class="value"><b><svg class="ico ico-xl"><use href="#i-music"/></svg></b>Cultura e<br>lazer</div>
+    <div class="value"><b><svg class="ico ico-xl"><use href="#i-handshake"/></svg></b>Comunidade e<br>oportunidades</div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section class="section program" id="programacao">
+ <div class="wrap">
+  <div class="section-head">
+   <div class="kicker">Prepare sua visita</div>
+   <h2>Programação completa</h2>
+   <p>Confira as atrações, atividades e horários de cada espaço da feira.</p>
+  </div>
+  <div class="cards">
+   <article class="card sport">
+    <div class="card-top"><span class="card-icon"><svg class="ico ico-xl"><use href="#i-dumbbell"/></svg></span><h3>Polo Esporte, Saúde e Bem-Estar</h3></div>
+    <div class="card-sub">Academia Brabus</div>
+    <div class="card-body">
+     <p>Fit Dance / Treino Funcional / Musculação / Sertanejo e Forró / Danças Latinas (Salsa e Bachata) / Lutas (Muay Thai e Jiu-Jitsu).</p>
+    </div>
+    <div class="callout"><svg class="ico"><use href="#i-gift"/></svg> Sorteio de plano anual e desconto para quem fechar matrícula no dia!</div>
+    <div class="callout"><svg class="ico"><use href="#i-leaf"/></svg> Alimentação saudável e barracas fitness.</div>
+    <div class="card-hours"><svg class="ico"><use href="#i-clock"/></svg> Das 11h às 16h</div>
+   </article>
+
+   <article class="card food">
+    <div class="card-top"><span class="card-icon"><svg class="ico ico-xl"><use href="#i-utensils"/></svg></span><h3>Gastronomia Local e Entretenimento</h3></div>
+    <div class="card-sub">Comes e Bebes</div>
+    <div class="card-body">
+     <p>Comida paraense / Massas artesanais / Shawarma / Sanduíches / Bolos / Sobremesas / Sucos naturais / Milkshakes / Chopp artesanal / Música ambiente.</p>
+    </div>
+    <div class="callout"><svg class="ico"><use href="#i-sparkle"/></svg> Pula-pula e atrações infantis.</div>
+    <div class="card-hours"><svg class="ico"><use href="#i-clock"/></svg> Das 11h às 16h</div>
+   </article>
+
+   <article class="card pet">
+    <div class="card-top"><span class="card-icon"><svg class="ico ico-xl"><use href="#i-paw"/></svg></span><h3>Polo Pets</h3></div>
+    <div class="card-sub">Pet Shop Filé Miau</div>
+    <div class="card-body">
+     <p>Serviços de banho e tosa / Marcas exclusivas para ração e cosméticos / Barracas de produtos pet.</p>
+    </div>
+    <div class="callout"><svg class="ico"><use href="#i-gift"/></svg> Promoções e sorteios de cestas pet.</div>
+    <div class="callout"><svg class="ico"><use href="#i-heart"/></svg> Campanha de adoção (cães e gatos).</div>
+    <div class="card-hours"><svg class="ico"><use href="#i-clock"/></svg> Das 11h às 16h</div>
+   </article>
+
+   <article class="card local">
+    <div class="card-top"><span class="card-icon"><svg class="ico ico-xl"><use href="#i-leaf"/></svg></span><h3>Produtos e Serviços Locais</h3></div>
+    <div class="card-sub">Criatividade, artesanato e prestadores locais</div>
+    <div class="card-body">
+     <p>Artesanato / Tatuagem / Artes plásticas / Plantas e jardinagem / Cosméticos manipulados / Prestadores locais / Produtos fitness.</p>
+    </div>
+    <div class="card-hours"><svg class="ico"><use href="#i-clock"/></svg> Das 11h às 16h</div>
+   </article>
+
+   <article class="card beauty">
+    <div class="card-top"><span class="card-icon"><svg class="ico ico-xl"><use href="#i-scissors"/></svg></span><h3>Canto da Beleza</h3></div>
+    <div class="card-sub">KB Hair Atelier + Marjó Cabeleireiros</div>
+    <div class="card-body">
+     <p>Corte / Escova / Hidratação / Manicure / Pedicure / Spa dos pés / E mais.</p>
+    </div>
+    <div class="callout"><svg class="ico"><use href="#i-gift"/></svg> Promoções e sorteios de cestas de Natal.</div>
+    <div class="card-hours"><svg class="ico"><use href="#i-clock"/></svg> Das 11h às 16h</div>
+   </article>
+
+   <article class="card info">
+    <div class="card-top"><span class="card-icon"><svg class="ico ico-xl"><use href="#i-bell"/></svg></span><h3>Informações importantes</h3></div>
+    <div class="card-body">
+     <div class="info-row"><b><svg class="ico"><use href="#i-dumbbell"/></svg></b><div><strong>Atividades esportivas</strong><span>Das 11h às 16h</span></div></div>
+     <div class="info-row"><b><svg class="ico"><use href="#i-paw"/></svg></b><div><strong>Campanha de adoção pet</strong><span>Das 11h às 15h</span></div></div>
+     <div class="info-row"><b><svg class="ico"><use href="#i-music"/></svg></b><div><strong>Música e entretenimento</strong><span>Das 15h às 21h</span></div></div>
+    </div>
+    <div class="callout"><svg class="ico"><use href="#i-heart"/></svg> Traga sua família, convide os amigos e venha viver esse dia com a gente!</div>
+    <div class="card-hours"><svg class="ico"><use href="#i-clock"/></svg> Feira das 11h às 21h</div>
+   </article>
+  </div>
+ </div>
+</section>
+
+<section class="section map-section" id="mapa">
+ <div class="wrap">
+  <div class="section-head">
+   <div class="kicker">Encontre seu espaço favorito</div>
+   <h2>Mapa da feira</h2>
+   <p>Veja como os espaços estarão organizados ao longo da Rua Tapés.</p>
+  </div>
+  <div class="map-board">
+   <div class="map-title">Mapa da feira</div>
+   <div class="map-road">
+    <div class="road-end">↕<br>RUA HELOÍSA CARNEIRO</div>
+    <div class="map-stop stop1"><b><svg class="ico ico-lg"><use href="#i-dumbbell"/></svg></b><span>Academia<br>Brabus</span></div>
+    <div class="map-stop stop2"><b><svg class="ico ico-lg"><use href="#i-gift"/></svg></b><span>Barracas<br>Fitness</span></div>
+    <div class="map-stop stop3"><b><svg class="ico ico-lg"><use href="#i-shopping"/></svg></b><span>Produtos<br>Locais</span></div>
+    <div class="map-stop stop4"><b><svg class="ico ico-lg"><use href="#i-music"/></svg></b><span>Gastronomia e<br>Entretenimento</span></div>
+    <div class="map-stop stop5"><b><svg class="ico ico-lg"><use href="#i-paw"/></svg></b><span>Polo Pets</span></div>
+    <div class="map-stop stop6"><b><svg class="ico ico-lg"><use href="#i-scissors"/></svg></b><span>Canto da<br>Beleza</span></div>
+    <div class="road-end">↕<br>RUA CARLOS PINTO ALVES</div>
+   </div>
+   <div class="street-label">←　→　RUA TAPÉS　←　→</div>
+   <p class="map-note">Representação ilustrativa da distribuição dos espaços da feira.</p>
+  </div>
+ </div>
+</section>
+
+<section class="section exhibitors" id="expositores">
+ <div class="wrap">
+  <div class="expo-box">
+   <div class="expo-icon"><svg class="ico ico-xl"><use href="#i-store"/></svg></div>
+   <div>
+    <h2>Conheça nossos <span>expositores!</span></h2>
+    <p>Prestigie quem faz o nosso bairro acontecer! Conheça os empreendedores, descubra produtos, serviços e novidades de quem estará na feira. As apresentações dos expositores serão publicadas no Instagram do Engrena Meu Bairro.</p>
+   </div>
+   <a class="btn green" href="https://www.instagram.com/engrenameubairro/" target="_blank" rel="noopener">◎ Ver expositores no Instagram ↗</a>
+  </div>
+ </div>
+</section>
+
+<section class="section location" id="local">
+ <div class="wrap">
+  <div class="section-head">
+   <div class="kicker">Esperamos por você</div>
+   <h2>Como chegar</h2>
+   <p>Venha viver um dia especial com a comunidade de Congonhas Sul!</p>
+  </div>
+  <div class="location-grid">
+   <article class="location-card">
+    <h3><svg class="ico"><use href="#i-pin"/></svg> Localização</h3>
+    <p>Rua Tapés — Jardim Aeroporto<br>São Paulo — SP<br>Entre as ruas Carlos Pinto Alves e Heloísa Carneiro.</p>
+    <a class="btn green" href="https://www.google.com/maps/search/?api=1&amp;query=Rua+Tap%C3%A9s%2C+Jardim+Aeroporto%2C+S%C3%A3o+Paulo%2C+SP" target="_blank" rel="noopener">Abrir localização no Maps ↗</a>
+   </article>
+   <article class="location-card">
+    <h3><svg class="ico"><use href="#i-route"/></svg> Planeje sua visita</h3>
+    <p>Programe seu trajeto até a Rua Tapés e venha aproveitar a feira das 11h às 21h.</p>
+    <a class="btn navy" href="https://www.google.com/maps/dir/?api=1&amp;destination=Rua+Tap%C3%A9s%2C+Jardim+Aeroporto%2C+S%C3%A3o+Paulo%2C+SP" target="_blank" rel="noopener">Como chegar ↗</a>
+   </article>
+  </div>
+ </div>
+</section>
+
+<section class="final-cta">
+ <div class="wrap final-inner">
+  <div><h2>Comércio local, cultura e lazer!</h2><p>Traga sua família, convide os amigos e venha fazer parte dessa festa!</p></div>
+  <a class="insta" href="https://www.instagram.com/engrenameubairro/" target="_blank" rel="noopener"><b><svg class="ico ico-xl"><use href="#i-instagram"/></svg></b><span>Acompanhe o Engrena<br>no Instagram ↗</span></a>
+ </div>
+</section>
+</main>
+
+<footer>
+ <div class="wrap">
+  <div class="partners-title">REALIZAÇÃO E APOIO</div>
+  <div class="partners">
+   <div class="partner">Engrena Meu Bairro<small>CONGONHAS SUL</small></div>
+   <div class="partner">Associação<small>JARDIM DO AEROPORTO</small></div>
+   <div class="partner">MICASA<small>hotel</small></div>
+   <div class="partner">SOS<small>CORPORATIVA</small></div>
+   <div class="partner">Oficina Empreendedor SP<small>APOIO</small></div>
+   <div class="partner">LEANtTRO<small>Tecnologia</small></div>
+  </div>
+  <p class="copyright">1ª Feira de Rua Engrena Meu Bairro · Sábado, 05 de dezembro de 2026 · Das 11h às 21h · Rua Tapés, Jardim Aeroporto — São Paulo/SP</p>
+ </div>
+</footer>
+</body>
+</html>
+{% endraw %}
