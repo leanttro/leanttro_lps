@@ -8,6 +8,7 @@
 .btn-perigo{background:#fff;color:#dc2626;border:1px solid #fecaca}.btn-perigo:hover{background:#fef2f2}.cartao{background:#fff;border-radius:1rem;box-shadow:0 1px 2px rgba(0,0,0,.06);border:1px solid #e2e8f0}</style></head>
 <body class="bg-slate-100 text-slate-800 min-h-screen pb-24 md:pb-10">
 {% set abas = [('leads','Leads','users','painel.leads'),('blog','Blog','newspaper','painel.blog_lista'),('imagens','Imagens do site','image','painel.imagens'),('dados','Dados básicos','settings','painel.dados')] %}
+{% if usa_catalogo() %}{% set abas = abas[:1] + [('categorias','Categorias','layout-grid','painel.categorias'),('produtos','Produtos','package','painel.produtos')] + abas[1:] %}{% endif %}
 {% if session.get('p', {}).get('imp') %}<div class="bg-amber-400 text-amber-950 text-sm text-center py-2 px-3 font-medium">Modo suporte: você está vendo o painel deste cliente.</div>{% endif %}
 <header class="bg-white border-b sticky top-0 z-30"><div class="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between gap-3">
 <div class="flex items-center gap-2 font-bold min-w-0"><i data-lucide="layout-dashboard" class="text-indigo-600 w-5 h-5 shrink-0"></i><span class="truncate">{{ tenant.nome }}</span></div>
@@ -18,7 +19,7 @@
 <div class="max-w-5xl mx-auto px-4 pt-5">
 {% for cat, msg in get_flashed_messages(with_categories=true) %}<div class="mb-3 rounded-xl px-4 py-3 text-sm font-medium flex gap-2 items-start {{ 'bg-red-50 text-red-700 border border-red-200' if cat == 'error' else 'bg-green-50 text-green-800 border border-green-200' }}"><i data-lucide="{{ 'alert-circle' if cat == 'error' else 'check-circle' }}" class="w-5 h-5 shrink-0"></i><span>{{ msg }}</span></div>{% endfor %}
 {% block conteudo %}{% endblock %}</div>
-<nav class="md:hidden fixed bottom-0 inset-x-0 bg-white border-t z-30 grid grid-cols-4">{% for chave, rotulo, icone, rota in abas %}
+<nav class="md:hidden fixed bottom-0 inset-x-0 bg-white border-t z-30 grid" style="grid-template-columns:repeat({{ abas|length }},minmax(0,1fr))">{% for chave, rotulo, icone, rota in abas %}
 <a href="{{ url_for(rota) }}" class="flex flex-col items-center gap-0.5 py-2 text-[11px] font-semibold {{ 'text-indigo-700' if aba == chave else 'text-slate-500' }}"><i data-lucide="{{ icone }}" class="w-5 h-5"></i>{{ rotulo.split(' ')[0] }}</a>{% endfor %}</nav>
 <script>function copiar(t,el){navigator.clipboard.writeText(t).then(function(){var o=el.innerHTML;el.textContent='Copiado!';setTimeout(function(){el.innerHTML=o;lucide.createIcons()},1400)})}
 document.addEventListener('DOMContentLoaded',function(){lucide.createIcons()});</script>
