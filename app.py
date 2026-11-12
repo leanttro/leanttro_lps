@@ -258,6 +258,9 @@ class SchemaInfo(db.Model):
 # UTILS — Utilitários: sanitização, slug, CSRF, datas, HTML seguro.
 # ═══════════════════════════════════════════════════════════════════════════
 CODIGO_RE = re.compile(r"^lp[a-z0-9_]+$")
+CAMINHO_RE = re.compile(r"^(/[a-z0-9][a-z0-9_-]{0,59}){1,4}$")
+CAMINHOS_RESERVADOS = {"painel", "_admin", "m", "s", "static", "blog", "lead", "api", "healthz", "obrigado",
+                       "sitemap.xml", "robots.txt", "favicon.ico", "placeholder.svg", "_dominio_ok"}
 DOMINIO_RE = re.compile(r"^(?=.{1,253}$)([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$")
 EMAIL_RE = re.compile(r"^[^@\s]{1,64}@[^@\s]+\.[^@\s]{2,}$")
 
@@ -996,6 +999,50 @@ def limpar_cache_tenancy():
     """Vale para ESTE worker; nos outros expira pelo TTL (ver README)."""
     with _lock_tenancy:
         _cache.clear()
+        _prefixos.clear()
+
+
+# Páginas por caminho: domínio cadastrado como "host/caminho" (ex.: engrenameubairro.com.br/feira).
+_prefixos = {}
+
+
+def _prefixos_do_host(app, host):
+    hit = _prefixos.get(host)
+    if hit and hit[0] > time.time():
+        return hit[1]
+    esc = host.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
+    with app.app_context():
+        linhas = db.session.scalars(select(TenantDominio.dominio)
+                                    .where(TenantDominio.dominio.like(esc + "/%", escape="\\"))).all()
+    pref = sorted({"/" + r.split("/", 1)[1] for r in linhas}, key=len, reverse=True)
+    with _lock_tenancy:
+        if len(_prefixos) > _MAX:
+            _prefixos.clear()
+        _prefixos[host] = (time.time() + app.config["TENANT_CACHE_TTL"], pref)
+    return pref
+
+
+class PrefixoCaminhoMiddleware:
+    """Se o caminho começa com um prefixo cadastrado para o host, move o prefixo para SCRIPT_NAME.
+    Assim o site do tenant roda como se estivesse na raiz e url_for() já gera links com o prefixo."""
+
+    def __init__(self, app, wsgi):
+        self.app, self.wsgi = app, wsgi
+
+    def __call__(self, environ, start_response):
+        path = environ.get("PATH_INFO", "")
+        if path not in ("/healthz", "/_dominio_ok") and path.count("/") >= 1 and len(path) > 1:
+            host = normalizar_host(environ.get("HTTP_HOST") or environ.get("SERVER_NAME", ""))
+            try:
+                for pref in _prefixos_do_host(self.app, host):
+                    if path == pref or path.startswith(pref + "/"):
+                        environ["SCRIPT_NAME"] = environ.get("SCRIPT_NAME", "") + pref
+                        environ["PATH_INFO"] = path[len(pref):] or "/"
+                        environ["lp.prefixo"] = pref
+                        break
+            except Exception:
+                self.app.logger.exception("Falha ao resolver prefixo de caminho")
+        return self.wsgi(environ, start_response)
 
 
 def resolver_contexto():
@@ -1025,7 +1072,7 @@ def resolver_contexto():
             if tenant:
                 g.definir_cookie_tenant = explicito
     if tenant is None:
-        tenant = buscar_por_host(host)
+        tenant = buscar_por_host(host + request.environ.get("lp.prefixo", ""))
     if tenant is None and cfg["ALLOW_TENANT_OVERRIDE"]:
         tenant = buscar_por_codigo((request.cookies.get("_tenant") or "").strip().lower())
     if tenant is None or not tenant.ativo or caminho.startswith("/_admin"):
@@ -1050,10 +1097,11 @@ EXTS_FALLBACK = ("webp", "png", "jpg", "jpeg", "svg")
 def base_url():
     t = g.get("tenant")
     host = normalizar_host(request.host)
-    if t and t.dominio_principal and host in t.dominios:
+    if t and t.dominio_principal and host in {d.split("/")[0] for d in t.dominios}:
         porta = request.host.partition(":")[2]
-        return f"{request.scheme}://{t.dominio_principal}" + (f":{porta}" if porta else "")
-    return request.host_url.rstrip("/")
+        return (f"{request.scheme}://{t.dominio_principal.split('/')[0]}" + (f":{porta}" if porta else "")
+                + request.script_root)
+    return request.host_url.rstrip("/") + request.script_root
 
 
 def canonical_url():
@@ -1205,11 +1253,19 @@ def normalizar_dominios(entrada):
         bruto = (bruto or "").strip()
         if not bruto:
             continue
-        d = normalizar_host(re.sub(r"^https?://", "", bruto.lower()))
-        if not DOMINIO_RE.match(d):
+        sem_esq = re.sub(r"^https?://", "", bruto.lower())
+        host_bruto, _, caminho = sem_esq.partition("/")
+        h = normalizar_host(host_bruto)
+        if not DOMINIO_RE.match(h):
             raise ErroNegocio(f"Domínio inválido: {bruto[:80]}")
-        if d == current_app.config["ADMIN_HOST"]:
-            raise ErroNegocio(f"{d} é o host mestre (ADMIN_HOST) e não pode ser de um cliente.")
+        if h == current_app.config["ADMIN_HOST"]:
+            raise ErroNegocio(f"{h} é o host mestre (ADMIN_HOST) e não pode ser de um cliente.")
+        caminho = caminho.split("?")[0].split("#")[0].strip("/")
+        if caminho:
+            caminho = "/" + caminho
+            if not CAMINHO_RE.match(caminho) or caminho.split("/")[1] in CAMINHOS_RESERVADOS:
+                raise ErroNegocio(f"Caminho inválido ou reservado: {bruto[:80]} (use letras minúsculas, números, - e _).")
+        d = h + caminho
         if d not in saida:
             saida.append(d)
     return saida
@@ -1507,8 +1563,12 @@ def dominio_ok():
     admin = current_app.config["ADMIN_HOST"]
     if admin and dominio == admin:
         return Response("ok", mimetype="text/plain")
+    from sqlalchemy import or_
+    esc = dominio.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
     existe = db.session.scalar(select(Tenant.id).join(TenantDominio)
-                               .where(TenantDominio.dominio == dominio, Tenant.ativo.is_(True)))
+                               .where(or_(TenantDominio.dominio == dominio,
+                                          TenantDominio.dominio.like(esc + "/%", escape="\\")),
+                                      Tenant.ativo.is_(True)).limit(1))
     if not existe:
         abort(404)
     return Response("ok", mimetype="text/plain")
@@ -2327,7 +2387,8 @@ def entrar(tid):
     porta = request.host.partition(":")[2]
     sufixo = f":{porta}" if porta else ""
     if t.dominios_lista:
-        url = f"{request.scheme}://{t.dominios_lista[0]}{sufixo}/painel/acesso?t={quote(token)}"
+        h0, _, c0 = t.dominios_lista[0].partition("/")
+        url = f"{request.scheme}://{h0}{sufixo}{'/' + c0 if c0 else ''}/painel/acesso?t={quote(token)}"
     elif current_app.config["ALLOW_TENANT_OVERRIDE"]:
         url = f"{request.scheme}://localhost{sufixo}/painel/acesso?t={quote(token)}&tenant={t.codigo}"
     else:
@@ -2358,6 +2419,7 @@ def create_app(config=None):
     logging.basicConfig(level=logging.DEBUG if app.config["DEBUG"] else logging.INFO,
                         format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 
+    app.wsgi_app = PrefixoCaminhoMiddleware(app, app.wsgi_app)
     hops = app.config["PROXY_HOPS"]
     if hops > 0:
         app.wsgi_app = ProxyFix(app.wsgi_app, x_for=hops, x_proto=hops, x_host=hops)
