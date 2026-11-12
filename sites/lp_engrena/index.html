@@ -22,7 +22,7 @@
   --radius:24px;--max:1200px
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:100px}
+html{scroll-behavior:smooth;scroll-padding-top:20px}
 body{margin:0;background:var(--cream);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
 a{color:inherit;text-decoration:none}
 button,a{-webkit-tap-highlight-color:transparent}
@@ -32,17 +32,18 @@ img{max-width:100%;display:block}
 .ico-xl{width:2.7em;height:2.7em}
 
 .wrap{width:min(var(--max),calc(100% - 48px));margin-inline:auto}
-.top{position:sticky;top:0;z-index:50;background:#fffdf5f2;backdrop-filter:blur(12px);box-shadow:0 4px 20px #0a31500d;border-bottom:1px solid #e9dfca}
-.nav{min-height:88px;display:flex;align-items:center;justify-content:space-between;gap:24px}
-.brand{display:flex;align-items:center;gap:12px;min-width:230px}
-.brand img{width:70px;height:70px;object-fit:contain}
-.brand strong{font-size:22px;line-height:.95;letter-spacing:-.8px;color:var(--navy)}
+.top{position:relative;z-index:50;background:#fffdf5f2;backdrop-filter:blur(12px);box-shadow:0 4px 20px #0a31500d;border-bottom:1px solid #e9dfca}
+.nav{min-height:116px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.brand{display:flex;align-items:center;gap:16px;min-width:300px}
+.brand img{width:96px;height:96px;object-fit:contain}
+.brand strong{display:block;font-size:31px;line-height:.95;letter-spacing:-1px;color:var(--navy)}
 .brand strong span{color:var(--green)}
-.brand small{display:block;font-size:10px;letter-spacing:2px;margin-top:6px}
-.navlinks{display:flex;align-items:center;gap:clamp(12px,2vw,28px);font-weight:900;color:var(--navy);font-size:14px}
+.brand-text{display:block}
+.brand small{display:block;font-size:12px;letter-spacing:2.5px;margin-top:7px;font-weight:700;color:var(--navy)}
+.navlinks{display:flex;align-items:center;gap:clamp(12px,2vw,28px);font-weight:900;color:var(--navy);font-size:16px}
 .navlinks a{padding:12px 0;border-bottom:3px solid transparent}
 .navlinks a:hover{color:var(--green);border-color:var(--orange)}
-.nav-cta{background:var(--green);color:white;padding:13px 19px;border-radius:30px;font-weight:950;white-space:nowrap}
+.nav-cta{background:var(--green);color:white;font-size:15px;padding:14px 22px;border-radius:30px;font-weight:950;white-space:nowrap}
 .menu-toggle{display:none}
 .hero{position:relative;isolation:isolate;overflow:hidden;
   background-image:linear-gradient(90deg,rgba(255,248,232,.96) 0%,rgba(255,248,232,.91) 42%,rgba(255,248,232,.38) 100%),
@@ -54,7 +55,6 @@ img{max-width:100%;display:block}
   background:rgba(9,118,186,.13);border-radius:50%;pointer-events:none}
 .hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:38px}
 .hero-copy{text-align:left}
-.eyebrow{display:inline-flex;align-items:center;gap:10px;background:#fff;border:2px solid #f7d88b;color:var(--orange);border-radius:30px;padding:9px 17px;font-weight:1000;text-transform:uppercase;letter-spacing:1px;font-size:13px}
 .hero h1{font-size:clamp(48px,6.5vw,82px);line-height:.9;letter-spacing:-4px;text-transform:uppercase;color:var(--navy);margin:22px 0 14px;font-weight:1000}
 .hero h1 span{display:block;color:var(--orange)}
 .hero-sub{font-size:clamp(20px,2.2vw,27px);font-weight:950;color:var(--green);margin:0 0 24px}
@@ -68,10 +68,7 @@ img{max-width:100%;display:block}
 .btn:hover{transform:translateY(-3px);filter:brightness(1.05)}
 .btn.navy{background:var(--navy);color:#fff}.btn.orange{background:var(--orange);color:#fff}.btn.green{background:var(--green);color:#fff}.btn.light{background:#fff;color:var(--navy);border:2px solid #e7dfcf;box-shadow:none}
 .hero-art{position:relative;min-height:410px;display:grid;place-items:center}
-.hero-logo{width:min(100%,370px);max-height:340px;object-fit:contain;filter:drop-shadow(0 12px 12px #0a315022);background:rgba(255,253,246,.74);border:1px solid rgba(255,255,255,.78);border-radius:44%;padding:16px;backdrop-filter:blur(5px)}
-.float-tag{position:absolute;display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.95);border:2px solid #fff;border-radius:22px;padding:12px 16px;box-shadow:var(--shadow);font-weight:1000;color:var(--navy);font-size:15px;backdrop-filter:blur(6px)}
-.float-tag b{font-size:27px;display:grid;place-items:center;color:var(--green)}
-.tag-a{left:0;top:50px}.tag-b{right:0;top:95px}.tag-c{left:10px;bottom:50px}.tag-d{right:0;bottom:38px}
+.hero-logo{width:min(100%,300px);max-height:290px;object-fit:contain;filter:drop-shadow(0 12px 12px #0a315022);background:rgba(255,253,246,.74);border:1px solid rgba(255,255,255,.78);border-radius:44%;padding:16px;backdrop-filter:blur(5px)}
 .section{padding:64px 0}
 .section-head{text-align:center;margin:0 auto 34px;max-width:850px}
 .section-head .kicker{color:var(--orange);font-size:13px;font-weight:1000;letter-spacing:1.5px;text-transform:uppercase}
@@ -117,6 +114,8 @@ img{max-width:100%;display:block}
 .info-row strong{display:block;text-transform:uppercase;color:#76252a;font-size:15px;line-height:1.25}
 .info-row span{font-size:16px;font-weight:1000;color:var(--navy)}
 .map-section{background:#fffdf7}
+.map-section .section-head{max-width:400px;margin-bottom:58px}
+.map-section .section-head p{margin-top:8px;font-size:17px}
 .map-board{border-radius:28px;background:#f1f6dc;padding:22px;border:2px solid #d7e6a5;box-shadow:var(--shadow)}
 .map-title{width:max-content;max-width:100%;margin:-43px auto 20px;background:var(--green);color:#fff;border:5px solid #fffdf7;border-radius:22px;padding:10px 25px;font-size:clamp(24px,3vw,34px);font-weight:1000;text-transform:uppercase}
 .map-road{background:#4b4e50;color:white;border:5px solid #fff;border-radius:18px;padding:14px;display:grid;grid-template-columns:90px repeat(6,minmax(0,1fr)) 90px;gap:5px;align-items:stretch}
@@ -127,8 +126,9 @@ img{max-width:100%;display:block}
 .street-label{margin-top:7px;background:#4b4e50;color:white;text-align:center;border-radius:0 0 14px 14px;padding:10px;font-size:20px;font-weight:1000;letter-spacing:2px}
 .map-note{text-align:center;font-size:15px;color:#40566a;margin:15px 0 0}
 .exhibitors{background:linear-gradient(120deg,#fff0c9,#fff9e9)}
-.expo-box{display:grid;grid-template-columns:110px 1fr auto;gap:24px;align-items:center;padding:30px;background:#fff;border:3px solid #ffcf66;border-radius:30px;box-shadow:var(--shadow)}
+.expo-box{display:grid;grid-template-columns:110px 1fr auto;gap:40px;align-items:center;padding:30px;background:#fff;border:3px solid #ffcf66;border-radius:30px;box-shadow:var(--shadow)}
 .expo-icon{width:100px;height:100px;border-radius:50%;background:#fff0d2;display:grid;place-items:center;font-size:54px;color:var(--green)}
+.expo-icon .ico{width:58px;height:58px}
 .expo-box h2{font-size:clamp(29px,3.6vw,43px);line-height:.98;text-transform:uppercase;color:var(--navy);margin:0 0 10px}
 .expo-box h2 span{color:var(--orange)}
 .expo-box p{font-size:18px;line-height:1.45;margin:0;color:#405064}
@@ -146,28 +146,61 @@ img{max-width:100%;display:block}
 .insta b{font-size:38px;color:#c13584}
 footer{background:#fff8e8;padding:32px 0 20px}
 .partners-title{text-align:center;font-size:17px;font-weight:1000;color:var(--navy);margin-bottom:18px}
-.partners{display:flex;align-items:center;justify-content:center;gap:15px;flex-wrap:wrap}
-.partner{min-width:125px;text-align:center;padding:12px 16px;border-right:1px solid #d6cdbb;color:var(--navy);font-weight:1000;font-size:16px}
-.partner:last-child{border:0}.partner small{display:block;font-size:10px;letter-spacing:1px;margin-top:5px;color:var(--green)}
+.partners{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
+.partner{width:170px;height:110px;display:grid;place-items:center;padding:12px;background:#fff;border:1px solid #eadfc9;border-radius:20px;box-shadow:0 6px 16px #17314a10}
+.partner img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
 .copyright{text-align:center;color:#718071;font-size:13px;margin:20px 0 0}
+
+/* ---- hero: etiqueta, ticket e balões ---- */
+.eyebrow{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#ff7a2b,#f05a16);color:#fff;border-radius:40px;padding:6px 22px 6px 6px;font-weight:1000;text-transform:uppercase;letter-spacing:1.2px;font-size:14px;box-shadow:0 5px 0 #b93d08,0 12px 20px #f05a1640}
+.eyebrow b{display:grid;place-items:center;min-width:34px;height:34px;border-radius:50%;background:var(--yellow);color:var(--navy);font-size:15px;letter-spacing:0}
+.ticket{display:grid;grid-template-columns:auto 1fr;background:#fff;border-radius:26px;border:2px solid #f1e3c2;box-shadow:var(--shadow);overflow:hidden;margin:0 0 26px;max-width:560px}
+.tk-date{position:relative;background:var(--navy);color:#fff;padding:18px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;line-height:1;min-width:124px}
+.tk-date:after{content:"";position:absolute;right:0;top:14px;bottom:14px;border-right:2px dashed #ffffff40}
+.tk-date small{font-size:12px;letter-spacing:2px;font-weight:1000;color:var(--yellow)}
+.tk-date strong{font-size:60px;font-weight:1000;letter-spacing:-3px;margin:7px 0 5px}
+.tk-date em{font-style:normal;font-size:13px;font-weight:900;letter-spacing:1px}
+.tk-info{padding:6px 22px;display:flex;flex-direction:column;justify-content:center;min-width:0}
+.tk-row{display:flex;gap:14px;align-items:center;padding:13px 0;color:var(--navy);text-align:left}
+.tk-row+.tk-row{border-top:1px solid #efe4cc}
+.tk-ico{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;flex:0 0 auto;font-style:normal;font-size:20px}
+.tk-ico.clock{background:#ffe9b8;color:var(--orange)}.tk-ico.pin{background:#dff3e4;color:var(--green)}
+.tk-row strong{display:block;font-size:18px;font-weight:1000;line-height:1.15}
+.tk-row span{display:block;font-size:14px;font-weight:700;color:var(--muted);line-height:1.35;margin-top:4px}
+.hero-art{min-height:430px}
+.hero-logo{animation:bobLogo 7s ease-in-out infinite}
+@keyframes bobLogo{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@media(prefers-reduced-motion:reduce){.orbit,.float-tag,.hero-logo{animation:none}}
+
+/* ---- balões orbitando o logo ---- */
+.hero-art{--R:185px;--turn:32s}
+.hero-logo{position:relative;z-index:1;width:min(100%,250px);max-height:250px}
+.orbit{position:absolute;left:50%;top:50%;width:0;height:0;z-index:2;animation:spin var(--turn) linear infinite}
+.orbit:hover,.orbit:hover .float-tag{animation-play-state:paused}
+.slot{position:absolute;left:0;top:0;width:0;height:0;transform:rotate(var(--a)) translateX(var(--R)) rotate(calc(var(--a) * -1))}
+.float-tag{position:absolute;left:0;top:0;display:flex;align-items:center;gap:9px;white-space:nowrap;background:rgba(255,255,255,.96);border:2px solid #fff;border-radius:18px;padding:8px 14px 8px 10px;box-shadow:var(--shadow);font-weight:1000;color:var(--navy);font-size:13px;line-height:1.15;transform:translate(-50%,-50%);animation:unspin var(--turn) linear infinite}
+.float-tag b{display:grid;place-items:center;color:var(--green)}
+.float-tag .ico{width:28px;height:28px}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes unspin{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(-360deg)}}
 @media(max-width:1000px){
- .nav{gap:14px}.brand{min-width:190px}.brand img{width:58px;height:58px}.brand strong{font-size:19px}
+ .nav{gap:14px}.brand{min-width:230px}.brand img{width:76px;height:76px}.brand strong{font-size:24px}.brand small{font-size:10px}
  .navlinks{gap:12px;font-size:13px}.nav-cta{font-size:12px;padding:11px 14px}
- .hero-grid{gap:18px}.hero-art{min-height:350px}.float-tag{font-size:13px;padding:9px 12px}.float-tag b{font-size:22px}
+ .hero-grid{gap:18px}.hero-art{min-height:350px;--R:165px}
  .map-road{grid-template-columns:70px repeat(6,minmax(0,1fr)) 70px}.map-stop span{font-size:12px}
 }
 @media(max-width:760px){
- html{scroll-padding-top:120px}
+ html{scroll-padding-top:16px}
  .wrap{width:calc(100% - 30px)}
  .nav{min-height:0;padding:10px 0;display:grid;grid-template-columns:1fr auto;gap:8px}
- .brand img{width:48px;height:48px}.brand strong{font-size:17px}.brand small{font-size:8px}
+ .brand{flex-direction:column;justify-content:center;gap:4px;min-width:0;justify-self:center}
+ .brand img{width:132px;height:132px}.brand strong{display:none}.brand small{font-size:10px;letter-spacing:2.5px;margin:0;text-align:center}
  .nav-cta{font-size:11px;padding:10px 12px}
  .navlinks{grid-column:1/-1;display:flex;justify-content:space-between;gap:5px;overflow-x:auto;border-top:1px solid #e8dfce;padding-top:7px}
  .navlinks a{font-size:11px;white-space:nowrap;padding:7px 2px}
  .hero{padding:38px 0 42px;background-position:center;background-image:linear-gradient(180deg,rgba(255,248,232,.91) 0%,rgba(255,248,232,.86) 56%,rgba(255,248,232,.94) 100%),url("{% endraw %}{{ img_url('fundo', w=2000) }}{% raw %}")}
  .hero-grid{grid-template-columns:1fr;gap:12px}
  .hero-copy{text-align:center}
- .eyebrow{font-size:11px;padding:8px 13px}
  .hero h1{font-size:clamp(46px,12vw,68px);letter-spacing:-2.5px;margin:17px 0 10px}
  .hero-sub{font-size:19px;margin-bottom:17px}
  .event-pills{justify-content:center;gap:8px}
@@ -179,8 +212,6 @@ footer{background:#fff8e8;padding:32px 0 20px}
  .btn{width:100%;font-size:13px;padding:15px 17px}
  .hero-art{min-height:220px;max-width:500px;width:100%;margin:auto}
  .hero-logo{width:190px;max-height:190px;padding:10px}
- .float-tag{font-size:11px;padding:8px 10px;border-width:2px;border-radius:15px}
- .float-tag b{font-size:19px}.float-tag .ico{width:1.65em;height:1.65em}.tag-a{left:0;top:12px}.tag-b{right:0;top:20px}.tag-c{left:0;bottom:10px}.tag-d{right:0;bottom:8px}
  .section{padding:44px 0}
  .section-head{margin-bottom:24px}
  .section-head h2{font-size:clamp(30px,8vw,42px);letter-spacing:-1.5px}
@@ -207,6 +238,7 @@ footer{background:#fff8e8;padding:32px 0 20px}
  .info .card-body p{font-size:13px}.info-row{grid-template-columns:26px 1fr;gap:6px;padding:7px 0}
  .info-row b{font-size:19px}.info-row strong{font-size:12px}.info-row span{font-size:13px}
  .map-board{padding:14px 10px;border-radius:20px}
+ .map-section .section-head{max-width:300px;margin-bottom:48px}
  .map-title{font-size:23px;margin:-34px auto 15px;padding:8px 15px}
  .map-road{grid-template-columns:1fr 1fr;gap:7px;padding:9px}
  .road-end{grid-column:span 1;min-height:65px;font-size:12px}
@@ -215,14 +247,14 @@ footer{background:#fff8e8;padding:32px 0 20px}
  .street-label{font-size:16px;padding:9px}
  .map-note{font-size:13px;line-height:1.4}
  .expo-box{grid-template-columns:1fr;text-align:center;padding:23px 17px;gap:13px}
- .expo-icon{width:75px;height:75px;font-size:40px;margin:auto}
+ .expo-icon{width:84px;height:84px;margin:auto auto 6px}.expo-icon .ico{width:44px;height:44px}
  .expo-box h2{font-size:30px}.expo-box p{font-size:15px}
  .location-grid{grid-template-columns:1fr;gap:12px}
  .location-card{padding:22px}.location-card h3{font-size:22px}.location-card p{font-size:16px}
  .final-inner{flex-direction:column;text-align:center}
  .final-inner h2{font-size:30px}.final-inner p{font-size:15px}
  .insta{width:100%;justify-content:center;white-space:normal;font-size:13px}
- .partners{gap:5px}.partner{border:0;min-width:40%;font-size:13px;padding:9px}
+ .partners{display:grid;grid-template-columns:1fr 1fr;gap:10px}.partner{width:auto;height:90px;padding:10px;border-radius:16px}
 }
 @media(max-width:390px){
  .cards{grid-template-columns:1fr}
@@ -233,7 +265,42 @@ footer{background:#fff8e8;padding:32px 0 20px}
  .map-stop{min-height:95px}
  .hero-art{min-height:210px}
  .hero-logo{width:185px}
- .float-tag{font-size:10px;padding:7px 8px}
+}
+
+/* ---- mobile: ajustes finais ---- */
+@media(max-width:760px){
+ .nav-cta{display:none}
+ .nav{grid-template-columns:1fr}
+ .hero-grid{display:flex;flex-direction:column;align-items:center;text-align:center;gap:0}
+ .hero-copy{display:contents}
+ .eyebrow{order:1;font-size:12px;padding:5px 16px 5px 5px}.eyebrow b{min-width:28px;height:28px;font-size:13px}
+ .hero h1{order:2;font-size:clamp(30px,9.4vw,50px);letter-spacing:-1.5px;margin:16px 0 4px;white-space:nowrap}
+ .hero h1 span{white-space:nowrap}
+ .hero-art{order:3;width:100%;margin:6px auto 4px}
+
+ .hero-art{--R:122px;min-height:300px;max-width:380px}
+ .hero-logo{width:150px;max-height:150px;padding:8px}
+ .float-tag{font-size:10px;padding:6px 9px 6px 7px;gap:6px;border-radius:14px}
+ .float-tag .ico{width:20px;height:20px}
+ .hero-sub{order:4;margin:10px 0 18px}
+ .ticket{order:5;width:100%;max-width:420px;margin:0 auto 20px;border-radius:22px}
+ .tk-date{min-width:92px;padding:14px 12px}.tk-date strong{font-size:44px}.tk-date small{font-size:11px}.tk-date em{font-size:11px}
+ .tk-info{padding:4px 14px}.tk-row{padding:10px 0;gap:10px}.tk-ico{width:36px;height:36px;border-radius:12px;font-size:17px}
+ .tk-row strong{font-size:15px}.tk-row span{font-size:12px}
+ .actions{order:6;width:100%}
+ .cards{grid-template-columns:1fr;gap:16px}
+ .card-top{min-height:74px;padding:14px;gap:12px}.card-top h3{font-size:clamp(18px,5.2vw,22px)}
+ .card-icon{font-size:34px}
+ .card-sub{font-size:15px;padding:11px}
+ .card-body{padding:15px 16px 10px}.card-body p{font-size:15px}
+ .card-list li{font-size:14px}.callout{font-size:14px;padding:12px}.card-hours{font-size:20px;padding:14px}
+ .info .card-body p{font-size:15px}.info-row{grid-template-columns:32px 1fr}.info-row b{font-size:22px}.info-row strong{font-size:13px}.info-row span{font-size:15px}
+ .map-layout{display:grid;grid-template-columns:46px 1fr;gap:6px}
+ .map-layout .street-label{grid-column:1;grid-row:1;writing-mode:vertical-rl;margin:0;border-radius:14px;display:flex;align-items:center;justify-content:center;padding:14px 6px;font-size:14px;letter-spacing:3px;white-space:nowrap}
+ .map-road{grid-column:2;grid-row:1;grid-template-columns:1fr;gap:7px}
+ .road-end{min-height:48px}
+ .map-stop{flex-direction:row;justify-content:flex-start;text-align:left;min-height:64px;padding:10px 14px;gap:14px}
+ .map-stop .ico{width:30px;height:30px}.map-stop span{font-size:13px}
 }
 </style>
 </head>
@@ -269,7 +336,7 @@ footer{background:#fff8e8;padding:32px 0 20px}
  <div class="wrap nav">
   <a class="brand" href="#inicio" aria-label="Engrena Meu Bairro - início">
    <img src="https://directus.leanttro.com/assets/8b4ac80a-f97f-4edf-b37d-01bc5f187ba3?quality=80&amp;format=webp" alt="Logo Engrena Meu Bairro">
-   <strong>Engrena <span>Meu Bairro</span><small>CONGONHAS SUL</small></strong>
+   <span class="brand-text"><strong>Engrena <span>Meu Bairro</span></strong><small>CONGONHAS SUL</small></span>
   </a>
   <nav class="navlinks" aria-label="Navegação principal">
    <a href="#inicio">Início</a><a href="#programacao">Programação</a><a href="#expositores">Expositores</a><a href="#mapa">Mapa</a><a href="#local">Localização</a>
@@ -282,25 +349,29 @@ footer{background:#fff8e8;padding:32px 0 20px}
 <section class="hero" id="inicio">
  <div class="wrap hero-grid">
   <div class="hero-copy">
-   <div class="eyebrow">☀ 1ª Feira de Rua</div>
+   <div class="eyebrow"><b>1ª</b>Feira de Rua</div>
    <h1>Vem aí a <span>Feira de Rua!</span></h1>
    <p class="hero-sub">Comércio local, cultura, esporte, gastronomia e muito mais!</p>
-   <div class="event-pills">
-    <div class="event-pill"><span class="symbol"><svg class="ico ico-lg"><use href="#i-calendar"/></svg></span><span>SÁBADO<br>05 DE DEZEMBRO DE 2026</span></div>
-    <div class="event-pill"><span class="symbol"><svg class="ico ico-lg"><use href="#i-clock"/></svg></span><span>DAS 11H<br>ÀS 21H</span></div>
+   <div class="ticket">
+    <div class="tk-date"><small>SÁBADO</small><strong>05</strong><em>DEZ · 2026</em></div>
+    <div class="tk-info">
+     <div class="tk-row"><i class="tk-ico clock"><svg class="ico"><use href="#i-clock"/></svg></i><div><strong>Das 11h às 21h</strong></div></div>
+     <div class="tk-row"><i class="tk-ico pin"><svg class="ico"><use href="#i-pin"/></svg></i><div><strong>Rua Tapés — Jardim Aeroporto</strong><span>Entre as ruas Carlos Pinto Alves e Heloísa Carneiro<br>São Paulo — SP</span></div></div>
+    </div>
    </div>
-   <div class="address"><span class="pin"><svg class="ico ico-xl"><use href="#i-pin"/></svg></span><span><strong>RUA TAPÉS — JARDIM AEROPORTO</strong><br>Entre as ruas Carlos Pinto Alves e Heloísa Carneiro<br>São Paulo — SP</span></div>
    <div class="actions">
     <a class="btn navy" href="#programacao"><svg class="ico"><use href="#i-calendar"/></svg> Ver programação completa</a>
     <a class="btn orange" href="#expositores">♧ Conhecer expositores</a>
    </div>
   </div>
   <div class="hero-art">
-   <div class="float-tag tag-a"><b><svg class="ico ico-xl"><use href="#i-store"/></svg></b>Barracas e<br>produtos locais</div>
-   <div class="float-tag tag-b"><b><svg class="ico ico-xl"><use href="#i-run"/></svg></b>Esporte e<br>bem-estar</div>
    <img class="hero-logo" src="https://directus.leanttro.com/assets/8b4ac80a-f97f-4edf-b37d-01bc5f187ba3?quality=80&amp;format=webp" alt="Engrena Meu Bairro — Congonhas Sul">
-   <div class="float-tag tag-c"><b><svg class="ico ico-xl"><use href="#i-utensils"/></svg></b>Gastronomia</div>
-   <div class="float-tag tag-d"><b><svg class="ico ico-xl"><use href="#i-music"/></svg></b>Entretenimento</div>
+   <div class="orbit">
+   <div class="slot" style="--a:225deg"><div class="float-tag tag-a"><b><svg class="ico"><use href="#i-store"/></svg></b>Barracas e<br>produtos locais</div></div>
+   <div class="slot" style="--a:315deg"><div class="float-tag tag-b"><b><svg class="ico"><use href="#i-run"/></svg></b>Esporte e<br>bem-estar</div></div>
+   <div class="slot" style="--a:45deg"><div class="float-tag tag-d"><b><svg class="ico"><use href="#i-music"/></svg></b>Entretenimento</div></div>
+   <div class="slot" style="--a:135deg"><div class="float-tag tag-c"><b><svg class="ico"><use href="#i-utensils"/></svg></b>Gastronomia</div></div>
+   </div>
   </div>
  </div>
 </section>
@@ -397,11 +468,11 @@ footer{background:#fff8e8;padding:32px 0 20px}
  <div class="wrap">
   <div class="section-head">
    <div class="kicker">Encontre seu espaço favorito</div>
-   <h2>Mapa da feira</h2>
    <p>Veja como os espaços estarão organizados ao longo da Rua Tapés.</p>
   </div>
   <div class="map-board">
    <div class="map-title">Mapa da feira</div>
+   <div class="map-layout">
    <div class="map-road">
     <div class="road-end">↕<br>RUA HELOÍSA CARNEIRO</div>
     <div class="map-stop stop1"><b><svg class="ico ico-lg"><use href="#i-dumbbell"/></svg></b><span>Academia<br>Brabus</span></div>
@@ -413,6 +484,7 @@ footer{background:#fff8e8;padding:32px 0 20px}
     <div class="road-end">↕<br>RUA CARLOS PINTO ALVES</div>
    </div>
    <div class="street-label">←　→　RUA TAPÉS　←　→</div>
+   </div>
    <p class="map-note">Representação ilustrativa da distribuição dos espaços da feira.</p>
   </div>
  </div>
@@ -465,12 +537,12 @@ footer{background:#fff8e8;padding:32px 0 20px}
  <div class="wrap">
   <div class="partners-title">REALIZAÇÃO E APOIO</div>
   <div class="partners">
-   <div class="partner">Engrena Meu Bairro<small>CONGONHAS SUL</small></div>
-   <div class="partner">Associação<small>JARDIM DO AEROPORTO</small></div>
-   <div class="partner">MICASA<small>hotel</small></div>
-   <div class="partner">SOS<small>CORPORATIVA</small></div>
-   <div class="partner">Oficina Empreendedor SP<small>APOIO</small></div>
-   <div class="partner">LEANtTRO<small>Tecnologia</small></div>
+   <div class="partner"><img src="https://directus.leanttro.com/assets/8b4ac80a-f97f-4edf-b37d-01bc5f187ba3?quality=80&amp;format=webp" alt="Engrena Meu Bairro — Congonhas Sul" loading="lazy"></div>
+   <div class="partner"><img src="https://directus.leanttro.com/assets/8bf5b877-9f6c-42a5-ab62-5e226d7efbc7?quality=80&amp;format=webp" alt="Associação Jardim do Aeroporto" loading="lazy"></div>
+   <div class="partner"><img src="https://res.cloudinary.com/dhu1cqvrb/image/upload/v1784235480/Massas_Sabores_36_pxcet2.png" alt="MiCasa" loading="lazy"></div>
+   <div class="partner"><img src="https://res.cloudinary.com/evwhdqmt/image/upload/v1786723590/soslogo_bx4m1y.png" alt="SOS Corporativa" loading="lazy"></div>
+   <div class="partner"><img src="https://res.cloudinary.com/dhu1cqvrb/image/upload/v1782417827/OFICINA_EMPREENDER_SP_1000_x_1000_px_1_g2ejcc.png" alt="Oficina do Empreendedor SP" loading="lazy"></div>
+   <div class="partner"><img src="https://res.cloudinary.com/dhu1cqvrb/image/upload/v1779207400/leanttro_bohuce.png" alt="Leanttro Tecnologia" loading="lazy"></div>
   </div>
   <p class="copyright">1ª Feira de Rua Engrena Meu Bairro · Sábado, 05 de dezembro de 2026 · Das 11h às 21h · Rua Tapés, Jardim Aeroporto — São Paulo/SP</p>
  </div>
