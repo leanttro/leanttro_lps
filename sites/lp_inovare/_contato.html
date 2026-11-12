@@ -1,0 +1,48 @@
+<section class="contact" id="contato">
+      <div class="container contact-card">
+        <div class="contact-info">
+          <span class="eyebrow">FALE COM A INOVARE</span>
+          <h2>Vamos dar mais <em>destaque</em> à sua marca?</h2>
+          <p>Conte o que você precisa. Nossa equipe ajuda a encontrar a solução ideal em etiquetas e brindes personalizados.</p>
+          <ul class="contact-list">
+            <li><span class="c-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11.5a8 8 0 0 1-11.8 7L4 20l1.5-4.1A8 8 0 1 1 20 11.5z"/><path d="M9 9.2c.3 2 2.3 4.2 4.6 5l1.2-1.1-1.6-.9-.7.6c-.8-.4-1.6-1.2-2-2l.6-.7-.9-1.6z"/></svg></span><div><small>WhatsApp</small><a href="{{ whatsapp_link() or '#' }}" target="_blank" rel="noopener">{% set _w = tenant.whatsapp %}{% if _w|length >= 12 %}({{ _w[2:4] }}) {{ _w[4:-4] }}-{{ _w[-4:] }}{% else %}Fale conosco{% endif %}</a></div></li>
+            <li><span class="c-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg></span><div><small>E-mail</small><a href="mailto:contato@inovare.com.br">contato@inovare.com.br</a></div></li>
+            <li><span class="c-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r=".6" fill="currentColor"/></svg></span><div><small>Instagram</small><a href="https://www.instagram.com/" target="_blank" rel="noopener">@inovare</a></div></li>
+            <li><span class="c-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><div><small>Atendimento</small><span>Seg. a sex., das 8h às 18h</span></div></li>
+          </ul>
+          <div class="contact-badges"><span>✓ Resposta rápida</span><span>✓ Orçamento sem compromisso</span></div>
+        </div>
+
+        <form class="contact-form" id="contact-form" data-lead action="/lead" method="post" novalidate>
+          <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0">
+          <h3>Solicite seu orçamento</h3>
+          <p class="form-sub">Preencha os dados e responderemos o mais rápido possível.</p>
+          <div class="form-grid">
+            <div class="field"><label for="cf-nome">Nome *</label><input id="cf-nome" name="nome" type="text" autocomplete="name" placeholder="Seu nome completo" required><span class="error" role="alert"></span></div>
+            <div class="field"><label for="cf-empresa">Empresa</label><input id="cf-empresa" name="empresa" type="text" autocomplete="organization" placeholder="Nome da sua empresa"></div>
+            <div class="field"><label for="cf-whats">WhatsApp *</label><input id="cf-whats" name="telefone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" required><span class="error" role="alert"></span></div>
+            <div class="field"><label for="cf-email">E-mail *</label><input id="cf-email" name="email" type="email" autocomplete="email" placeholder="voce@empresa.com.br" required><span class="error" role="alert"></span></div>
+            <div class="field"><label for="cf-interesse">O que você procura? *</label>
+              <select id="cf-interesse" name="interesse" required>
+                <option value="">Selecione</option>
+                {% for c in catalogo_categorias() %}{% set _n = c.interesse_form or c.nome %}<option{% if (interesse_sel|default('')) == _n %} selected{% endif %}>{{ _n }}</option>{% endfor %}
+                <option>Outro</option>
+              </select><span class="error" role="alert"></span></div>
+            <div class="field"><label for="cf-qtd">Quantidade aproximada</label>
+              <select id="cf-qtd" name="quantidade">
+                <option value="">Selecione</option>
+                <option>Até 100 unidades</option>
+                <option>100 a 500 unidades</option>
+                <option>500 a 1.000 unidades</option>
+                <option>Acima de 1.000 unidades</option>
+                <option>Ainda não sei</option>
+              </select></div>
+            <div class="field full"><label for="cf-msg">Mensagem</label><textarea id="cf-msg" name="mensagem" rows="4" placeholder="Conte um pouco sobre o seu projeto: tamanhos, cores, prazo...">{{ msg_sel|default('') }}</textarea></div>
+            <div class="field full consent"><label class="check"><input id="cf-ok" type="checkbox" name="consentimento" required><span>Concordo em ser contatado(a) pela INOVARE sobre este orçamento. *</span></label><span class="error" role="alert"></span></div>
+          </div>
+          <button class="btn btn-primary form-submit" type="submit">Enviar pelo WhatsApp <span>→</span></button>
+          <p class="form-note">Ao enviar, abriremos o WhatsApp com a sua mensagem já preenchida.</p>
+          <div class="form-success" id="form-success" role="status" hidden><strong>Quase lá!</strong> Abrimos o WhatsApp com os seus dados. Basta tocar em enviar. Se não abriu, <a id="wa-fallback" href="#" target="_blank" rel="noopener">clique aqui</a>.</div>
+        </form>
+      </div>
+    </section>

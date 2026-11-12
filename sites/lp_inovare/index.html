@@ -1,0 +1,112 @@
+{% extends "sites/lp_inovare/_base.html" %}
+{% block conteudo %}
+    <section class="hero">
+      <div class="hero-waves" aria-hidden="true">
+        <svg viewBox="0 0 700 420" preserveAspectRatio="xMaxYMin slice" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="wg1" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#0878f9"/><stop offset=".55" stop-color="#0a2a66"/><stop offset="1" stop-color="#06152f"/></linearGradient>
+            <linearGradient id="wg2" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#7cb7ff"/><stop offset="1" stop-color="#0878f9"/></linearGradient>
+          </defs>
+          <path d="M300 420 C380 340 310 262 410 198 C500 140 452 62 540 0 L700 0 L700 420 Z" fill="url(#wg1)"/>
+          <path d="M470 0 C385 78 440 148 352 210 C270 268 340 345 292 420 L352 420 C400 350 346 290 428 232 C520 168 478 78 556 0 Z" fill="url(#wg2)"/>
+          <path d="M250 420 C318 346 248 282 322 216 C386 160 344 86 410 0 L438 0 C374 92 420 158 352 224 C286 288 354 352 290 420 Z" fill="#7cb7ff" opacity=".35"/>
+          <circle cx="520" cy="170" r="190" fill="none" stroke="#0878f9" stroke-opacity=".16" stroke-width="26"/>
+        </svg>
+      </div>
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">ETIQUETAS E BRINDES PERSONALIZADOS</span>
+          <h1>Sua marca merece<br>ser lembrada.</h1>
+          <p>Soluções personalizadas em etiquetas e brindes para valorizar seus produtos e fortalecer sua marca.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="{{ url_for('site.index') }}#contato">Solicitar orçamento <span>→</span></a>
+            <a class="btn btn-outline" href="{{ url_for('site.index') }}#produtos">Conhecer produtos</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          {% if tem_img('hero') %}<img src="{{ img_url('hero', 1200) }}" srcset="{{ img_srcset('hero') }}" sizes="(max-width:900px) 100vw, 560px" alt="Etiquetas, brindes e produtos personalizados INOVARE">{% endif %}
+        </div>
+      </div>
+    </section>
+
+    <section class="section categories-section" id="categorias">
+      <div class="container">
+        <div class="section-heading">
+          <div><span class="eyebrow line-eyebrow">ENCONTRE A SOLUÇÃO IDEAL</span><h2>Nossas categorias</h2></div>
+          <a class="text-link head-link" href="{{ url_for('site.index') }}#categorias">Ver todas as categorias <span>→</span></a>
+        </div>
+        <div class="category-grid">
+          {% for c in categorias %}<a class="category-card" href="{{ url_for('site.categoria', slug=c.slug) }}">{% set fu = foto_url(c, 650) %}{% if fu %}<img src="{{ fu }}" alt="{{ c.nome }}" loading="lazy">{% endif %}<div class="card-copy"><h3>{{ c.nome }}</h3><p>{{ c.descricao_curta or '' }}</p><b>Explorar <span>→</span></b></div></a>{% endfor %}
+        </div>
+        <div class="section-more"><a class="text-link" href="{{ url_for('site.index') }}#categorias">Ver todas as categorias <span>→</span></a></div>
+      </div>
+    </section>
+
+    <section class="section products-section" id="produtos">
+      <div class="container">
+        <div class="section-heading">
+          <div><span class="eyebrow line-eyebrow">PRODUTOS EM DESTAQUE</span><h2>Conheça nossos produtos</h2></div>
+          <a class="text-link head-link" href="{{ url_for('site.index') }}#produtos">Ver todos os produtos <span>→</span></a>
+        </div>
+        <div class="product-grid">
+          {% for p in produtos_destaque %}<article class="product-card">{% set fu = foto_url(p, 650) %}{% if fu %}<img src="{{ fu }}" alt="{{ p.nome }}" loading="lazy">{% endif %}<div class="card-copy"><h3>{{ p.nome }}</h3><p>{{ (p.resumo or '')|truncate(60, True, '…') }}</p><a href="{{ url_for('site.produto', slug=p.slug) }}">Ver produto <span>→</span></a></div></article>{% endfor %}
+        </div>
+        <div class="section-more"><a class="text-link" href="{{ url_for('site.index') }}#produtos">Ver todos os produtos <span>→</span></a></div>
+      </div>
+    </section>
+
+    <section class="benefits-section" id="sobre">
+      <div class="container benefits">
+        <h2>Por que escolher<br>a INOVARE?</h2>
+        <div class="benefit"><span class="benefit-icon">✿</span><h3>Personalização</h3><p>Produtos com a identidade da sua marca.</p></div>
+        <div class="benefit"><span class="benefit-icon">✦</span><h3>Qualidade</h3><p>Atenção aos materiais e acabamentos.</p></div>
+        <div class="benefit"><span class="benefit-icon">◉</span><h3>Atendimento</h3><p>Suporte para encontrar a melhor solução.</p></div>
+        <div class="benefit"><span class="benefit-icon">▣</span><h3>Soluções completas</h3><p>Etiquetas e brindes em um só lugar.</p></div>
+      </div>
+    </section>
+
+    <section class="section portfolio-section">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Nossos trabalhos em destaque</h2>
+          <a class="text-link head-link" href="{{ url_for('site.index') }}#contato">Ver mais trabalhos <span>→</span></a>
+        </div>
+        <div class="portfolio-wrap">
+          <button class="slider-arrow prev" aria-label="Rolar para a esquerda">‹</button>
+          <div class="portfolio-track">
+            <img src="https://images.unsplash.com/photo-1634942536790-253a2c3b7b1b?auto=format&fit=crop&w=700&q=85" alt="Etiquetas em destaque">
+            <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=700&q=85" alt="Etiqueta aplicada em tecido">
+            <img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?auto=format&fit=crop&w=700&q=85" alt="Embalagem personalizada">
+            <img src="https://images.unsplash.com/photo-1584744982491-665216d95f8b?auto=format&fit=crop&w=700&q=85" alt="Adesivos personalizados">
+          </div>
+          <button class="slider-arrow next" aria-label="Rolar para a direita">›</button>
+        </div>
+        <div class="section-more"><a class="text-link" href="{{ url_for('site.index') }}#contato">Ver mais trabalhos <span>→</span></a></div>
+      </div>
+    </section>
+
+    <section class="section blog-section" id="blog">
+      <div class="container">
+        <div class="section-heading"><h2>Inspiração e novidades</h2><a class="text-link head-link" href="{{ url_for('site.blog_lista') }}">Acessar o blog <span>→</span></a></div>
+        <div class="blog-grid">
+          {% for p in posts_recentes %}<a class="blog-card" href="{{ url_for('site.blog_post', slug=p.slug) }}">{% if capa_url(p) %}<img src="{{ capa_url(p, 600) }}" alt="{{ p.titulo }}" loading="lazy">{% else %}<div class="blog-ph"></div>{% endif %}<div><h3>{{ p.titulo }}</h3><p>{{ p.resumo or '' }}</p><b>Ler artigo <span>→</span></b></div></a>{% endfor %}
+        </div>
+        <div class="section-more"><a class="text-link" href="{{ url_for('site.blog_lista') }}">Acessar o blog <span>→</span></a></div>
+      </div>
+    </section>
+
+    <section class="section insta-section" id="instagram">
+      <div class="container">
+        <div class="section-heading">
+          <div><span class="eyebrow line-eyebrow">ACOMPANHE NOSSAS NOVIDADES</span><h2>Siga a INOVARE no Instagram</h2></div>
+          <a class="text-link" href="https://www.instagram.com/" target="_blank" rel="noopener">@inovare <span>→</span></a>
+        </div>
+        <!-- PLACEHOLDER: troque os blocos abaixo por fotos reais ou por um embed do Instagram -->
+        <div class="insta-grid"><a class="insta-tile t1" href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Publicação de exemplo 1 no Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12 12 3h8v8l-9 9z"/><circle cx="15.5" cy="8.5" r="1.3"/></svg><span class="insta-hover"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r=".6" fill="currentColor"/></svg></span></a><a class="insta-tile t2" href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Publicação de exemplo 2 no Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="9" width="18" height="12" rx="2"/><path d="M12 9v12M3 13h18M12 9c-3 0-5-1-5-3s3-3 5 3c2-6 5-5 5-3s-2 3-5 3z"/></svg><span class="insta-hover"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r=".6" fill="currentColor"/></svg></span></a><a class="insta-tile t3" href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Publicação de exemplo 3 no Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4c0 5 3 8 8 8"/></svg><span class="insta-hover"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r=".6" fill="currentColor"/></svg></span></a><a class="insta-tile t4" href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Publicação de exemplo 4 no Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8h12l1 13H5z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="insta-hover"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r=".6" fill="currentColor"/></svg></span></a><a class="insta-tile t5" href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Publicação de exemplo 5 no Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h11v7a5 5 0 0 1-5 5H10a5 5 0 0 1-5-5z"/><path d="M16 10h2a2 2 0 0 1 0 5h-2"/></svg><span class="insta-hover"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r=".6" fill="currentColor"/></svg></span></a><a class="insta-tile t6" href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Publicação de exemplo 6 no Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg><span class="insta-hover"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r=".6" fill="currentColor"/></svg></span></a></div>
+        <div class="insta-cta"><a class="btn btn-outline" href="https://www.instagram.com/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r=".6" fill="currentColor"/></svg> Seguir no Instagram</a></div>
+      </div>
+    </section>
+
+    
+  
+{% endblock %}

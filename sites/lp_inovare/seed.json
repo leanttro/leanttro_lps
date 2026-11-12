@@ -1,0 +1,816 @@
+{
+ "categorias": [
+  {
+   "slug": "etiquetas",
+   "nome": "Etiquetas",
+   "icone": "etiqueta",
+   "eyebrow": "CATEGORIA · ETIQUETAS",
+   "titulo": "Etiquetas que valorizam o seu produto.",
+   "descricao": "Etiquetas personalizadas para identificar, proteger e destacar seus produtos, com acabamento profissional e a identidade da sua marca.",
+   "descricao_curta": "Personalizadas para seus produtos.",
+   "interesse_form": "Etiquetas personalizadas",
+   "imagem_url": "https://images.unsplash.com/photo-1634942536790-253a2c3b7b1b?auto=format&fit=crop&w=900&q=85",
+   "destaques": [
+    "Formatos e tamanhos sob medida",
+    "Vários materiais e acabamentos"
+   ],
+   "diferenciais": [
+    {
+     "i": "paleta",
+     "t": "Sua identidade",
+     "d": "Cores, formatos e acabamentos alinhados à sua marca."
+    },
+    {
+     "i": "escudo",
+     "t": "Qualidade",
+     "d": "Atenção aos materiais para uma boa aderência e durabilidade."
+    },
+    {
+     "i": "caixa",
+     "t": "Para vários usos",
+     "d": "Embalagens, produtos, preço, lacres e muito mais."
+    },
+    {
+     "i": "estrela",
+     "t": "Atendimento",
+     "d": "Suporte para escolher a melhor solução para você."
+    }
+   ],
+   "materiais_titulo": "Materiais e acabamentos",
+   "materiais_texto": "Escolha o material e o acabamento ideais para o seu uso. Nossa equipe orienta na melhor combinação.",
+   "materiais_itens": [
+    "Papel couchê",
+    "BOPP",
+    "Vinil",
+    "Papel kraft",
+    "Verniz localizado",
+    "Laminação fosca",
+    "Laminação brilho"
+   ],
+   "faq": [
+    {
+     "q": "Posso enviar minha própria arte?",
+     "a": "Sim. Você pode enviar a sua arte e nós conferimos se está pronta para produção. Se preferir, nossa equipe também pode orientar o ajuste."
+    },
+    {
+     "q": "Qual a quantidade mínima?",
+     "a": "Depende do produto e do formato. Informe a quantidade desejada no orçamento e retornamos com as opções disponíveis."
+    },
+    {
+     "q": "Como escolho o material ideal?",
+     "a": "Conte onde a etiqueta será aplicada (embalagem, vidro, plástico, etc.) e indicamos o material mais adequado."
+    },
+    {
+     "q": "Quais as formas de entrega?",
+     "a": "Combinamos a melhor forma de entrega no momento do orçamento, de acordo com a sua região."
+    }
+   ],
+   "tabela": [
+    [
+     "Material",
+     "Papel couchê, BOPP, vinil, kraft e outros"
+    ],
+    [
+     "Formato",
+     "Redondo, quadrado, retangular ou corte especial"
+    ],
+    [
+     "Acabamento",
+     "Verniz, laminação fosca ou brilho"
+    ],
+    [
+     "Cores",
+     "Impressão colorida"
+    ],
+    [
+     "Quantidade",
+     "Informe no orçamento"
+    ],
+    [
+     "Arte",
+     "Você envia ou nossa equipe orienta"
+    ]
+   ],
+   "opcoes": [
+    {
+     "t": "Materiais",
+     "itens": [
+      "Papel couchê",
+      "BOPP",
+      "Vinil",
+      "Papel kraft"
+     ]
+    },
+    {
+     "t": "Acabamentos",
+     "itens": [
+      "Verniz localizado",
+      "Laminação fosca",
+      "Laminação brilho"
+     ]
+    },
+    {
+     "t": "Formato",
+     "itens": [
+      "Redondo",
+      "Quadrado",
+      "Retangular",
+      "Corte especial"
+     ]
+    }
+   ],
+   "aplicacoes": [
+    "Embalagens de alimentos e cosméticos",
+    "Frascos e potes",
+    "Caixas e sacolas",
+    "Controle de estoque",
+    "Selagem e lacre",
+    "Lembrancinhas e eventos"
+   ],
+   "ordem": 0,
+   "produtos": [
+    {
+     "slug": "etiquetas-adesivas-em-rolo",
+     "nome": "Etiquetas adesivas em rolo",
+     "tipo": "Adesivas",
+     "resumo": "Ideais para aplicação rápida em embalagens e produtos.",
+     "specs": [
+      "Papel ou BOPP",
+      "Corte especial"
+     ],
+     "ordem": 0,
+     "descricao": "As etiquetas adesivas em rolo são práticas para quem precisa aplicar com rapidez em embalagens e produtos, mantendo o visual da marca sempre padronizado.\n\nVocê escolhe o formato, o material e o acabamento. Nossa equipe orienta nas opções para que a etiqueta tenha boa aderência e apresentação no seu produto.",
+     "imagem_url": "https://images.unsplash.com/photo-1634942536790-253a2c3b7b1b?auto=format&fit=crop&w=900&q=85",
+     "destaque": true
+    },
+    {
+     "slug": "etiquetas-para-embalagens",
+     "nome": "Etiquetas para embalagens",
+     "tipo": "Adesivas",
+     "resumo": "Dão acabamento e identidade à embalagem do seu produto.",
+     "specs": [
+      "Vários formatos",
+      "Cores vivas"
+     ],
+     "ordem": 1
+    },
+    {
+     "slug": "etiquetas-de-produto-e-preco",
+     "nome": "Etiquetas de produto e preço",
+     "tipo": "Identificação",
+     "resumo": "Informações claras para organização e vendas.",
+     "specs": [
+      "Papel couchê",
+      "Rolo ou folha"
+     ],
+     "ordem": 2
+    },
+    {
+     "slug": "etiquetas-com-acabamento-especial",
+     "nome": "Etiquetas com acabamento especial",
+     "tipo": "Adesivas",
+     "resumo": "Verniz, laminação e outros acabamentos que elevam a percepção de valor.",
+     "specs": [
+      "Verniz",
+      "Laminação"
+     ],
+     "ordem": 3
+    },
+    {
+     "slug": "lacres-de-garantia",
+     "nome": "Lacres de garantia",
+     "tipo": "Segurança",
+     "resumo": "Segurança e confiança: indicam se o produto foi violado.",
+     "specs": [
+      "Numeração opcional",
+      "Void / destrutível"
+     ],
+     "ordem": 4,
+     "imagem_url": "https://images.unsplash.com/photo-1602523961358-f9f03dd557db?auto=format&fit=crop&w=900&q=85",
+     "destaque": true
+    },
+    {
+     "slug": "etiquetas-de-identificacao",
+     "nome": "Etiquetas de identificação",
+     "tipo": "Identificação",
+     "resumo": "Para organização de estoque, caixas e prateleiras.",
+     "specs": [
+      "Resistentes",
+      "Impressão nítida"
+     ],
+     "ordem": 5
+    }
+   ]
+  },
+  {
+   "slug": "brindes",
+   "nome": "Brindes",
+   "icone": "presente",
+   "eyebrow": "CATEGORIA · BRINDES",
+   "titulo": "Brindes que fazem sua marca ser lembrada.",
+   "descricao": "Brindes personalizados para presentear clientes, equipes e parceiros, levando a sua marca para o dia a dia de quem importa.",
+   "descricao_curta": "Sua marca presente no dia a dia.",
+   "interesse_form": "Brindes personalizados",
+   "imagem_url": "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=900&q=85",
+   "destaques": [
+    "Personalização com a sua marca",
+    "Ideias para cada ocasião"
+   ],
+   "diferenciais": [
+    {
+     "i": "paleta",
+     "t": "Personalização",
+     "d": "Sua logo e suas cores em cada brinde."
+    },
+    {
+     "i": "presente",
+     "t": "Para toda ocasião",
+     "d": "Eventos, campanhas, datas comemorativas e ações de relacionamento."
+    },
+    {
+     "i": "escudo",
+     "t": "Qualidade",
+     "d": "Seleção cuidadosa de produtos e acabamentos."
+    },
+    {
+     "i": "estrela",
+     "t": "Atendimento",
+     "d": "Ajudamos a escolher o brinde certo para o seu público."
+    }
+   ],
+   "materiais_titulo": "Técnicas de personalização",
+   "materiais_texto": "Cada brinde pede a técnica certa para a sua logo ficar nítida e durável.",
+   "materiais_itens": [
+    "Serigrafia",
+    "Sublimação",
+    "Gravação a laser",
+    "Tampografia",
+    "Impressão digital",
+    "Hot stamping"
+   ],
+   "faq": [
+    {
+     "q": "Posso montar um kit com vários itens?",
+     "a": "Pode sim. Conte o seu público e o orçamento e sugerimos combinações de brindes."
+    },
+    {
+     "q": "Vocês personalizam com a minha logo?",
+     "a": "Sim. Envie a sua logo (de preferência em arquivo vetorial) e conferimos a melhor técnica de aplicação."
+    },
+    {
+     "q": "Existe quantidade mínima?",
+     "a": "Varia conforme o produto. Informe a quantidade desejada no pedido de orçamento."
+    },
+    {
+     "q": "Dá para fazer para uma data específica?",
+     "a": "Informe a data do evento ou campanha na mensagem e verificamos a viabilidade do prazo."
+    }
+   ],
+   "tabela": [
+    [
+     "Material",
+     "Conforme o produto (cerâmica, alumínio, papel, tecido…)"
+    ],
+    [
+     "Personalização",
+     "Logo e cores da sua marca"
+    ],
+    [
+     "Técnica",
+     "Serigrafia, sublimação, laser, tampografia ou digital"
+    ],
+    [
+     "Cores",
+     "Conforme a técnica escolhida"
+    ],
+    [
+     "Quantidade",
+     "Informe no orçamento"
+    ],
+    [
+     "Arte",
+     "Você envia ou nossa equipe orienta"
+    ]
+   ],
+   "opcoes": [
+    {
+     "t": "Técnicas",
+     "itens": [
+      "Serigrafia",
+      "Sublimação",
+      "Gravação a laser",
+      "Tampografia",
+      "Impressão digital"
+     ]
+    },
+    {
+     "t": "Cores e modelos",
+     "itens": [
+      "Várias cores",
+      "Modelos sob consulta"
+     ]
+    },
+    {
+     "t": "Embalagem",
+     "itens": [
+      "Padrão",
+      "Caixa de presente",
+      "Kit personalizado"
+     ]
+    }
+   ],
+   "aplicacoes": [
+    "Eventos corporativos",
+    "Campanhas de fim de ano",
+    "Presente para clientes",
+    "Boas-vindas a novos colaboradores",
+    "Feiras e congressos",
+    "Ações promocionais"
+   ],
+   "ordem": 1,
+   "produtos": [
+    {
+     "slug": "canecas-personalizadas",
+     "nome": "Canecas personalizadas",
+     "tipo": "Copos e canecas",
+     "resumo": "Um clássico que fica na mesa de trabalho e lembra a sua marca todo dia.",
+     "specs": [
+      "Cerâmica",
+      "Várias cores"
+     ],
+     "ordem": 0,
+     "descricao": "Canecas personalizadas são um brinde útil e duradouro: ficam na mesa de trabalho e lembram a sua marca todos os dias.\n\nEnviamos a sua arte para conferência e indicamos a melhor técnica de personalização para o modelo escolhido."
+    },
+    {
+     "slug": "garrafas-e-squeezes",
+     "nome": "Garrafas e squeezes",
+     "tipo": "Copos e canecas",
+     "resumo": "Práticas para o dia a dia, com a sua marca em destaque.",
+     "specs": [
+      "Alumínio ou plástico",
+      "Gravação"
+     ],
+     "ordem": 1
+    },
+    {
+     "slug": "sacolas-personalizadas",
+     "nome": "Sacolas personalizadas",
+     "tipo": "Sacolas e embalagens",
+     "resumo": "Para presentear, embalar e divulgar a marca onde a sacola for.",
+     "specs": [
+      "Papel ou tecido",
+      "Vários tamanhos"
+     ],
+     "ordem": 2
+    },
+    {
+     "slug": "mouse-pads",
+     "nome": "Mouse pads",
+     "tipo": "Escritório",
+     "resumo": "Brinde útil para o escritório, com área ampla para sua arte.",
+     "specs": [
+      "Impressão total",
+      "Base antiderrapante"
+     ],
+     "ordem": 3,
+     "imagem_url": "https://images.unsplash.com/photo-1616627451515-cbc80e5ece35?auto=format&fit=crop&w=900&q=85",
+     "destaque": true
+    },
+    {
+     "slug": "cartoes-de-visita",
+     "nome": "Cartões de visita",
+     "tipo": "Escritório",
+     "resumo": "Sua marca em evidência em cada contato.",
+     "specs": [
+      "Papel premium",
+      "Acabamentos especiais"
+     ],
+     "ordem": 4,
+     "imagem_url": "https://images.unsplash.com/photo-1589330694653-ded6df03f754?auto=format&fit=crop&w=900&q=85",
+     "destaque": true
+    },
+    {
+     "slug": "kits-personalizados",
+     "nome": "Kits personalizados",
+     "tipo": "Kits",
+     "resumo": "Combine produtos e monte um kit completo para presentear.",
+     "specs": [
+      "Sob medida",
+      "Embalagem de presente"
+     ],
+     "ordem": 5
+    }
+   ]
+  },
+  {
+   "slug": "etiquetas-roupas",
+   "nome": "Etiquetas para Roupas",
+   "icone": "camiseta",
+   "eyebrow": "CATEGORIA · ETIQUETAS PARA ROUPAS",
+   "titulo": "Identidade em cada peça de roupa.",
+   "descricao": "Etiquetas e tags para confecções e marcas de moda: o toque final que valoriza a peça e fortalece a sua marca.",
+   "descricao_curta": "Identidade para confecções.",
+   "interesse_form": "Etiquetas para roupas",
+   "imagem_url": "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=900&q=85",
+   "destaques": [
+    "Para confecções e marcas de moda",
+    "Etiquetas internas e externas"
+   ],
+   "diferenciais": [
+    {
+     "i": "paleta",
+     "t": "Marca na peça",
+     "d": "Sua identidade visual do corte à costura."
+    },
+    {
+     "i": "escudo",
+     "t": "Boa durabilidade",
+     "d": "Materiais pensados para resistir ao uso e às lavagens."
+    },
+    {
+     "i": "camiseta",
+     "t": "Para moda",
+     "d": "Opções para diferentes tipos de peças e coleções."
+    },
+    {
+     "i": "estrela",
+     "t": "Atendimento",
+     "d": "Orientação para escolher a etiqueta certa para cada peça."
+    }
+   ],
+   "materiais_titulo": "Materiais e aplicações",
+   "materiais_texto": "Cada peça pede um tipo de etiqueta. Indicamos a melhor opção conforme o tecido e o uso.",
+   "materiais_itens": [
+    "Poliéster tecido",
+    "Cetim",
+    "Algodão",
+    "Papel cartão",
+    "Termocolante",
+    "Costura lateral",
+    "Costura centralizada"
+   ],
+   "faq": [
+    {
+     "q": "Preciso informar as medidas da etiqueta?",
+     "a": "Se já tiver, informe. Se não, nossa equipe sugere medidas de acordo com o tipo de peça."
+    },
+    {
+     "q": "Posso enviar o arquivo da minha marca?",
+     "a": "Sim. Envie a logo, de preferência em formato vetorial, e verificamos o melhor acabamento."
+    },
+    {
+     "q": "Quais informações vão na etiqueta de composição?",
+     "a": "Normalmente composição do tecido, instruções de lavagem e tamanho. Podemos orientar sobre o conteúdo."
+    },
+    {
+     "q": "Atendem pequenas confecções?",
+     "a": "Atendemos marcas de vários tamanhos. Conte sua necessidade no orçamento e retornamos com as opções."
+    }
+   ],
+   "tabela": [
+    [
+     "Material",
+     "Poliéster, cetim, algodão, papel cartão…"
+    ],
+    [
+     "Formato",
+     "Retangular, dobrada ou corte especial"
+    ],
+    [
+     "Aplicação",
+     "Costura lateral, centralizada ou termocolante"
+    ],
+    [
+     "Cores",
+     "Impressão ou tecelagem colorida"
+    ],
+    [
+     "Quantidade",
+     "Informe no orçamento"
+    ],
+    [
+     "Arte",
+     "Você envia ou nossa equipe orienta"
+    ]
+   ],
+   "opcoes": [
+    {
+     "t": "Materiais",
+     "itens": [
+      "Poliéster tecido",
+      "Cetim",
+      "Algodão",
+      "Papel cartão"
+     ]
+    },
+    {
+     "t": "Aplicação",
+     "itens": [
+      "Costura lateral",
+      "Costura centralizada",
+      "Termocolante"
+     ]
+    },
+    {
+     "t": "Complementos",
+     "itens": [
+      "Cordão",
+      "Fita",
+      "Argola"
+     ]
+    }
+   ],
+   "aplicacoes": [
+    "Camisetas e malhas",
+    "Jeans e alfaiataria",
+    "Moda praia e íntima",
+    "Uniformes",
+    "Coleções de marca própria",
+    "Lojas e multimarcas"
+   ],
+   "ordem": 2,
+   "produtos": [
+    {
+     "slug": "etiquetas-tecidas",
+     "nome": "Etiquetas tecidas",
+     "tipo": "Tecido",
+     "resumo": "Acabamento refinado para marcas que querem passar valor.",
+     "specs": [
+      "Poliéster",
+      "Bordas dobradas"
+     ],
+     "ordem": 0,
+     "descricao": "As etiquetas tecidas dão um acabamento refinado às peças e ajudam a passar o valor da sua marca para o cliente final.\n\nInforme medidas, cores e a forma de aplicação (costura lateral ou centralizada) e nossa equipe indica a melhor opção."
+    },
+    {
+     "slug": "etiquetas-de-cetim-estampado",
+     "nome": "Etiquetas de cetim estampado",
+     "tipo": "Tecido",
+     "resumo": "Leves e macias, ótimas para a parte interna da peça.",
+     "specs": [
+      "Cetim",
+      "Impressão colorida"
+     ],
+     "ordem": 1
+    },
+    {
+     "slug": "etiquetas-de-composicao-e-lavagem",
+     "nome": "Etiquetas de composição e lavagem",
+     "tipo": "Instruções",
+     "resumo": "Informações obrigatórias de composição e cuidados com a peça.",
+     "specs": [
+      "Texto legível",
+      "Resistente à lavagem"
+     ],
+     "ordem": 2
+    },
+    {
+     "slug": "tags-de-papel-hang-tags",
+     "nome": "Tags de papel (hang tags)",
+     "tipo": "Tags",
+     "resumo": "Apresentam a marca e o produto na vitrine e no cabide.",
+     "specs": [
+      "Papel cartão",
+      "Furo e cordão"
+     ],
+     "ordem": 3
+    },
+    {
+     "slug": "etiquetas-termocolantes",
+     "nome": "Etiquetas termocolantes",
+     "tipo": "Tecido",
+     "resumo": "Aplicadas com calor, dispensam costura.",
+     "specs": [
+      "Sem costura",
+      "Conforto no uso"
+     ],
+     "ordem": 4
+    },
+    {
+     "slug": "cordoes-e-fitas-para-tags",
+     "nome": "Cordões e fitas para tags",
+     "tipo": "Tags",
+     "resumo": "Detalhes que completam a apresentação da peça.",
+     "specs": [
+      "Várias cores",
+      "Algodão ou poliéster"
+     ],
+     "ordem": 5
+    }
+   ]
+  },
+  {
+   "slug": "adesivos",
+   "nome": "Adesivos",
+   "icone": "adesivo",
+   "eyebrow": "CATEGORIA · ADESIVOS",
+   "titulo": "Adesivos que dão vida à sua marca.",
+   "descricao": "Adesivos personalizados em diferentes formatos e materiais para embalagens, vitrines, brindes e muito mais.",
+   "descricao_curta": "Personalização em cada detalhe.",
+   "interesse_form": "Adesivos",
+   "imagem_url": "https://images.unsplash.com/photo-1584744982491-665216d95f8b?auto=format&fit=crop&w=900&q=85",
+   "destaques": [
+    "Cortes e formatos personalizados",
+    "Para uso interno e externo"
+   ],
+   "diferenciais": [
+    {
+     "i": "paleta",
+     "t": "Cores vivas",
+     "d": "Impressão com boa fidelidade de cor para a sua arte."
+    },
+    {
+     "i": "adesivo",
+     "t": "Formatos livres",
+     "d": "Redondos, quadrados ou com corte especial no formato da sua marca."
+    },
+    {
+     "i": "escudo",
+     "t": "Qualidade",
+     "d": "Materiais adequados a cada aplicação."
+    },
+    {
+     "i": "estrela",
+     "t": "Atendimento",
+     "d": "Orientação para escolher o adesivo certo para o seu uso."
+    }
+   ],
+   "materiais_titulo": "Materiais e acabamentos",
+   "materiais_texto": "Indicamos o material ideal conforme onde o adesivo será aplicado.",
+   "materiais_itens": [
+    "Vinil branco",
+    "Vinil transparente",
+    "Papel adesivo",
+    "Laminação fosca",
+    "Laminação brilho",
+    "Corte especial"
+   ],
+   "faq": [
+    {
+     "q": "Os adesivos podem ser aplicados em áreas externas?",
+     "a": "Depende do material escolhido. Informe onde será aplicado e indicamos a opção adequada."
+    },
+    {
+     "q": "Dá para fazer em formato personalizado?",
+     "a": "Sim. Podemos fazer o corte no formato da sua arte, sujeito à viabilidade técnica."
+    },
+    {
+     "q": "Como funciona a aprovação da arte?",
+     "a": "Você confere e aprova o layout antes da produção."
+    },
+    {
+     "q": "Qual a quantidade mínima?",
+     "a": "Varia conforme o tipo de adesivo. Informe a quantidade no pedido de orçamento."
+    }
+   ],
+   "tabela": [
+    [
+     "Material",
+     "Vinil branco, vinil transparente, papel adesivo"
+    ],
+    [
+     "Formato",
+     "Redondo, quadrado ou corte especial"
+    ],
+    [
+     "Acabamento",
+     "Laminação fosca ou brilho"
+    ],
+    [
+     "Uso",
+     "Interno ou externo (conforme o material)"
+    ],
+    [
+     "Quantidade",
+     "Informe no orçamento"
+    ],
+    [
+     "Arte",
+     "Você envia ou nossa equipe orienta"
+    ]
+   ],
+   "opcoes": [
+    {
+     "t": "Materiais",
+     "itens": [
+      "Vinil branco",
+      "Vinil transparente",
+      "Papel adesivo"
+     ]
+    },
+    {
+     "t": "Acabamentos",
+     "itens": [
+      "Laminação fosca",
+      "Laminação brilho",
+      "Sem laminação"
+     ]
+    },
+    {
+     "t": "Formato",
+     "itens": [
+      "Redondo",
+      "Quadrado",
+      "Corte especial"
+     ]
+    }
+   ],
+   "aplicacoes": [
+    "Embalagens e caixas",
+    "Vitrines e fachadas internas",
+    "Notebooks e garrafas",
+    "Lembrancinhas e brindes",
+    "Lacre de pacotes",
+    "Identificação de produtos"
+   ],
+   "ordem": 3,
+   "produtos": [
+    {
+     "slug": "adesivos-de-vinil-recortados",
+     "nome": "Adesivos de vinil recortados",
+     "tipo": "Vinil",
+     "resumo": "Corte no formato da sua arte, com ótimo acabamento.",
+     "specs": [
+      "Vinil",
+      "Corte especial"
+     ],
+     "ordem": 0,
+     "descricao": "Adesivos de vinil com corte no formato da sua arte, ótimos para embalagens, brindes e comunicação visual.\n\nInforme onde o adesivo será aplicado e indicamos o material e o acabamento mais adequados ao uso."
+    },
+    {
+     "slug": "adesivos-redondos-em-rolo",
+     "nome": "Adesivos redondos em rolo",
+     "tipo": "Em rolo",
+     "resumo": "Práticos para aplicação em série em embalagens e lacres.",
+     "specs": [
+      "Rolo",
+      "Vários diâmetros"
+     ],
+     "ordem": 1
+    },
+    {
+     "slug": "adesivos-transparentes",
+     "nome": "Adesivos transparentes",
+     "tipo": "Especiais",
+     "resumo": "Efeito moderno: só a sua arte aparece sobre a superfície.",
+     "specs": [
+      "Transparente",
+      "Alta aderência"
+     ],
+     "ordem": 2
+    },
+    {
+     "slug": "adesivos-para-embalagens",
+     "nome": "Adesivos para embalagens",
+     "tipo": "Em rolo",
+     "resumo": "Selam e identificam embalagens com a sua marca.",
+     "specs": [
+      "Papel ou vinil",
+      "Vários formatos"
+     ],
+     "ordem": 3
+    },
+    {
+     "slug": "adesivos-para-vitrine",
+     "nome": "Adesivos para vitrine",
+     "tipo": "Especiais",
+     "resumo": "Chamam atenção para promoções e comunicados.",
+     "specs": [
+      "Uso interno/externo",
+      "Vários tamanhos"
+     ],
+     "ordem": 4
+    },
+    {
+     "slug": "adesivos-laminados",
+     "nome": "Adesivos laminados",
+     "tipo": "Vinil",
+     "resumo": "Proteção extra contra riscos e umidade.",
+     "specs": [
+      "Laminação",
+      "Maior durabilidade"
+     ],
+     "ordem": 5
+    }
+   ]
+  }
+ ],
+ "posts": [
+  {
+   "titulo": "Como as etiquetas valorizam seus produtos",
+   "slug": "como-as-etiquetas-valorizam-seus-produtos",
+   "resumo": "Descubra como uma boa etiqueta faz toda a diferença na percepção do seu produto.",
+   "meta_description": "Entenda como etiquetas bem planejadas ajudam a valorizar produtos, identificar a marca e transmitir confiança.",
+   "imagem_url": "https://images.unsplash.com/photo-1607082349566-187342175e2f?auto=format&fit=crop&w=900&q=85",
+   "corpo": "A etiqueta é, muitas vezes, o primeiro contato do cliente com o seu produto. Antes de testar, provar ou usar, ele olha — e é nesse olhar que a percepção de valor começa a se formar.\n\n## O que uma boa etiqueta comunica\n\n- **Identidade:** cores, tipografia e formato reconhecíveis fortalecem a sua marca.\n- **Confiança:** informações claras e acabamento cuidadoso passam profissionalismo.\n- **Organização:** etiquetas de identificação e preço facilitam o dia a dia de estoque e vendas.\n\n## Material e acabamento importam\n\nO material precisa combinar com a superfície onde a etiqueta será aplicada (vidro, plástico, papel, tecido), e acabamentos como verniz ou laminação ajudam a proteger e a destacar a arte.\n\n## Por onde começar\n\nDefina onde a etiqueta será aplicada, o tamanho aproximado e a quantidade. Com isso, é possível indicar o melhor material e o melhor formato para o seu projeto."
+  },
+  {
+   "titulo": "Ideias de brindes para sua empresa",
+   "slug": "ideias-de-brindes-para-sua-empresa",
+   "resumo": "Fortaleça sua marca com brindes personalizados que as pessoas realmente usam.",
+   "meta_description": "Ideias de brindes personalizados para empresas: como escolher itens úteis que mantêm a sua marca presente no dia a dia.",
+   "imagem_url": "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=900&q=85",
+   "corpo": "Um bom brinde é aquele que a pessoa usa. Quanto mais presente no dia a dia, mais vezes a sua marca é vista e lembrada.\n\n## Ideias que funcionam\n\n- **Canecas e garrafas:** ficam na mesa de trabalho e acompanham a rotina.\n- **Mouse pads e cartões de visita:** úteis no escritório e ótimos para o primeiro contato.\n- **Sacolas personalizadas:** divulgam a marca por onde passam.\n- **Kits:** combinam vários itens para presentear clientes e equipes.\n\n## Como escolher\n\nPense no público que vai receber, na ocasião (evento, fim de ano, boas-vindas) e no orçamento disponível. Defina também como a logo será aplicada: a técnica certa deixa a marca nítida e durável.\n\n## Antes de pedir\n\nTenha em mãos a sua logo, de preferência em arquivo vetorial, a quantidade desejada e a data de entrega."
+  }
+ ]
+}

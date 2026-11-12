@@ -1,0 +1,14 @@
+{% extends "sites/lp_inovare/_base.html" %}
+{% block og_type %}article{% endblock %}
+{% block head_extra %}<script type="application/ld+json">{{ jsonld|tojson }}</script>{% endblock %}
+{% block conteudo %}
+<section class="section blog-page"><div class="container"><article class="post-article">
+  <a class="post-back" href="{{ url_for('site.blog_lista') }}">← Voltar ao blog</a>
+  <h1 class="page-h1">{{ post.titulo }}</h1><time class="post-date">{{ post.publicado_em|data_br(False) }}</time>
+  {% if capa_url(post) %}<img class="post-cover" src="{{ capa_url(post, 1200) }}" alt="{{ post.titulo }}">{% endif %}
+  <div class="prose post-content">{{ post.corpo_html|safe }}</div>
+  <div class="post-cta"><h3>Quer um orçamento?</h3><p>Fale com a nossa equipe e conte o que você precisa.</p><a class="btn btn-primary" href="#contato">Solicitar orçamento <span>→</span></a></div>
+</article>
+{% if relacionados %}<div class="post-more"><h2>Leia também</h2><ul>{% for r in relacionados %}<li><a href="{{ url_for('site.blog_post', slug=r.slug) }}">{{ r.titulo }}</a></li>{% endfor %}</ul></div>{% endif %}
+</div></section>
+{% endblock %}

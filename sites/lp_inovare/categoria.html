@@ -1,0 +1,68 @@
+{% extends "sites/lp_inovare/_base.html" %}
+{% block titulo %}{{ categoria.nome }} personalizados | INOVARE Etiquetas e Brindes{% endblock %}
+{% block descricao %}{{ categoria.descricao or categoria.descricao_curta or '' }}{% endblock %}
+{% block contexto %}Categoria {{ categoria.nome }}{% endblock %}
+{% set interesse_sel = categoria.interesse_form or categoria.nome %}
+{% block conteudo %}{% from "sites/lp_inovare/_icones.html" import ic %}
+{% set c = categoria %}{% set fu = foto_url(c, 900) %}
+<section class="hero cat-hero" id="cat-hero">
+  <div class="hero-waves" aria-hidden="true">
+        <svg viewBox="0 0 700 420" preserveAspectRatio="xMaxYMin slice" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="wg1" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#0878f9"/><stop offset=".55" stop-color="#0a2a66"/><stop offset="1" stop-color="#06152f"/></linearGradient>
+            <linearGradient id="wg2" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#7cb7ff"/><stop offset="1" stop-color="#0878f9"/></linearGradient>
+          </defs>
+          <path d="M300 420 C380 340 310 262 410 198 C500 140 452 62 540 0 L700 0 L700 420 Z" fill="url(#wg1)"/>
+          <path d="M470 0 C385 78 440 148 352 210 C270 268 340 345 292 420 L352 420 C400 350 346 290 428 232 C520 168 478 78 556 0 Z" fill="url(#wg2)"/>
+          <path d="M250 420 C318 346 248 282 322 216 C386 160 344 86 410 0 L438 0 C374 92 420 158 352 224 C286 288 354 352 290 420 Z" fill="#7cb7ff" opacity=".35"/>
+          <circle cx="520" cy="170" r="190" fill="none" stroke="#0878f9" stroke-opacity=".16" stroke-width="26"/>
+        </svg>
+      </div>
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <nav class="breadcrumb" aria-label="Você está em"><a href="{{ url_for('site.index') }}">Início</a><span>›</span><a href="{{ url_for('site.index') }}#categorias">Categorias</a><span>›</span><strong>{{ c.nome }}</strong></nav>
+      <span class="eyebrow">{{ c.eyebrow or ('CATEGORIA · ' ~ c.nome|upper) }}</span>
+      <h1>{{ c.titulo or c.nome }}</h1>
+      <p>{{ c.descricao or c.descricao_curta or '' }}</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#contato" data-orcar>Solicitar orçamento <span>→</span></a>
+        <a class="btn btn-outline" href="#produtos">Ver produtos</a>
+      </div>
+      {% if c.destaques %}<ul class="cat-meta">{% for d in c.destaques %}<li>{{ d }}</li>{% endfor %}</ul>{% endif %}
+    </div>
+    <div class="hero-visual"><div class="cat-art">
+      <div class="cat-art-main">{{ ic(c.icone) }}{% if fu %}<img src="{{ fu }}" alt="{{ c.nome }}" onerror="this.remove()">{% endif %}</div>
+      <span class="cat-chip c1"><i></i>{{ (c.destaques[0] if c.destaques else 'Personalização') }}</span>
+      <span class="cat-chip c2"><i></i>{{ c.nome }}</span>
+    </div></div>
+  </div>
+</section>
+{% if c.diferenciais %}<div class="container perks-wrap"><div class="cat-perks">{% for d in c.diferenciais %}<div class="perk"><span class="benefit-icon">{{ ic(d.i) }}</span><h3>{{ d.t }}</h3><p>{{ d.d }}</p></div>{% endfor %}</div></div>{% endif %}
+<section class="section cat-block" id="produtos"><div class="container">
+  <div class="section-heading"><div><span class="eyebrow line-eyebrow">NOSSAS OPÇÕES</span><h2>Conheça nossas opções em {{ c.nome|lower }}</h2></div></div>
+  {% set tipos = produtos|map(attribute='tipo')|select|unique|list %}
+  {% if tipos|length > 1 %}<div class="filters" id="cat-filters" role="group" aria-label="Filtrar produtos"><button type="button" class="chip" data-filtro="Todos" aria-pressed="true">Todos</button>{% for t in tipos %}<button type="button" class="chip" data-filtro="{{ t }}" aria-pressed="false">{{ t }}</button>{% endfor %}</div>{% endif %}
+  {% if produtos %}<div class="cat-products" id="cat-products">
+  {% for p in produtos %}{% set pu = url_for('site.produto', slug=p.slug) %}{% set pf = foto_url(p, 600) %}
+    <article class="pcard" data-tipo="{{ p.tipo or '' }}">
+      <a class="pmedia t{{ loop.index0 % 6 + 1 }}" href="{{ pu }}" aria-label="Ver {{ p.nome }}">{{ ic(c.icone) }}{% if pf %}<img src="{{ pf }}" alt="{{ p.nome }}" loading="lazy" onerror="this.remove()">{% endif %}{% if p.tipo %}<span class="ptag">{{ p.tipo }}</span>{% endif %}</a>
+      <div class="pbody"><h3><a href="{{ pu }}">{{ p.nome }}</a></h3><p>{{ p.resumo or '' }}</p>
+        {% if p.specs %}<ul class="specs">{% for s in p.specs %}<li>{{ s }}</li>{% endfor %}</ul>{% endif %}
+        <div class="pactions"><a class="pbtn" href="{{ pu }}">Ver produto <span>→</span></a><button type="button" class="pbtn alt" data-produto="{{ p.nome }}">Orçamento</button></div></div>
+    </article>{% endfor %}</div>
+  {% else %}<p class="empty-note">Em breve novos produtos nesta categoria.</p>{% endif %}
+</div></section>
+{% if c.materiais_titulo and c.materiais_itens %}<section class="section cat-block"><div class="container"><div class="mat-panel">
+  <div><span class="eyebrow">PERSONALIZAÇÃO</span><h2>{{ c.materiais_titulo }}</h2><p>{{ c.materiais_texto or '' }}</p></div>
+  <div class="mat-chips">{% for i in c.materiais_itens %}<span>{{ i }}</span>{% endfor %}</div></div></div></section>{% endif %}
+{% set passos = c.passos or [{'t':'Conte sua ideia','d':'Envie o pedido com o que você precisa: produto, tamanho, quantidade e prazo.'},{'t':'Receba o orçamento','d':'Nossa equipe analisa e retorna com valores e as melhores opções para o seu projeto.'},{'t':'Aprove a arte','d':'Você confere e aprova o layout antes de qualquer produção.'},{'t':'Produção e entrega','d':'Produzimos com atenção aos materiais e acabamentos e combinamos a entrega.'}] %}
+<section class="section cat-block" id="como-funciona"><div class="container">
+  <div class="section-heading"><div><span class="eyebrow line-eyebrow">SIMPLES E SEM COMPLICAÇÃO</span><h2>Como funciona</h2></div></div>
+  <div class="steps">{% for s in passos %}<div class="step"><h3>{{ s.t }}</h3><p>{{ s.d }}</p></div>{% endfor %}</div></div></section>
+{% if c.faq %}<section class="section cat-block" id="faq"><div class="container">
+  <div class="section-heading"><div><span class="eyebrow line-eyebrow">TIRE SUAS DÚVIDAS</span><h2>Perguntas frequentes</h2></div></div>
+  <div class="faq-list">{% for f in c.faq %}<details class="faq-item"{% if loop.first %} open{% endif %}><summary>{{ f.q }}</summary><p>{{ f.a }}</p></details>{% endfor %}</div></div></section>{% endif %}
+{% if outras %}<section class="section cat-block"><div class="container">
+  <div class="section-heading"><div><span class="eyebrow line-eyebrow">CONHEÇA TAMBÉM</span><h2>Outras categorias</h2></div></div>
+  <div class="others">{% for o in outras %}<a class="ocard" href="{{ url_for('site.categoria', slug=o.slug) }}"><span class="oicon t{{ loop.index0 % 6 + 1 }}">{{ ic(o.icone) }}</span><div><h3>{{ o.nome }}</h3><p>{{ o.descricao_curta or '' }}</p><b>Explorar →</b></div></a>{% endfor %}</div></div></section>{% endif %}
+{% endblock %}

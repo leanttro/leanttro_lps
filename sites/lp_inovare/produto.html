@@ -1,0 +1,67 @@
+{% extends "sites/lp_inovare/_base.html" %}
+{% block titulo %}{{ produto.nome }} | {{ categoria.nome }} | INOVARE Etiquetas e Brindes{% endblock %}
+{% block descricao %}{{ produto.resumo or '' }}{% endblock %}
+{% block contexto %}{{ produto.nome }}{% endblock %}
+{% set interesse_sel = categoria.interesse_form or categoria.nome %}
+{% set msg_sel = 'Tenho interesse em: ' ~ produto.nome ~ '.\n' %}
+{% block head_extra %}{% set _f = fotos_item(produto, 1200) %}{% if _f %}<meta property="og:image" content="{{ _f[0].url if _f[0].url.startswith('http') else base_url() ~ _f[0].url }}">{% endif %}{% endblock %}
+{% block conteudo %}{% from "sites/lp_inovare/_icones.html" import ic %}
+{% set p = produto %}{% set c = categoria %}{% set fotos = fotos_item(p, 1200, 400) %}{% set nthumbs = [fotos|length, 4]|max %}
+{% set tabela = p.tabela or c.tabela or [] %}{% set opcoes = p.opcoes or c.opcoes or [] %}{% set apps = p.aplicacoes or c.aplicacoes or [] %}{% set faq = p.faq or c.faq or [] %}
+{% set paras = paragrafos or [p.resumo or '', 'Personalizamos de acordo com a identidade da sua marca. Conte sua ideia e nossa equipe indica materiais, acabamentos e quantidades ideais para o seu projeto.'] %}
+<section class="hero cat-hero" id="cat-hero">
+  <div class="hero-waves" aria-hidden="true">
+        <svg viewBox="0 0 700 420" preserveAspectRatio="xMaxYMin slice" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="wg1" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#0878f9"/><stop offset=".55" stop-color="#0a2a66"/><stop offset="1" stop-color="#06152f"/></linearGradient>
+            <linearGradient id="wg2" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#7cb7ff"/><stop offset="1" stop-color="#0878f9"/></linearGradient>
+          </defs>
+          <path d="M300 420 C380 340 310 262 410 198 C500 140 452 62 540 0 L700 0 L700 420 Z" fill="url(#wg1)"/>
+          <path d="M470 0 C385 78 440 148 352 210 C270 268 340 345 292 420 L352 420 C400 350 346 290 428 232 C520 168 478 78 556 0 Z" fill="url(#wg2)"/>
+          <path d="M250 420 C318 346 248 282 322 216 C386 160 344 86 410 0 L438 0 C374 92 420 158 352 224 C286 288 354 352 290 420 Z" fill="#7cb7ff" opacity=".35"/>
+          <circle cx="520" cy="170" r="190" fill="none" stroke="#0878f9" stroke-opacity=".16" stroke-width="26"/>
+        </svg>
+      </div>
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <nav class="breadcrumb" aria-label="Você está em"><a href="{{ url_for('site.index') }}">Início</a><span>›</span><a href="{{ url_for('site.index') }}#categorias">Categorias</a><span>›</span><a href="{{ url_for('site.categoria', slug=c.slug) }}">{{ c.nome }}</a><span>›</span><strong>{{ p.nome }}</strong></nav>
+      <span class="eyebrow">{{ c.nome|upper }}{% if p.tipo %} · {{ p.tipo|upper }}{% endif %}</span>
+      <h1>{{ p.nome }}</h1><p>{{ p.resumo or '' }}</p>
+      {% if p.specs %}<ul class="specs spec-hero">{% for s in p.specs %}<li>{{ s }}</li>{% endfor %}</ul>{% endif %}
+      <div class="hero-actions" style="margin-top:22px"><a class="btn btn-primary" href="#contato">Solicitar orçamento <span>→</span></a><a class="btn btn-outline" href="#" data-wa-open>Falar no WhatsApp</a></div>
+    </div>
+    <div class="hero-visual"><div class="gallery">
+      <div class="g-main t1" id="g-main">{{ ic(c.icone) }}{% if fotos %}<img src="{{ fotos[0].url }}" alt="{{ p.nome }}" onerror="this.remove()">{% endif %}</div>
+      <div class="g-thumbs" role="group" aria-label="Fotos do produto">
+        {% for i in range(nthumbs) %}<button type="button" class="g-thumb t{{ i % 6 + 1 }}" data-i="{{ i }}" {% if fotos[i] %}data-src="{{ fotos[i].url }}"{% endif %} aria-label="Ver foto {{ i + 1 }}" aria-current="{{ 'true' if i == 0 else 'false' }}">{{ ic(c.icone) }}{% if fotos[i] %}<img src="{{ fotos[i].thumb }}" alt="" loading="lazy" onerror="this.remove()">{% endif %}</button>{% endfor %}
+      </div></div></div>
+  </div>
+</section>
+<section class="section cat-block" id="detalhes" style="padding-top:34px"><div class="container detail-grid">
+  <div class="prose"><span class="eyebrow line-eyebrow">SOBRE ESTE PRODUTO</span><h2>{{ p.nome }}</h2>{% for t in paras %}<p>{{ t }}</p>{% endfor %}
+    <ul class="checks">{% for s in (p.specs or []) %}<li>{{ s }}</li>{% endfor %}<li>Personalização com a identidade da sua marca</li><li>Orientação para escolher material e acabamento</li><li>Aprovação da arte antes da produção</li></ul></div>
+  <aside class="quote-card"><small>ORÇAMENTO</small><h3>Quer {{ p.nome|lower }} com a sua marca?</h3><p>Conte o que você precisa e retornamos com as opções e valores.</p>
+    <a class="btn btn-primary" href="#contato">Solicitar orçamento <span>→</span></a><a class="btn btn-outline" href="#" data-wa-open>Falar no WhatsApp</a>
+    <ul><li>Orçamento sem compromisso</li><li>Atendimento personalizado</li><li>Aprovação da arte antes de produzir</li></ul></aside>
+</div></section>
+{% if tabela %}<section class="section cat-block" id="especificacoes"><div class="container">
+  <div class="section-heading"><div><span class="eyebrow line-eyebrow">FICHA DO PRODUTO</span><h2>Especificações</h2></div></div>
+  <table class="spec-table"><tbody>{% for k, v in tabela %}<tr><th scope="row">{{ k }}</th><td>{{ v }}</td></tr>{% endfor %}</tbody></table></div></section>{% endif %}
+{% if opcoes %}<section class="section cat-block" id="opcoes"><div class="container">
+  <div class="section-heading"><div><span class="eyebrow line-eyebrow">PERSONALIZE DO SEU JEITO</span><h2>Opções de personalização</h2></div></div>
+  <div class="opt-grid">{% for o in opcoes %}<div class="opt"><h3>{{ o.t }}</h3><div class="mat-chips">{% for i in o.itens %}<span>{{ i }}</span>{% endfor %}</div></div>{% endfor %}</div></div></section>{% endif %}
+{% if apps %}<section class="section cat-block" id="aplicacoes"><div class="container">
+  <div class="section-heading"><div><span class="eyebrow line-eyebrow">IDEIAS DE USO</span><h2>Onde usar</h2></div></div>
+  <div class="apps">{% for a in apps %}<div class="app"><i>{{ ic('ok') }}</i>{{ a }}</div>{% endfor %}</div></div></section>{% endif %}
+<section class="section cat-block" id="como-pedir"><div class="container">
+  <div class="section-heading"><div><span class="eyebrow line-eyebrow">SIMPLES E SEM COMPLICAÇÃO</span><h2>Como pedir</h2></div></div>
+  <div class="steps three"><div class="step"><h3>Conte sua ideia</h3><p>Envie o pedido com o que você precisa: tamanho, quantidade e prazo.</p></div><div class="step"><h3>Receba o orçamento</h3><p>Retornamos com valores e as melhores opções para o seu projeto.</p></div><div class="step"><h3>Aprove e receba</h3><p>Você aprova a arte antes da produção e combinamos a entrega.</p></div></div></div></section>
+{% if faq %}<section class="section cat-block" id="faq"><div class="container">
+  <div class="section-heading"><div><span class="eyebrow line-eyebrow">TIRE SUAS DÚVIDAS</span><h2>Perguntas frequentes</h2></div></div>
+  <div class="faq-list">{% for f in faq %}<details class="faq-item"{% if loop.first %} open{% endif %}><summary>{{ f.q }}</summary><p>{{ f.a }}</p></details>{% endfor %}</div></div></section>{% endif %}
+{% if relacionados %}<section class="section cat-block" id="relacionados"><div class="container">
+  <div class="section-heading"><div><span class="eyebrow line-eyebrow">VEJA TAMBÉM</span><h2>Mais opções em {{ c.nome|lower }}</h2></div></div>
+  <div class="related">{% for x in relacionados %}{% set xu = url_for('site.produto', slug=x.slug) %}{% set xf = foto_url(x, 600) %}
+    <article class="pcard"><a class="pmedia t{{ (loop.index0 + 2) % 6 + 1 }}" href="{{ xu }}" aria-label="Ver {{ x.nome }}">{{ ic(c.icone) }}{% if xf %}<img src="{{ xf }}" alt="{{ x.nome }}" loading="lazy" onerror="this.remove()">{% endif %}{% if x.tipo %}<span class="ptag">{{ x.tipo }}</span>{% endif %}</a>
+    <div class="pbody"><h3><a href="{{ xu }}">{{ x.nome }}</a></h3><p>{{ x.resumo or '' }}</p><div class="pactions"><a class="pbtn" href="{{ xu }}">Ver produto <span>→</span></a></div></div></article>{% endfor %}</div></div></section>{% endif %}
+{% endblock %}

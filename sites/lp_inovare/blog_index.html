@@ -1,0 +1,11 @@
+{% extends "sites/lp_inovare/_base.html" %}
+{% block conteudo %}
+<section class="section blog-page"><div class="container">
+  <div class="section-heading"><div><span class="eyebrow line-eyebrow">INSPIRAÇÃO E NOVIDADES</span><h1 class="page-h1">Blog</h1></div></div>
+  {% if posts %}<div class="post-grid">{% for p in posts %}<a class="post-card" href="{{ url_for('site.blog_post', slug=p.slug) }}">
+    {% if capa_url(p) %}<img src="{{ capa_url(p, 800) }}" alt="{{ p.titulo }}" loading="lazy">{% else %}<div class="post-ph"></div>{% endif %}
+    <div class="post-body"><time>{{ p.publicado_em|data_br(False) }}</time><h2>{{ p.titulo }}</h2>{% if p.resumo %}<p>{{ p.resumo }}</p>{% endif %}<b>Ler artigo <span>→</span></b></div></a>{% endfor %}</div>
+  {% if pag.pages > 1 %}<nav class="post-pag">{% if pag.has_prev %}<a href="{{ url_for('site.blog_lista', pagina=pag.prev_num) }}">← Anteriores</a>{% endif %}<span>Página {{ pag.page }} de {{ pag.pages }}</span>{% if pag.has_next %}<a href="{{ url_for('site.blog_lista', pagina=pag.next_num) }}">Próximos →</a>{% endif %}</nav>{% endif %}
+  {% else %}<p class="empty-note">Ainda não há posts publicados.</p>{% endif %}
+</div></section>
+{% endblock %}
