@@ -147,8 +147,8 @@ img{max-width:100%;display:block}
 footer{background:#fff8e8;padding:32px 0 20px}
 .partners-title{text-align:center;font-size:17px;font-weight:1000;color:var(--navy);margin-bottom:18px}
 .partners{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
-.partner{width:170px;height:110px;display:grid;place-items:center;padding:12px;background:#fff;border:1px solid #eadfc9;border-radius:20px;box-shadow:0 6px 16px #17314a10}
-.partner img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+.partner{position:relative;overflow:hidden;width:170px;height:110px;display:block;padding:0;background:#fff;border:1px solid #eadfc9;border-radius:20px;box-shadow:0 6px 16px #17314a10}
+.partner img{position:absolute;inset:12px;width:calc(100% - 24px);height:calc(100% - 24px);max-width:none;object-fit:contain;object-position:center}
 .copyright{text-align:center;color:#718071;font-size:13px;margin:20px 0 0}
 
 /* ---- hero: etiqueta, ticket e balões ---- */
@@ -254,7 +254,7 @@ footer{background:#fff8e8;padding:32px 0 20px}
  .final-inner{flex-direction:column;text-align:center}
  .final-inner h2{font-size:30px}.final-inner p{font-size:15px}
  .insta{width:100%;justify-content:center;white-space:normal;font-size:13px}
- .partners{display:grid;grid-template-columns:1fr 1fr;gap:10px}.partner{width:auto;height:90px;padding:10px;border-radius:16px}
+ .partners{display:grid;grid-template-columns:1fr 1fr;gap:10px}.partner{width:auto;height:90px;border-radius:16px}.partner img{inset:10px;width:calc(100% - 20px);height:calc(100% - 20px)}
 }
 @media(max-width:390px){
  .cards{grid-template-columns:1fr}
