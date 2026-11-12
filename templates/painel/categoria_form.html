@@ -1,0 +1,42 @@
+{% extends "painel/base.html" %}
+{% block titulo %}{{ 'Editar categoria' if cat else 'Nova categoria' }}{% endblock %}
+{% block conteudo %}
+<div class="flex items-center gap-2 mb-4"><a href="{{ url_for('painel.categorias') }}" class="btn btn-sec !py-1.5"><i data-lucide="arrow-left" class="w-4 h-4"></i></a><h1 class="text-xl font-bold">{{ 'Editar categoria' if cat else 'Nova categoria' }}</h1></div>
+<form method="post" enctype="multipart/form-data" class="space-y-4"><input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+<div class="cartao p-4 space-y-4"><h2 class="font-semibold">Dados principais</h2>
+<label class="block text-sm font-medium">Nome<input class="campo mt-1" name="nome" id="nome" value="{{ d.nome }}" required maxlength="120" placeholder="Ex.: Etiquetas"></label>
+<label class="block text-sm font-medium">Endereço (slug) <span class="font-normal text-slate-500">— gerado do nome, você pode editar</span><div class="flex items-center mt-1"><span class="text-slate-400 text-sm mr-2">/categoria/</span><input class="campo" name="slug" id="slug" value="{{ d.slug }}" maxlength="70"></div></label>
+<label class="block text-sm font-medium">Descrição curta <span class="font-normal text-slate-500">(aparece no card da categoria)</span><input class="campo mt-1" name="descricao_curta" value="{{ d.descricao_curta }}" maxlength="200" placeholder="Ex.: Personalizadas para seus produtos."></label>
+<div class="grid sm:grid-cols-2 gap-4">
+<label class="block text-sm font-medium">Ícone<select class="campo mt-1" name="icone">{% for i in icones %}<option value="{{ i }}" {{ 'selected' if d.icone == i }}>{{ i }}</option>{% endfor %}</select></label>
+<label class="block text-sm font-medium">Ordem <span class="font-normal text-slate-500">(menor aparece primeiro)</span><input class="campo mt-1" type="number" name="ordem" value="{{ d.ordem }}"></label></div>
+<label class="block text-sm font-medium">Nome no formulário de orçamento <span class="font-normal text-slate-500">(opção do campo “O que você procura?”; vazio = o nome)</span><input class="campo mt-1" name="interesse_form" value="{{ d.interesse_form }}" maxlength="120"></label>
+<label class="text-sm flex items-center gap-2"><input type="checkbox" name="ativo" value="1" {{ 'checked' if d.ativo }}> Categoria visível no site</label></div>
+<div class="cartao p-4 space-y-3"><h2 class="font-semibold">Imagem</h2>
+{% if d.fotos and cat %}{% set fu = foto_url(cat, 800) %}{% if fu %}<img src="{{ fu }}" alt="" class="rounded-xl mb-2 max-h-40"><label class="text-sm flex items-center gap-2 mb-2"><input type="checkbox" name="remover_foto" value="1"> Remover imagem</label>{% endif %}{% endif %}
+<input type="file" name="foto" accept="image/png,image/jpeg,image/webp" class="text-sm w-full">
+<label class="block text-sm font-medium">ou URL de uma imagem (https://…) <span class="font-normal text-slate-500">— só é usada se não houver imagem enviada</span><input class="campo mt-1" name="imagem_url" value="{{ d.imagem_url }}" maxlength="500" placeholder="https://"></label></div>
+<div class="cartao p-4 space-y-4"><h2 class="font-semibold">Página da categoria</h2>
+<label class="block text-sm font-medium">Chamada acima do título <span class="font-normal text-slate-500">(vazio = “CATEGORIA · NOME”)</span><input class="campo mt-1" name="eyebrow" value="{{ d.eyebrow }}" maxlength="120"></label>
+<label class="block text-sm font-medium">Título grande<input class="campo mt-1" name="titulo" value="{{ d.titulo }}" maxlength="200" placeholder="Ex.: Etiquetas que valorizam o seu produto."></label>
+<label class="block text-sm font-medium">Descrição<textarea class="campo mt-1" name="descricao" rows="3" maxlength="1500">{{ d.descricao }}</textarea></label>
+<label class="block text-sm font-medium">Destaques <span class="font-normal text-slate-500">(um por linha, até 6)</span><textarea class="campo mt-1" name="destaques" rows="3">{{ d.destaques }}</textarea></label>
+<label class="block text-sm font-medium">Diferenciais <span class="font-normal text-slate-500">(um por linha: <b>ícone | título | texto</b>; até 8)</span><textarea class="campo mt-1 font-mono text-sm" name="diferenciais" rows="4" placeholder="paleta | Sua identidade | Cores e acabamentos alinhados à sua marca.">{{ d.diferenciais }}</textarea></label>
+<p class="text-xs text-slate-500">Ícones disponíveis: {{ icones|join(', ') }}</p></div>
+<div class="cartao p-4 space-y-4"><h2 class="font-semibold">Materiais / técnicas <span class="font-normal text-slate-500 text-sm">(opcional)</span></h2>
+<label class="block text-sm font-medium">Título<input class="campo mt-1" name="materiais_titulo" value="{{ d.materiais_titulo }}" maxlength="120" placeholder="Materiais e acabamentos"></label>
+<label class="block text-sm font-medium">Texto<textarea class="campo mt-1" name="materiais_texto" rows="2" maxlength="600">{{ d.materiais_texto }}</textarea></label>
+<label class="block text-sm font-medium">Itens <span class="font-normal text-slate-500">(um por linha)</span><textarea class="campo mt-1" name="materiais_itens" rows="4">{{ d.materiais_itens }}</textarea></label></div>
+<div class="cartao p-4 space-y-4"><h2 class="font-semibold">Perguntas frequentes e “Como funciona”</h2>
+<label class="block text-sm font-medium">Perguntas frequentes <span class="font-normal text-slate-500">(uma por linha: <b>pergunta | resposta</b>)</span><textarea class="campo mt-1 font-mono text-sm" name="faq" rows="6" placeholder="Posso enviar minha arte? | Sim, conferimos se está pronta para produção.">{{ d.faq }}</textarea></label>
+<label class="block text-sm font-medium">Passos do “Como funciona” <span class="font-normal text-slate-500">(opcional, <b>título | texto</b> por linha; vazio = passos padrão)</span><textarea class="campo mt-1 font-mono text-sm" name="passos" rows="4">{{ d.passos }}</textarea></label></div>
+<div class="cartao p-4 space-y-4"><h2 class="font-semibold">Padrões dos produtos desta categoria</h2>
+<p class="text-xs text-slate-500">Cada produto herda estes dados, a menos que você preencha os dele.</p>
+<label class="block text-sm font-medium">Ficha técnica <span class="font-normal text-slate-500">(<b>item | valor</b> por linha)</span><textarea class="campo mt-1 font-mono text-sm" name="tabela" rows="5" placeholder="Material | Papel couchê, BOPP, vinil">{{ d.tabela }}</textarea></label>
+<label class="block text-sm font-medium">Opções de personalização <span class="font-normal text-slate-500">(<b>Título: item, item, item</b> por linha)</span><textarea class="campo mt-1 font-mono text-sm" name="opcoes" rows="4" placeholder="Acabamentos: Verniz localizado, Laminação fosca">{{ d.opcoes }}</textarea></label>
+<label class="block text-sm font-medium">Onde usar <span class="font-normal text-slate-500">(um por linha)</span><textarea class="campo mt-1" name="aplicacoes" rows="4">{{ d.aplicacoes }}</textarea></label></div>
+<div class="flex gap-2 sticky bottom-20 md:bottom-4"><button class="btn btn-primario shadow-lg"><i data-lucide="save" class="w-4 h-4"></i>Salvar categoria</button></div></form>
+{% endblock %}
+{% block scripts %}<script>(function(){var n=document.getElementById('nome'),s=document.getElementById('slug'),man=s.value.trim()!=='';
+function gs(t){return t.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,60)}
+n.addEventListener('input',function(){if(!man)s.value=gs(n.value)});s.addEventListener('input',function(){man=true});})();</script>{% endblock %}

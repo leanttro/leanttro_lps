@@ -1,0 +1,16 @@
+{% extends "painel/base.html" %}
+{% block titulo %}Categorias{% endblock %}
+{% block conteudo %}
+<div class="flex items-center justify-between mb-4 flex-wrap gap-2"><h1 class="text-xl font-bold">Categorias</h1><a href="{{ url_for('painel.categoria_nova') }}" class="btn btn-primario"><i data-lucide="plus" class="w-4 h-4"></i>Nova categoria</a></div>
+{% if cats %}<div class="cartao divide-y">{% for c in cats %}<div class="p-4 flex items-center gap-3 flex-wrap">
+{% set fu = foto_url(c, 400) %}{% if fu %}<img src="{{ fu }}" alt="" class="w-10 h-10 rounded-xl object-cover shrink-0">{% else %}<div class="w-10 h-10 rounded-xl bg-indigo-100 shrink-0"></div>{% endif %}
+<div class="flex-1 min-w-[12rem]"><a href="{{ url_for('painel.categoria_editar', cid=c.id) }}" class="font-semibold hover:underline">{{ c.nome }}</a><p class="text-xs text-slate-500">/categoria/{{ c.slug }} · {{ cont.get(c.id, 0) }} produto(s) · ordem {{ c.ordem }}</p></div>
+<span class="text-xs font-medium px-2 py-1 rounded-full" style="{{ 'background:#dcfce7;color:#15803d' if c.ativo else 'background:#e2e8f0;color:#475569' }}">{{ 'Ativa' if c.ativo else 'Oculta' }}</span>
+<div class="flex gap-2">{% if c.ativo %}<a class="btn btn-sec !py-1.5" target="_blank" href="{{ url_for('site.categoria', slug=c.slug) }}"><i data-lucide="eye" class="w-4 h-4"></i></a>{% endif %}
+<a class="btn btn-sec !py-1.5" href="{{ url_for('painel.produtos', categoria=c.id) }}"><i data-lucide="package" class="w-4 h-4"></i>Produtos</a>
+<a class="btn btn-sec !py-1.5" href="{{ url_for('painel.categoria_editar', cid=c.id) }}"><i data-lucide="pencil" class="w-4 h-4"></i>Editar</a>
+<form method="post" action="{{ url_for('painel.categoria_excluir', cid=c.id) }}" onsubmit="return confirm('Excluir esta categoria e TODOS os produtos dela? Não dá para desfazer.')"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="btn btn-perigo !py-1.5"><i data-lucide="trash-2" class="w-4 h-4"></i></button></form></div></div>{% endfor %}</div>
+{% else %}<div class="cartao p-10 text-center text-slate-500">Nenhuma categoria cadastrada ainda.
+{% if tem_exemplo %}<p class="mt-3 text-sm">Quer começar com o catálogo de exemplo (4 categorias, 24 produtos e 2 posts)? Você edita ou apaga depois.</p>
+<form method="post" action="{{ url_for('painel.catalogo_exemplo') }}" class="mt-4"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="btn btn-sec"><i data-lucide="download" class="w-4 h-4"></i>Carregar catálogo de exemplo</button></form>{% endif %}</div>{% endif %}
+{% endblock %}

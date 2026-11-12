@@ -1,0 +1,33 @@
+{% extends "painel/base.html" %}
+{% block titulo %}{{ 'Editar produto' if prod else 'Novo produto' }}{% endblock %}
+{% block conteudo %}
+<div class="flex items-center gap-2 mb-4"><a href="{{ url_for('painel.produtos') }}" class="btn btn-sec !py-1.5"><i data-lucide="arrow-left" class="w-4 h-4"></i></a><h1 class="text-xl font-bold">{{ 'Editar produto' if prod else 'Novo produto' }}</h1></div>
+<form method="post" enctype="multipart/form-data" class="space-y-4"><input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+<div class="cartao p-4 space-y-4"><h2 class="font-semibold">Dados principais</h2>
+<label class="block text-sm font-medium">Categoria<select class="campo mt-1" name="categoria_id" required>{% for c in cats %}<option value="{{ c.id }}" {{ 'selected' if d.categoria_id == c.id }}>{{ c.nome }}</option>{% endfor %}</select></label>
+<label class="block text-sm font-medium">Nome<input class="campo mt-1" name="nome" id="nome" value="{{ d.nome }}" required maxlength="160" placeholder="Ex.: Etiquetas adesivas em rolo"></label>
+<label class="block text-sm font-medium">Endereço (slug) <span class="font-normal text-slate-500">— gerado do nome, você pode editar</span><div class="flex items-center mt-1"><span class="text-slate-400 text-sm mr-2">/produto/</span><input class="campo" name="slug" id="slug" value="{{ d.slug }}" maxlength="90"></div></label>
+<div class="grid sm:grid-cols-2 gap-4">
+<label class="block text-sm font-medium">Tipo <span class="font-normal text-slate-500">(vira filtro na categoria)</span><input class="campo mt-1" name="tipo" value="{{ d.tipo }}" maxlength="80" placeholder="Ex.: Adesivas"></label>
+<label class="block text-sm font-medium">Ordem <span class="font-normal text-slate-500">(menor aparece primeiro)</span><input class="campo mt-1" type="number" name="ordem" value="{{ d.ordem }}"></label></div>
+<label class="block text-sm font-medium">Resumo <span class="font-normal text-slate-500">(card e topo da página)</span><textarea class="campo mt-1" name="resumo" rows="2" maxlength="500">{{ d.resumo }}</textarea></label>
+<label class="text-sm flex items-center gap-2"><input type="checkbox" name="destaque" value="1" {{ 'checked' if d.destaque }}> Mostrar na home (“Conheça nossos produtos”)</label>
+<label class="text-sm flex items-center gap-2"><input type="checkbox" name="ativo" value="1" {{ 'checked' if d.ativo }}> Produto visível no site</label></div>
+<div class="cartao p-4 space-y-3"><h2 class="font-semibold">Fotos <span class="font-normal text-slate-500 text-sm">(a primeira é a principal; até 8)</span></h2>
+{% if d.fotos %}<div class="grid grid-cols-2 sm:grid-cols-3 gap-3">{% for n in d.fotos %}<label class="text-xs block"><img src="{{ url_for('site.media', codigo=tenant.codigo, arquivo=n, w=400) }}" alt="" class="rounded-xl object-cover w-full aspect-square mb-1"><span class="flex items-center gap-1"><input type="checkbox" name="remover_foto" value="{{ n }}"> Remover</span></label>{% endfor %}</div>{% endif %}
+<input type="file" name="fotos" accept="image/png,image/jpeg,image/webp" multiple class="text-sm w-full">
+<label class="block text-sm font-medium">ou URL de uma imagem (https://…) <span class="font-normal text-slate-500">— só é usada se não houver foto enviada</span><input class="campo mt-1" name="imagem_url" value="{{ d.imagem_url }}" maxlength="500" placeholder="https://"></label></div>
+<div class="cartao p-4 space-y-4"><h2 class="font-semibold">Conteúdo</h2>
+<label class="block text-sm font-medium">Descrição <span class="font-normal text-slate-500">(separe os parágrafos com uma linha em branco; vazio = texto padrão)</span><textarea class="campo mt-1" name="descricao" rows="6">{{ d.descricao }}</textarea></label>
+<label class="block text-sm font-medium">Características <span class="font-normal text-slate-500">(uma por linha, até 8)</span><textarea class="campo mt-1" name="specs" rows="3" placeholder="Papel ou BOPP&#10;Corte especial">{{ d.specs }}</textarea></label></div>
+<div class="cartao p-4 space-y-4"><h2 class="font-semibold">Personalização <span class="font-normal text-slate-500 text-sm">(opcional)</span></h2>
+<p class="text-xs text-slate-500">Deixe em branco para usar os padrões da categoria.</p>
+<label class="block text-sm font-medium">Ficha técnica <span class="font-normal text-slate-500">(<b>item | valor</b> por linha)</span><textarea class="campo mt-1 font-mono text-sm" name="tabela" rows="4">{{ d.tabela }}</textarea></label>
+<label class="block text-sm font-medium">Opções de personalização <span class="font-normal text-slate-500">(<b>Título: item, item</b> por linha)</span><textarea class="campo mt-1 font-mono text-sm" name="opcoes" rows="3">{{ d.opcoes }}</textarea></label>
+<label class="block text-sm font-medium">Onde usar <span class="font-normal text-slate-500">(um por linha)</span><textarea class="campo mt-1" name="aplicacoes" rows="3">{{ d.aplicacoes }}</textarea></label>
+<label class="block text-sm font-medium">Perguntas frequentes <span class="font-normal text-slate-500">(<b>pergunta | resposta</b> por linha)</span><textarea class="campo mt-1 font-mono text-sm" name="faq" rows="4">{{ d.faq }}</textarea></label></div>
+<div class="flex gap-2 sticky bottom-20 md:bottom-4"><button class="btn btn-primario shadow-lg"><i data-lucide="save" class="w-4 h-4"></i>Salvar produto</button></div></form>
+{% endblock %}
+{% block scripts %}<script>(function(){var n=document.getElementById('nome'),s=document.getElementById('slug'),man=s.value.trim()!=='';
+function gs(t){return t.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,80)}
+n.addEventListener('input',function(){if(!man)s.value=gs(n.value)});s.addEventListener('input',function(){man=true});})();</script>{% endblock %}
