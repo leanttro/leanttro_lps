@@ -1,5 +1,19 @@
 {% extends "sites/lp_inovare/_base.html" %}
-{% block head_extra %}<style>
+{% block head_extra %}
+{# Pré-visualização do link (WhatsApp, Facebook, LinkedIn etc.) #}
+{% set _og_key = 'logo' if tem_img('logo') else 'hero' %}
+{% set _og_raw = img_url(_og_key, 600) if tem_img(_og_key) else '' %}
+{% set _og_img = (_og_raw if _og_raw.startswith('http') else request.url_root.rstrip('/') ~ _og_raw) if _og_raw else '' %}
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="INOVARE">
+<meta property="og:title" content="INOVARE Etiquetas e Brindes — Sua marca merece ser lembrada">
+<meta property="og:description" content="Soluções personalizadas em etiquetas e brindes para valorizar seus produtos e fortalecer sua marca.">
+<meta property="og:url" content="{{ request.url_root }}">
+{% if _og_img %}<meta property="og:image" content="{{ _og_img }}">
+<meta property="og:image:alt" content="Logo INOVARE">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="{{ _og_img }}">{% endif %}
+<style>
 /* todas as imagens dos cards em 1:1 */
 .category-card>img,.product-card>img,.blog-card img,.blog-card .blog-ph{width:100%;height:auto!important;aspect-ratio:1/1;object-fit:cover;display:block;background:linear-gradient(135deg,#e8eefb,#cfdcf7)}
 .blog-card img,.blog-card .blog-ph{align-self:start}
