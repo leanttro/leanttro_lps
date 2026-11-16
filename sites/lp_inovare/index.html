@@ -1,10 +1,8 @@
 {% extends "sites/lp_inovare/_base.html" %}
 {% block head_extra %}<style>
 /* todas as imagens dos cards em 1:1 */
-.category-card>img,.product-card>img,.portfolio-track img,.blog-card img,.blog-card .blog-ph{width:100%;height:auto!important;aspect-ratio:1/1;object-fit:cover;display:block;background:linear-gradient(135deg,#e8eefb,#cfdcf7)}
+.category-card>img,.product-card>img,.blog-card img,.blog-card .blog-ph{width:100%;height:auto!important;aspect-ratio:1/1;object-fit:cover;display:block;background:linear-gradient(135deg,#e8eefb,#cfdcf7)}
 .blog-card img,.blog-card .blog-ph{align-self:start}
-.portfolio-track{grid-auto-columns:calc(25% - 12px)}
-@media(max-width:640px){.portfolio-track{grid-auto-columns:60%}}
 </style>{% endblock %}
 {% block conteudo %}
     <section class="hero">
@@ -69,26 +67,6 @@
         <div class="benefit"><span class="benefit-icon">✦</span><h3>Qualidade</h3><p>Atenção aos materiais e acabamentos.</p></div>
         <div class="benefit"><span class="benefit-icon">◉</span><h3>Atendimento</h3><p>Suporte para encontrar a melhor solução.</p></div>
         <div class="benefit"><span class="benefit-icon">▣</span><h3>Soluções completas</h3><p>Etiquetas e brindes em um só lugar.</p></div>
-      </div>
-    </section>
-
-    <section class="section portfolio-section">
-      <div class="container">
-        <div class="section-heading">
-          <h2>Nossos trabalhos em destaque</h2>
-          <a class="text-link head-link" href="{{ url_for('site.index') }}#contato">Ver mais trabalhos <span>→</span></a>
-        </div>
-        <div class="portfolio-wrap">
-          <button class="slider-arrow prev" aria-label="Rolar para a esquerda">‹</button>
-          <div class="portfolio-track">
-            <img src="https://images.unsplash.com/photo-1634942536790-253a2c3b7b1b?auto=format&fit=crop&w=700&q=85" alt="Etiquetas em destaque" onerror="this.onerror=null;this.removeAttribute('src');this.alt=''">
-            <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=700&q=85" alt="Etiqueta aplicada em tecido" onerror="this.onerror=null;this.removeAttribute('src');this.alt=''">
-            <img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?auto=format&fit=crop&w=700&q=85" alt="Embalagem personalizada" onerror="this.onerror=null;this.removeAttribute('src');this.alt=''">
-            <img src="https://images.unsplash.com/photo-1584744982491-665216d95f8b?auto=format&fit=crop&w=700&q=85" alt="Adesivos personalizados" onerror="this.onerror=null;this.removeAttribute('src');this.alt=''">
-          </div>
-          <button class="slider-arrow next" aria-label="Rolar para a direita">›</button>
-        </div>
-        <div class="section-more"><a class="text-link" href="{{ url_for('site.index') }}#contato">Ver mais trabalhos <span>→</span></a></div>
       </div>
     </section>
 
