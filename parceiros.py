@@ -254,6 +254,9 @@ class Repasse(db.Model):
 # COMUNS
 # ═══════════════════════════════════════════════════════════════════════════
 def _codigo():
+    t = g.get("tenant")
+    if t is not None and t.template == "lp_parceiros":
+        return t.codigo
     return current_app.config["PARCEIROS_TENANT"]
 
 
@@ -330,7 +333,7 @@ _DESTINO_DE = {v: k for k, v in DESTINOS.items()}
 
 @bp_parceiros.before_request
 def _antes():
-    if g.get("tenant") is None or g.tenant.codigo != _codigo():
+    if g.get("tenant") is None or g.tenant.template != "lp_parceiros":
         abort(404)
     exigir_csrf()
     g.parceiro = None
@@ -540,7 +543,7 @@ bp_publico = Blueprint("parceiros_pub", __name__)
 
 @bp_publico.get("/p/<slug>", endpoint="minisite")
 def minisite(slug):
-    if g.get("tenant") is None or g.tenant.codigo != _codigo():
+    if g.get("tenant") is None or g.tenant.template != "lp_parceiros":
         abort(404)
     p = db.session.scalar(select(Parceiro).where(Parceiro.slug == slug.lower()))
     if not p or p.tipo != "revendedor" or not p.pode_vender:
@@ -627,7 +630,7 @@ def _acesso(p):
     """(url do login, link do WhatsApp com o código) — ou (None, None) se não tem código/tenant."""
     if not p or not p.codigo:
         return None, None
-    t = db.session.scalar(select(Tenant).where(Tenant.codigo == _codigo()))
+    t = db.session.scalars(select(Tenant).where(Tenant.template == "lp_parceiros")).first()
     if not t or not t.dominios_lista:
         return None, None
     url = f"https://{t.dominios_lista[0]}/parceiro/entrar"
