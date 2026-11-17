@@ -1,0 +1,64 @@
+{% extends "superadmin/base.html" %}{% block titulo %}Parceiros{% endblock %}
+{% block conteudo %}<style>.pa h1{font-size:22px;font-weight:800;margin:0 0 4px}.pa .sub{color:#64748b;font-size:13px;margin:0 0 16px}
+.pa .tabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 16px}.pa .tabs a{padding:8px 14px;border-radius:.6rem;font-size:.85rem;font-weight:600;background:#fff;border:1px solid #cbd5e1;color:#334155}.pa .tabs a.on{background:#0f766e;color:#fff;border-color:#0f766e}.pa .tabs b{background:#e2e8f0;color:#334155;border-radius:20px;padding:1px 7px;font-size:11px;margin-left:5px}.pa .tabs a.on b{background:#115e59;color:#fff}
+.pa .box{background:#fff;border:1px solid #e2e8f0;border-radius:.9rem;padding:16px;margin:0 0 16px}.pa .sc{overflow-x:auto}.pa table{width:100%;border-collapse:collapse;font-size:13px}.pa th{text-align:left;color:#64748b;font-size:11px;text-transform:uppercase;padding:8px;border-bottom:1px solid #e2e8f0}.pa td{padding:8px;border-bottom:1px solid #f1f5f9;vertical-align:top}
+.pa .g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:700px){.pa .g2{grid-template-columns:1fr}}.pa label{display:block;font-size:12px;font-weight:600;margin:10px 0 4px;color:#475569}.pa .ck{display:flex;align-items:center;gap:6px;margin:10px 0}.pa .ck input{width:auto}
+.pa .pill{display:inline-block;border-radius:20px;padding:2px 9px;font-size:11px;font-weight:700;background:#e2e8f0;color:#334155}.pa .ok{background:#dcfce7;color:#166534}.pa .off{background:#fee2e2;color:#991b1b}
+.pa .cod{font-family:ui-monospace,monospace;background:#fffbeb;border:1px solid #fcd34d;border-radius:.6rem;padding:10px;word-break:break-all;font-size:13px}.pa .mini{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.pa .mini .campo{width:auto;padding:.35rem .5rem;font-size:.8rem}.pa .filtros{display:flex;gap:6px;margin:0 0 12px;flex-wrap:wrap}.pa .filtros a{font-size:12px;padding:4px 10px;border-radius:20px;border:1px solid #cbd5e1;background:#fff}.pa .filtros a.on{background:#0f766e;color:#fff;border-color:#0f766e}</style><div class="pa">
+<h1>Parceiros</h1><p class="sub">Parceiros, indicações, pedidos e repasses — tela única. A pagar no total: <b>{{ a_pagar_total|brl }}</b></p>
+<div class="tabs">{% for k, n in ABAS.items() %}<a href="{{ url_for('parceiros_admin.lista', aba=k) }}" class="{{ 'on' if aba == k }}">{{ n }}<b>{{ contagem[k]|brl if k == 'repasses' else contagem[k] }}</b></a>{% endfor %}</div>
+
+{% if aba == 'parceiros' %}
+{% if form_aberto %}<div class="box"><h2 style="font-weight:700;margin:0 0 6px">{{ 'Editar parceiro' if form_p else 'Novo parceiro' }}</h2>
+<form method="post" action="{{ url_for('parceiros_admin.editar', pid=form_p.id) if form_p else url_for('parceiros_admin.novo') }}"><input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+<div class="g2"><div><label>Nome</label><input class="campo" name="nome" value="{{ form_d.nome }}" required></div><div><label>E-mail</label><input class="campo" name="email" type="email" value="{{ form_d.email }}" required></div>
+<div><label>WhatsApp (com DDD)</label><input class="campo" name="whatsapp" value="{{ form_d.whatsapp }}" required></div>
+<div><label>Tipo</label><select class="campo" name="tipo">{% for k, n in TIPOS.items() %}<option value="{{ k }}" {{ 'selected' if form_d.tipo == k }}>{{ n }}</option>{% endfor %}</select></div>
+<div><label>Endereço da página de vendas (revendedor, ex.: joao-sites)</label><input class="campo" name="slug" value="{{ form_d.slug }}"></div>
+<div><label>Preço de parceiro vale até</label><input class="campo" type="date" name="preco_ate" value="{{ form_d.preco_ate }}"></div></div>
+<label class="ck"><input type="checkbox" name="aceite_uso" {{ 'checked' if form_d.aceite_uso }}> Autorizou usar o projeto como exemplo</label>
+<label class="ck"><input type="checkbox" name="ativo" {{ 'checked' if form_d.ativo }}> Ativo</label>
+<label>Observações</label><textarea class="campo" name="obs" rows="3">{{ form_d.obs }}</textarea>
+<p style="margin-top:12px" class="mini"><button class="btn btn-p">Salvar</button><a class="btn btn-s" href="{{ url_for('parceiros_admin.lista', aba='parceiros') }}">Fechar</a></p></form>
+{% if form_p %}<hr style="margin:16px 0;border:0;border-top:1px solid #e2e8f0"><h2 style="font-weight:700;margin:0 0 8px">Acesso</h2>
+{% if form_p.codigo %}<div class="cod">{{ form_p.codigo }}</div><p class="sub" style="margin-top:6px">{% if acesso_url %}Entrar em: {{ acesso_url }}{% else %}Cadastre um domínio no tenant para montar o link.{% endif %}</p>{% else %}<p class="sub">Sem código: este parceiro não consegue entrar.</p>{% endif %}
+<div class="mini">{% if acesso_wa %}<a class="btn btn-p" href="{{ acesso_wa }}" target="_blank" rel="noopener">Enviar código por WhatsApp</a>{% endif %}
+<form method="post" action="{{ url_for('parceiros_admin.codigo', pid=form_p.id) }}" onsubmit="return confirm('Gerar código novo? O atual para de funcionar.')"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="btn btn-s">Gerar novo código</button></form>
+{% if form_p.codigo %}<form method="post" action="{{ url_for('parceiros_admin.revogar', pid=form_p.id) }}" onsubmit="return confirm('Cortar o acesso agora?')"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="btn btn-d">Revogar acesso</button></form>{% endif %}</div>{% endif %}</div>
+{% else %}<p><a class="btn btn-p" href="{{ url_for('parceiros_admin.lista', aba='parceiros', novo=1) }}">Novo parceiro</a></p>{% endif %}
+<div class="box sc"><table><thead><tr><th>Parceiro</th><th>Tipo</th><th>Status</th><th>Indic.</th><th>Pedidos</th><th>A pagar</th><th>Pago</th><th></th></tr></thead><tbody>
+{% for l in linhas %}{% set p = l.p %}<tr><td><b>{{ p.nome }}</b><br><small style="color:#64748b">{{ p.email }}{% if p.slug %} · /p/{{ p.slug }}{% endif %}</small></td><td>{{ p.tipo_nome }}</td>
+<td><span class="pill {{ 'ok' if p.ativo else 'off' }}">{{ 'Ativo' if p.ativo else 'Inativo' }}</span>{% if not p.codigo %} <span class="pill off">sem código</span>{% endif %}{% if not p.vigente %} <span class="pill off">preço vencido</span>{% endif %}</td>
+<td>{{ l.n_ind }}</td><td>{{ l.n_ped }}</td><td>{{ l.a_pagar|brl }}</td><td>{{ l.pago|brl }}</td><td><a class="btn btn-s" href="{{ url_for('parceiros_admin.lista', aba='parceiros', editar=p.id) }}">Editar</a></td></tr>
+{% else %}<tr><td colspan="8" style="color:#64748b">Nenhum parceiro cadastrado.</td></tr>{% endfor %}</tbody></table></div>
+
+{% elif aba == 'indicacoes' %}
+<div class="filtros"><a href="{{ url_for('parceiros_admin.lista', aba='indicacoes') }}" class="{{ 'on' if not filtro }}">Todas</a>{% for k, n in STATUS_IND.items() %}<a href="{{ url_for('parceiros_admin.lista', aba='indicacoes', status=k) }}" class="{{ 'on' if filtro == k }}">{{ n }}</a>{% endfor %}</div>
+<div class="box sc"><table><thead><tr><th>Quando</th><th>Parceiro</th><th>Indicado</th><th>Interesse</th><th>Exclusiv. até</th><th>Atualizar</th></tr></thead><tbody>
+{% for i in indicacoes %}<tr><td>{{ i.criado_em.strftime('%d/%m/%y') }}</td><td>{{ i.parceiro.nome }}</td><td><b>{{ i.nome }}</b><br><small>{{ i.telefone }}</small>{% if i.obs %}<br><small style="color:#64748b">{{ i.obs }}</small>{% endif %}</td><td>{{ INTERESSES.get(i.interesse, i.interesse) }}</td>
+<td>{{ i.expira_em.strftime('%d/%m/%y') }}{% if not i.em_exclusividade %}<br><span class="pill off">expirada</span>{% endif %}</td>
+<td><form method="post" action="{{ url_for('parceiros_admin.indicacao_editar', iid=i.id) }}" class="mini"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><input type="hidden" name="filtro" value="{{ filtro }}">
+<select class="campo" name="status">{% for k, n in STATUS_IND.items() %}<option value="{{ k }}" {{ 'selected' if i.status == k }}>{{ n }}</option>{% endfor %}</select>
+<input class="campo" name="valor_setup" placeholder="Setup R$" size="8" value="{{ '%.2f'|format(i.valor_setup / 100)|replace('.', ',') if i.valor_setup else '' }}"><label class="ck" style="margin:0"><input type="checkbox" name="renovar" value="1">renovar prazo</label><button class="btn btn-s">Salvar</button></form>
+{% if i.valor_setup and i.status == 'fechada' %}<small style="color:#64748b">Comissão {{ pct_ind }}%: {{ (i.valor_setup * pct_ind // 100)|brl }}</small>{% endif %}</td></tr>
+{% else %}<tr><td colspan="6" style="color:#64748b">Nenhuma indicação.</td></tr>{% endfor %}</tbody></table></div>
+
+{% elif aba == 'pedidos' %}
+<div class="filtros"><a href="{{ url_for('parceiros_admin.lista', aba='pedidos') }}" class="{{ 'on' if not filtro }}">Todos</a>{% for k, n in STATUS_PED.items() %}<a href="{{ url_for('parceiros_admin.lista', aba='pedidos', status=k) }}" class="{{ 'on' if filtro == k }}">{{ n }}</a>{% endfor %}</div>
+<div class="box sc"><table><thead><tr><th>Quando</th><th>Parceiro</th><th>Cliente</th><th>Item</th><th>Valor</th><th>Comissão</th><th>Status</th></tr></thead><tbody>
+{% for o in pedidos %}<tr><td>{{ o.criado_em.strftime('%d/%m/%y') }}</td><td>{{ o.parceiro.nome }}</td><td><b>{{ o.cliente_nome }}</b><br><small>{{ o.cliente_telefone }}{% if o.cliente_email %} · {{ o.cliente_email }}{% endif %}</small>{% if o.obs %}<br><small style="color:#64748b">{{ o.obs }}</small>{% endif %}</td>
+<td>{{ o.item_nome }}{% if o.extras %} +{{ o.extras }} extra(s){% endif %}{% if o.mensal_cent %}<br><span class="pill">plano mensal</span>{% endif %}</td><td>{{ o.valor_cent|brl }}</td><td>{{ o.comissao_cent|brl }}{% if o.mensal_cent %}<br><small>+ {{ o.mensal_cent|brl }}/mês</small>{% endif %}</td>
+<td><form method="post" action="{{ url_for('parceiros_admin.pedido_editar', pid=o.id) }}" class="mini"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><input type="hidden" name="filtro" value="{{ filtro }}"><select class="campo" name="status">{% for k, n in STATUS_PED.items() %}<option value="{{ k }}" {{ 'selected' if o.status == k }}>{{ n }}</option>{% endfor %}</select><button class="btn btn-s">Salvar</button></form>
+{% if o.mensal_cent and o.status in ('pago', 'entregue') %}<form method="post" action="{{ url_for('parceiros_admin.pedido_mensalidade', pid=o.id) }}" class="mini" style="margin-top:6px"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><input type="hidden" name="filtro" value="{{ filtro }}"><input class="campo" name="referencia" value="{{ mes_atual }}" size="7"><button class="btn btn-s">Lançar mensalidade</button></form>{% endif %}</td></tr>
+{% else %}<tr><td colspan="7" style="color:#64748b">Nenhum pedido.</td></tr>{% endfor %}</tbody></table></div>
+
+{% elif aba == 'repasses' %}
+<div class="filtros">{% for k, n in [('a_pagar', 'A pagar'), ('pago', 'Pagos'), ('todos', 'Todos')] %}<a href="{{ url_for('parceiros_admin.lista', aba='repasses', status=k) }}" class="{{ 'on' if filtro == k }}">{{ n }}</a>{% endfor %}</div>
+<div class="box sc"><table><thead><tr><th>Quando</th><th>Parceiro</th><th>Tipo</th><th>Referência</th><th>Valor</th><th></th></tr></thead><tbody>
+{% for r in repasses %}<tr><td>{{ r.criado_em.strftime('%d/%m/%y') }}</td><td>{{ r.parceiro.nome }}<br><small style="color:#64748b">{{ r.parceiro.whatsapp }}</small></td>
+<td>{{ {'setup': 'Setup (revenda)', 'mensal': 'Mensalidade', 'indicacao': 'Indicação'}.get(r.tipo, r.tipo) }}{% if r.pedido %}<br><small style="color:#64748b">{{ r.pedido.cliente_nome }}</small>{% elif r.indicacao %}<br><small style="color:#64748b">{{ r.indicacao.nome }}</small>{% endif %}</td>
+<td>{{ r.referencia or '—' }}</td><td><b>{{ r.valor_cent|brl }}</b></td>
+<td><form method="post" action="{{ url_for('parceiros_admin.repasse_pagar', rid=r.id) }}"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><input type="hidden" name="filtro" value="{{ filtro }}">{% if r.pago_em %}<input type="hidden" name="desfazer" value="1"><span class="pill ok">Pago {{ r.pago_em.strftime('%d/%m/%y') }}</span> <button class="btn btn-s">Desfazer</button>{% else %}<button class="btn btn-p">Marcar como pago</button>{% endif %}</form></td></tr>
+{% else %}<tr><td colspan="6" style="color:#64748b">Nenhum repasse.</td></tr>{% endfor %}</tbody></table>
+<p style="margin:10px 0 0;font-weight:700">Total listado: {{ total_repasses|brl }}</p></div>
+{% endif %}</div>{% endblock %}

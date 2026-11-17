@@ -1,0 +1,13 @@
+{% extends "parceiros/_base.html" %}{% block titulo %}Indicações | Parceiros Leanttro{% endblock %}
+{% block conteudo %}<h1>Suas <em>indicações</em></h1>
+<p class="muted">Indique um cliente e receba {{ pct }}% do setup quando o negócio for fechado. Quem registra primeiro tem exclusividade por {{ dias }} dias. Sistema sob medida e Site 3D são só por indicação.</p>
+<div class="panel"><h2>Nova indicação</h2><form method="post"><input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+<div class="row"><div><label>Nome da pessoa ou empresa</label><input class="campo" name="nome" value="{{ d.nome }}" required maxlength="120"></div>
+<div><label>Telefone / WhatsApp (com DDD)</label><input class="campo" name="telefone" value="{{ d.telefone }}" required maxlength="30" inputmode="tel"></div></div>
+<label>Interesse</label><select class="campo" name="interesse">{% for k, n in INTERESSES.items() %}<option value="{{ k }}" {{ 'selected' if d.interesse == k }}>{{ n }}</option>{% endfor %}</select>
+<label>Observações (opcional)</label><textarea class="campo" name="obs" rows="3" maxlength="500">{{ d.obs }}</textarea>
+<p style="margin:16px 0 0"><button class="btn">Registrar indicação</button></p></form></div>
+<div class="panel"><h2>Minhas indicações</h2>{% if lista %}<div class="scroll"><table class="tb"><thead><tr><th>Indicado</th><th>Telefone</th><th>Interesse</th><th>Status</th><th>Exclusividade até</th><th>Setup</th></tr></thead><tbody>
+{% for i in lista %}<tr><td><b>{{ i.nome }}</b></td><td>{{ i.telefone }}</td><td>{{ INTERESSES.get(i.interesse, i.interesse) }}</td><td><span class="tag">{{ STATUS.get(i.status, i.status) }}</span></td>
+<td>{{ i.expira_em.strftime('%d/%m/%Y') }}{% if i.em_exclusividade and i.status != 'fechada' %} <small class="muted">(ativa)</small>{% endif %}</td><td>{{ i.valor_setup|brl if i.valor_setup else '—' }}</td></tr>{% endfor %}
+</tbody></table></div>{% else %}<p class="muted">Você ainda não fez nenhuma indicação.</p>{% endif %}</div>{% endblock %}

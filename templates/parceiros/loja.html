@@ -1,0 +1,35 @@
+{% extends "parceiros/_base.html" %}{% block titulo %}Minha Loja | Parceiros Leanttro{% endblock %}
+{% block conteudo %}<h1>Minha <em>Loja de Sites</em></h1>
+<p class="muted">Você ganha {{ pct }}% no setup + {{ mensal|brl }} fixos por mês, por cliente com plano ativo.</p>
+{% if not p.pode_vender %}<div class="flash error">Sua loja ainda não está liberada (autorização de uso do projeto ou vigência pendentes). Fale com a Leanttro.</div>{% endif %}
+<div class="kpis"><div class="kpi"><small>A receber</small><b>{{ tot.a_pagar|brl }}</b></div><div class="kpi"><small>Já recebido</small><b>{{ tot.pago|brl }}</b></div>
+<div class="kpi"><small>Sua página de vendas</small>{% if minisite and p.pode_vender %}<a href="{{ minisite }}" target="_blank" rel="noopener" style="color:#6c12f4;font-weight:700;word-break:break-all">{{ minisite }}</a>{% else %}<b>—</b>{% endif %}</div></div>
+<div class="panel"><h2>Personalizar página</h2>
+<form method="post" action="{{ url_for('parceiros.loja_salvar') }}"><input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+<div class="row"><div><label>Nome na página</label><input class="campo" name="nome_site" value="{{ p.nome_site or '' }}" maxlength="80" placeholder="{{ p.nome }}"></div>
+<div><label>WhatsApp (recebe os contatos)</label><input class="campo" name="whatsapp" value="{{ p.whatsapp }}" required></div></div>
+<label>Frase de apresentação</label><textarea class="campo" name="bio" rows="2" maxlength="300">{{ p.bio or '' }}</textarea>
+<label>Cor principal</label><input type="color" name="cor" value="{{ p.cor }}" style="width:64px;height:40px;border:0;background:none">
+<p style="margin:14px 0 0"><button class="btn">Salvar</button></p></form>
+<hr style="border:0;border-top:1px solid #eadfff;margin:22px 0"><h2>Logo</h2>
+{% if logo %}<p><img src="{{ logo }}" alt="Logo" style="max-height:70px;max-width:260px"></p>{% endif %}
+<form method="post" action="{{ url_for('parceiros.logo') }}" enctype="multipart/form-data" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><input type="file" name="arquivo" accept="image/png,image/jpeg,image/webp" required><button class="btn sm">Enviar logo</button></form>
+{% if logo %}<form method="post" action="{{ url_for('parceiros.logo_remover') }}" style="margin-top:8px"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="btn ghost sm">Remover logo</button></form>{% endif %}</div>
+<div class="panel"><h2>Registrar pedido de cliente</h2>
+<form method="post" action="{{ url_for('parceiros.pedido_novo') }}"><input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+<div class="row"><div><label>Nome do cliente</label><input class="campo" name="cliente_nome" value="{{ d.cliente_nome }}" required></div><div><label>Telefone / WhatsApp</label><input class="campo" name="cliente_telefone" value="{{ d.cliente_telefone }}" required></div></div>
+<div class="row"><div><label>E-mail (opcional)</label><input class="campo" name="cliente_email" value="{{ d.cliente_email }}" type="email"></div>
+<div><label>Produto</label><select class="campo" name="item" id="item">{% for k, c in CATALOGO.items() %}<option value="{{ k }}" data-pub="{{ c.publico }}" {{ 'selected' if d.item == k }}>{{ c.nome }} — {{ c.publico|brl }}</option>{% endfor %}</select></div></div>
+<div class="row"><div><label>Seções extras ({{ EXTRA.publico|brl }} cada, só landing)</label><input class="campo" type="number" name="extras" id="extras" min="0" max="{{ max_extras }}" value="{{ d.extras }}"></div>
+<div><label>&nbsp;</label><label style="font-weight:600"><input type="checkbox" name="plano" value="1" {{ 'checked' if d.plano }}> Cliente contratou o plano mensal ({{ PLANO.publico|brl }}/mês)</label></div></div>
+<label>Observações</label><textarea class="campo" name="obs" rows="2" maxlength="500">{{ d.obs }}</textarea>
+<p class="muted" id="prev" style="margin-top:12px"></p>
+<p style="margin:10px 0 0"><button class="btn" {{ 'disabled' if not p.pode_vender }}>Enviar pedido à Leanttro</button></p></form></div>
+<div class="panel"><h2>Meus pedidos</h2>{% if pedidos %}<div class="scroll"><table class="tb"><thead><tr><th>Data</th><th>Cliente</th><th>Item</th><th>Valor</th><th>Minha comissão</th><th>Status</th></tr></thead><tbody>
+{% for o in pedidos %}<tr><td>{{ o.criado_em.strftime('%d/%m/%Y') }}</td><td><b>{{ o.cliente_nome }}</b><br><small class="muted">{{ o.cliente_telefone }}</small></td>
+<td>{{ o.item_nome }}{% if o.extras %} +{{ o.extras }} extra(s){% endif %}{% if o.mensal_cent %}<br><small class="muted">+ plano mensal</small>{% endif %}</td><td>{{ o.valor_cent|brl }}</td><td>{{ o.comissao_cent|brl }}{% if o.mensal_cent %}<br><small class="muted">+ {{ o.mensal_cent|brl }}/mês</small>{% endif %}</td><td><span class="tag">{{ STATUS.get(o.status, o.status) }}</span></td></tr>{% endfor %}
+</tbody></table></div>{% else %}<p class="muted">Nenhum pedido ainda.</p>{% endif %}</div>
+<script>(function(){var i=document.getElementById('item'),e=document.getElementById('extras'),p=document.getElementById('prev'),X={{ EXTRA.publico }},P={{ pct }};
+function f(c){return 'R$ '+(c/100).toLocaleString('pt-BR',{minimumFractionDigits:2})}
+function u(){var b=+i.options[i.selectedIndex].dataset.pub,n=+e.value||0,t=b+n*X;p.textContent='Valor ao cliente: '+f(t)+' · Sua comissão ('+P+'%): '+f(Math.floor(t*P/100))}
+i.onchange=e.oninput=u;u()})()</script>{% endblock %}

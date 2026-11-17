@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#6815ef" />
+  <title>Área de Parceiros | Leanttro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+*{box-sizing:border-box}
+:root{--purple:#741cff;--violet:#9b42ff;--ink:#0c0a32;--lav:#f8f6ff;--line:#e4d9ff}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,Arial,sans-serif;color:var(--ink);background:#faf9ff}
+a{color:inherit;text-decoration:none}
+.topbar{height:60px;background:linear-gradient(105deg,#7024ed,#5720d9 55%,#7a25ef);display:flex;align-items:center;justify-content:space-between;padding:0 max(calc((100% - 904px)/2),5.8%);color:white;position:relative;z-index:5;box-shadow:0 3px 18px #4c10ba25}
+.brand{font-size:28px;font-weight:900;font-style:italic;letter-spacing:-1.8px;line-height:1}
+.brand span{font-style:normal}
+.nav{display:flex;align-items:center;gap:34px;font-size:12px;font-weight:700}
+.nav a:not(.nav-pill){display:flex;align-items:center;gap:8px}
+.nav i{width:7px;height:7px;border-right:1.5px solid white;border-bottom:1.5px solid white;transform:rotate(45deg);margin-top:-4px}
+.nav-pill{background:#10072d;border-radius:24px;padding:10px 18px}
+.menu-toggle{display:none;background:none;border:0;padding:8px}
+.menu-toggle span{display:block;width:22px;height:2px;background:white;margin:5px}
+.hero{height:354px;position:relative;overflow:hidden;background:linear-gradient(112deg,#10051f 0%,#130626 49%,#28075b 100%);color:white}
+.hero:before,.hero:after{content:"";position:absolute;inset:-30%;pointer-events:none}
+.hero:before{background:linear-gradient(125deg,transparent 0 38%,#29085d70 38% 59%,transparent 59%),linear-gradient(130deg,transparent 0 76%,#4e0bbd70 76% 86%,transparent 86%);transform:skewX(-8deg)}
+.hero:after{background:radial-gradient(ellipse at 82% 80%,#7b16ff38,transparent 42%)}
+.hero-inner{max-width:900px;height:100%;margin:auto;display:grid;grid-template-columns:1fr 1px 1.18fr;align-items:center;gap:34px;position:relative;z-index:1;padding:0 20px}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;border:1px solid #a65aff;border-radius:30px;padding:6px 13px;color:#b77aff;font-size:13px;font-weight:800;margin-bottom:12px}
+.handshake{font-size:13px;color:#b45bff}
+.hero h1{font-size:68px;line-height:.91;letter-spacing:-3.5px;margin:0 0 14px;font-weight:900}
+.hero h1 em,.section-heading em{font-style:normal;color:#8c2dff}
+.hero-copy p{font-size:17px;line-height:1.42;margin:0;color:#f2eafa}
+.short-line{display:block;width:69px;height:3px;background:#922cff;margin-top:18px}
+.hero-divider{height:220px;background:#bda7db70}
+.discount-panel{height:242px;border:1px solid #8125ff;border-radius:25px;display:flex;align-items:center;justify-content:space-between;padding:22px 28px 22px 42px;background:linear-gradient(120deg,#17072c9c,#16082a40);box-shadow:inset 0 0 28px #6b16ba0c}
+.discount-copy strong{display:block;font-size:120px;line-height:.9;letter-spacing:-7px;font-weight:900}
+.discount-copy b{display:block;color:#8d35ff;font-size:38px;line-height:1.05;letter-spacing:-1.8px}
+.discount-copy p{font-size:19px;line-height:1.28;margin:8px 0 0}
+.discount-seal{width:154px;height:154px;flex:none;display:grid;place-items:center;position:relative;filter:drop-shadow(0 10px 17px #7c20ff66);background:#7621e9;clip-path:polygon(50% 0%,59% 6%,70% 2%,77% 11%,89% 12%,91% 25%,100% 33%,95% 45%,100% 56%,93% 66%,94% 78%,82% 84%,77% 96%,64% 94%,53% 100%,43% 94%,30% 98%,23% 88%,11% 85%,10% 72%,1% 63%,6% 51%,0 40%,8% 30%,7% 18%,20% 14%,27% 3%,39% 7%)}
+.seal-inner{width:124px;height:124px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 25%,#b96cff,#7419e6 65%,#4c0aa9);box-shadow:inset 0 4px 12px #e4baff80,inset 0 -8px 15px #34007880}
+.seal-inner span{font-size:82px;line-height:1;font-weight:900;color:#fff;text-shadow:0 4px 3px #3d087c}
+.section-wrap{max-width:944px;margin:auto}
+.pricing{padding:42px 0 48px}
+.section-heading{padding:0 8px;margin-bottom:26px}
+.section-kicker{font-size:15px;font-weight:900;color:#741cff;display:flex;align-items:center;gap:8px;margin-bottom:1px}
+.section-kicker span{width:22px;height:2px;background:#7a1cff}
+.section-heading h2{font-size:35px;letter-spacing:-1.5px;margin:0 0 4px;font-weight:900}
+.section-heading p{font-size:17px;margin:0}
+.product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.price-card{min-height:260px;background:linear-gradient(145deg,#fff,#fdfcff);border:1px solid #e3d7ff;border-radius:20px;padding:14px 23px 13px;box-shadow:0 7px 18px #5c24a00a;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s}
+.price-card:hover,.detail-card:hover{transform:translateY(-4px);box-shadow:0 14px 30px #6825b51b}
+.card-heading{display:flex;align-items:center;gap:13px;min-height:47px}
+.icon-box{width:48px;height:48px;border-radius:16px;background:#eee2ff;color:#741cff;display:grid;place-items:center;font-size:26px;font-weight:900;flex:none;box-shadow:inset 0 0 0 1px #fff}
+.card-heading h3{font-size:18px;letter-spacing:-.7px;margin:0;font-weight:800}
+.price{font-size:39px;line-height:1.1;font-weight:900;letter-spacing:-1.8px;margin:13px 0 5px}
+.price-card p{font-size:14px;line-height:1.28;margin:0 0 10px;letter-spacing:-.25px}
+.outline-btn{height:39px;margin-top:auto;border:1.5px solid #741cff;color:#6c12f4;border-radius:24px;display:flex;align-items:center;justify-content:center;gap:12px;font-size:13px;font-weight:800;transition:.2s}
+.outline-btn b{font-size:26px;line-height:10px;font-weight:500}
+.outline-btn:hover{background:#741cff;color:white;box-shadow:0 5px 14px #741cff30}
+.price-card.compact{min-height:213px;padding-top:13px}
+.price-card.compact .price{margin:4px 0 4px}
+.price.smaller{font-size:29px;letter-spacing:-1px}
+.compact .card-heading h3{font-size:17px}
+.compact .price-card p,.compact p{font-size:14px}
+.plus{background:#711cff;color:#fff;border-radius:50%;font-size:34px}
+.extra-card{background:linear-gradient(135deg,#f1e8ff,#e8dcff)}
+.details-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:27px 0 37px}
+.detail-card{background:#ffffffb8;border:1px solid #dfd3ff;border-radius:18px;padding:16px 18px 14px;min-height:196px;transition:transform .25s,box-shadow .25s}
+.detail-title{display:flex;align-items:center;gap:15px;margin-bottom:12px}
+.detail-title span{font-size:25px;color:#741cff;font-weight:900;min-width:36px;text-align:center}
+.detail-title h3{font-size:15px;margin:0;font-weight:800;letter-spacing:-.4px}
+.detail-item{margin:0 0 11px;padding-left:0}
+.detail-item>div{display:flex;justify-content:space-between;gap:8px;align-items:baseline;font-size:12px}
+.detail-item>div:before{content:"•";color:#741cff;font-size:16px;font-weight:900;margin-right:0}
+.detail-item b{margin-right:auto}
+.detail-item strong{font-size:13px;white-space:nowrap}
+.detail-item .from{font-size:10px}
+.detail-item p{font-size:10px;line-height:1.35;margin:3px 0 0 11px;color:#302a53}
+.important{min-height:128px;background:linear-gradient(105deg,#10051f,#19052f 65%,#4e0bb4);border:1px solid #7620f3;border-radius:18px;color:white;display:flex;align-items:center;padding:20px 28px;gap:21px;box-shadow:0 10px 25px #5c18b51c}
+.info-icon{width:68px;height:68px;border:1px solid #5c22a5;background:#210a46;border-radius:50%;display:grid;place-items:center;color:#a65aff;font-size:39px;font-weight:500;box-shadow:inset 0 0 0 7px #17082d;flex:none}
+.important-copy{flex:1}
+.important-copy h3{font-size:20px;margin:0 0 3px}
+.important-copy p{font-size:14px;line-height:1.45;margin:0}
+.important-divider{height:70px;width:1px;background:#bda7db70;margin:0 25px}
+.contact-btn{height:52px;min-width:200px;padding:0 22px;border-radius:30px;background:linear-gradient(100deg,#761aff,#8c21ff);border:1px solid #a95dff;display:flex;align-items:center;justify-content:center;gap:13px;font-size:14px;font-weight:800;box-shadow:0 6px 20px #6815ef45;transition:transform .2s,box-shadow .2s}
+.contact-btn b{font-size:27px;font-weight:400}
+.contact-btn:hover{transform:translateY(-2px);box-shadow:0 10px 25px #8d2bff70}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+@media(max-width:980px){.section-wrap{width:92%}.hero-inner{width:92%;gap:24px}.discount-copy strong{font-size:100px}.discount-copy b{font-size:31px}.discount-seal{width:130px;height:130px}.seal-inner{width:105px;height:105px}.seal-inner span{font-size:70px}.hero h1{font-size:58px}}
+@media(max-width:720px){.topbar{height:62px;padding:0 5%}.brand{font-size:25px}.nav{display:none;position:absolute;top:62px;left:0;right:0;background:#5f19d8;padding:18px 6%;flex-direction:column;align-items:stretch;gap:18px;box-shadow:0 12px 18px #1b073b30}.nav.open{display:flex}.nav-pill{text-align:center}.menu-toggle{display:block}.hero{height:auto;min-height:560px}.hero-inner{width:100%;padding:34px 6% 28px;display:flex;flex-direction:column;align-items:stretch;gap:20px}.hero-copy{position:relative;z-index:2}.hero h1{font-size:58px}.hero-copy p{font-size:16px}.desktop{display:none}.hero-divider{display:none}.discount-panel{height:190px;padding:18px 22px}.discount-copy strong{font-size:91px}.discount-copy b{font-size:27px}.discount-copy p{font-size:16px}.discount-seal{width:116px;height:116px}.seal-inner{width:94px;height:94px}.seal-inner span{font-size:62px}.pricing{padding:34px 0 40px}.section-heading{padding:0 2px}.section-heading h2{font-size:29px;line-height:1.12}.section-heading p{font-size:15px;line-height:1.4;margin-top:7px}.product-grid{grid-template-columns:1fr;gap:13px}.price-card,.price-card.compact{min-height:0;padding:17px 19px}.price-card p br{display:none}.price{font-size:38px}.outline-btn{margin-top:13px}.details-grid{grid-template-columns:1fr;gap:12px;margin:22px 0 28px}.detail-card{min-height:0;padding:17px}.important{padding:20px;display:grid;grid-template-columns:55px 1fr;gap:13px}.info-icon{width:54px;height:54px;font-size:31px}.important-copy h3{font-size:19px}.important-copy p{font-size:13px}.important-copy br{display:none}.important-divider{display:none}.contact-btn{grid-column:1/-1;width:100%;height:48px}.detail-item>div{font-size:13px}.detail-item p{font-size:11px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}.reveal{opacity:1;transform:none}}
+
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="{{ request.script_root }}/" aria-label="Leanttro">LEANTTRO<span>.</span></a>
+    <nav class="nav"><a href="{{ request.script_root }}/">Central</a><a href="{{ url_indicar }}">Indicações</a>{% if p.tipo == 'revendedor' %}<a href="{{ url_for('parceiros.loja') }}">Minha loja</a>{% endif %}<form method="post" action="{{ url_for('parceiros.sair') }}" style="display:contents"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="nav-pill" style="border:0;color:#fff;cursor:pointer;font:inherit;font-weight:700">Sair</button></form></nav>
+    <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </header>
+
+  <main>
+    <section class="hero" id="parceiros">
+      <div class="hero-shapes"></div>
+      <div class="hero-inner">
+        <div class="hero-copy reveal">
+          <div class="eyebrow"><span class="handshake">◆</span> ÁREA EXCLUSIVA</div>
+          <h1>Área de<br><em>Parceiros</em></h1>
+          <p>Aproveite condições especiais, gerencie<br class="desktop"> seus pedidos e faça ainda mais negócios<br class="desktop"> com a Leanttro.</p>
+          <span class="short-line"></span>
+        </div>
+        <div class="hero-divider"></div>
+        <div class="discount-panel reveal">
+          <div class="discount-copy">
+            <strong>50%</strong>
+            <b>de desconto</b>
+            <p>em todos os nossos<br>serviços e planos!</p>
+          </div>
+          <div class="discount-seal" aria-label="50 por cento de desconto">
+            <div class="seal-inner"><span>%</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pricing section-wrap" id="servicos">
+      <div class="section-heading reveal">
+        <div class="section-kicker"><span></span> TABELA DE PARCEIRO</div>
+        <h2>Nossos preços <em>exclusivos</em> para você</h2>
+        <p>Aproveite nossos valores diferenciados e ofereça o melhor para seus clientes.</p>
+      </div>
+
+      <div class="product-grid">
+        <article class="price-card reveal">
+          <div class="card-heading"><span class="icon-box">🚀</span><h3>Landing Básica</h3></div>
+          <div class="price">R$ {{ CATALOGO.lp_basica.parceiro // 100 }}</div>
+          <p>7 seções, celular, WhatsApp e formulário, aviso por e-mail, SEO básico,<br>1 rodada de ajustes, contrato e NF.</p>
+          <a class="outline-btn" href="{{ wa('Olá! Tenho interesse na Landing Básica.') }}">Contratar agora <b>›</b></a>
+        </article>
+
+        <article class="price-card reveal">
+          <div class="card-heading"><span class="icon-box">▱</span><h3>Landing Completa</h3></div>
+          <div class="price">R$ {{ CATALOGO.lp_completa.parceiro // 100 }}</div>
+          <p>Até 12 seções, painel de contatos, Pixel e Analytics, texto escrito ou revisado,<br>2 a 3 rodadas, 1 mês de suporte, contrato e NF.</p>
+          <a class="outline-btn" href="{{ wa('Olá! Tenho interesse na Landing Completa.') }}">Contratar agora <b>›</b></a>
+        </article>
+
+        <article class="price-card reveal">
+          <div class="card-heading"><span class="icon-box">▣</span><h3>Site Profissional</h3></div>
+          <div class="price">R$ {{ CATALOGO.site_prof.parceiro // 100 }}</div>
+          <p>Até 5 páginas, painel admin, blog, contatos no banco, SEO básico,<br>contrato e NF.</p>
+          <a class="outline-btn" href="{{ wa('Olá! Tenho interesse na Site Profissional.') }}">Contratar agora <b>›</b></a>
+        </article>
+
+        <article class="price-card compact reveal">
+          <div class="card-heading"><span class="icon-box">⚙</span><h3>Sistema Sob Medida</h3></div>
+          <div class="price smaller">Sob orçamento</div>
+          <p>Desenvolvimento personalizado<br>para a sua necessidade.</p>
+          <a class="outline-btn" href="{{ url_indicar }}?interesse=sistema">Indicar um cliente <b>›</b></a>
+        </article>
+
+        <article class="price-card compact reveal">
+          <div class="card-heading"><span class="icon-box">⬡</span><h3>Site 3D</h3></div>
+          <div class="price smaller">Sob orçamento</div>
+          <p>Experiências imersivas e modernas<br>para o seu negócio.</p>
+          <a class="outline-btn" href="{{ url_indicar }}?interesse=3d">Indicar um cliente <b>›</b></a>
+        </article>
+
+        <article class="price-card compact extra-card reveal">
+          <div class="card-heading"><span class="icon-box plus">＋</span><h3>Seção Extra</h3></div>
+          <div class="price smaller">R$ {{ EXTRA.parceiro // 100 }}</div>
+          <p>Adicione uma seção extra<br>em qualquer landing page.</p>
+          <a class="outline-btn" href="{{ wa('Olá! Quero adicionar uma seção extra.') }}">Contratar agora <b>›</b></a>
+        </article>
+      </div>
+
+      <div class="details-grid">
+        <article class="detail-card reveal">
+          <div class="detail-title"><span>▤</span><h3>Planos Mensais</h3></div>
+          <div class="detail-item">
+            <div><b>Plano Básico</b><strong>R$ {{ PLANO.parceiro // 100 }}/mês</strong></div>
+            <p>Hospedagem, 1 alteração simples<br>(frontend) por mês, entrega em até 3 dias úteis.</p>
+          </div>
+          <div class="detail-item">
+            <div><b>Painel de Contatos</b><strong class="from">a partir de R$ 30/mês</strong></div>
+            <p>Após a Landing Básica.</p>
+          </div>
+        </article>
+
+        <article class="detail-card reveal">
+          <div class="detail-title"><span>🔧</span><h3>Alterações e Suporte</h3></div>
+          <div class="detail-item">
+            <div><b>Alteração Básica</b><strong>R$ 40</strong></div>
+            <p>Só frontend: cor, imagem, texto, layout.</p>
+          </div>
+          <div class="detail-item">
+            <div><b>Alteração Intermediária</b><strong>R$ 70</strong></div>
+            <p>Backend + frontend.</p>
+          </div>
+          <div class="detail-item">
+            <div><b>Alteração com Banco</b><strong>R$ 100</strong></div>
+            <p>Quando precisa alterar tabela do banco.</p>
+          </div>
+        </article>
+
+        <article class="detail-card reveal">
+          <div class="detail-title"><span>♧</span><h3>Suporte e Serviços</h3></div>
+          <div class="detail-item">
+            <div><b>Suporte Avulso</b><strong>R$ 35/hora</strong></div>
+            <p>Acesso a servidor, configuração,<br>integração, diagnóstico, call, consultoria.</p>
+          </div>
+          <div class="detail-item">
+            <div><b>Texto longo, foto, logo</b></div>
+            <p>Orçado à parte.</p>
+          </div>
+          <div class="detail-item">
+            <div><b>Domínio</b></div>
+            <p>Por conta do cliente.</p>
+          </div>
+        </article>
+      </div>
+
+      <aside class="important reveal">
+        <div class="info-icon">i</div>
+        <div class="important-copy">
+          <h3>Importante!</h3>
+          <p>As alterações são válidas apenas para sites e sistemas feitos pela Leanttro.<br>Funcionalidade ou página nova é orçamento.</p>
+        </div>
+        <div class="important-divider"></div>
+        <a class="contact-btn" href="{{ wa('Olá! Quero falar com a Leanttro.') }}">Fale com a gente <b>›</b></a>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+const menuButton = document.querySelector('.menu-toggle');
+const nav = document.querySelector('.nav');
+
+menuButton.addEventListener('click', () => {
+  const isOpen = nav.classList.toggle('open');
+  menuButton.setAttribute('aria-expanded', String(isOpen));
+});
+
+nav.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    nav.classList.remove('open');
+    menuButton.setAttribute('aria-expanded', 'false');
+  });
+});
+
+const revealItems = document.querySelectorAll('.reveal');
+if ('IntersectionObserver' in window) {
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealItems.forEach(item => observer.observe(item));
+} else {
+  revealItems.forEach(item => item.classList.add('visible'));
+}
+
+  </script>
+</body>
+</html>

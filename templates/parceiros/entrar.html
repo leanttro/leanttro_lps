@@ -1,0 +1,7 @@
+{% extends "parceiros/_base.html" %}{% block titulo %}Entrar | Parceiros Leanttro{% endblock %}
+{% block conteudo %}<div class="panel" style="max-width:460px;margin:40px auto">
+<h1>Área de <em>Parceiros</em></h1><p class="muted">Digite o código de acesso que a Leanttro te enviou pelo WhatsApp.</p>
+<form method="post" autocomplete="off"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><input type="hidden" name="ir" value="{{ ir }}">
+<label for="codigo">Código de acesso</label><input class="campo" id="codigo" name="codigo" type="password" required minlength="20" maxlength="64" autofocus spellcheck="false" autocapitalize="off">
+<p style="margin:18px 0 0"><button class="btn" style="width:100%">Entrar</button></p></form>
+<p class="muted" style="margin-top:16px">Ainda não tem código? Fale com a Leanttro no <a href="https://wa.me/5511913324827" style="color:#6c12f4;font-weight:700">WhatsApp</a>.</p></div>{% endblock %}
