@@ -30,7 +30,8 @@ import sys
 from datetime import date, timedelta
 from functools import wraps
 
-from flask import Blueprint, abort, current_app, flash, g, redirect, render_template, request, session, url_for
+from flask import (Blueprint, abort, current_app, flash, g, redirect, render_template, render_template_string,
+                   request, session, url_for)
 from sqlalchemy import select, func
 
 # ── pega as funções do app.py sem criar um segundo módulo (python app.py init-db roda como __main__) ──
@@ -54,6 +55,9 @@ remover_slot = _m.remover_slot
 snap_largura = _m.snap_largura
 UploadError = _m.UploadError
 ErroNegocio = _m.ErroNegocio
+buscar_por_host = _m.buscar_por_host
+normalizar_host = _m.normalizar_host
+csrf_token = _m.csrf_token
 
 # ═══════════════════════════════════════════════════════════════════════════
 # REGRAS DE NEGÓCIO (mexa só aqui)
@@ -260,12 +264,48 @@ def _codigo():
     return current_app.config["PARCEIROS_TENANT"]
 
 
+CODIGO_ACESSO_RE = re.compile(r"^[A-Za-z0-9_-]{4,40}$")
+
+
 def _novo_codigo():
-    """Código de acesso longo e aleatório (32 caracteres), único no banco."""
+    """Código de acesso automático: 6 dígitos, único no banco."""
     while True:
-        c = secrets.token_urlsafe(24)
+        c = f"{secrets.randbelow(10**6):06d}"
         if not db.session.scalar(select(Parceiro.id).where(Parceiro.codigo == c)):
             return c
+
+
+def _codigo_escolhido(valor, atual_id=None):
+    """Valida um código digitado pelo admin (4 a 40 letras, números, - ou _) e garante que é único."""
+    c = (valor or "").strip()
+    if not CODIGO_ACESSO_RE.match(c):
+        raise ErroNegocio("Código inválido: use de 4 a 40 caracteres (letras, números, - ou _), sem espaços.")
+    outro = db.session.scalar(select(Parceiro).where(Parceiro.codigo == c))
+    if outro and outro.id != atual_id:
+        raise ErroNegocio("Este código já está em uso por outro parceiro.")
+    return c
+
+
+def _parceiro_logado():
+    s = session.get("par") or {}
+    p = db.session.get(Parceiro, s.get("pid")) if s.get("pid") else None
+    return p if (p and p.ativo and s.get("v") == p.token_versao) else None
+
+
+def _guarda_central():
+    """A central (raiz do tenant de parceiros) só abre depois do código. Não mexe em nenhum outro tenant."""
+    try:
+        if request.path != "/":
+            return None
+        pref = request.environ.get("lp.prefixo", "")
+        t = buscar_por_host(normalizar_host(request.host) + pref)
+        if t is None or t.template != "lp_parceiros":
+            return None
+        if _parceiro_logado() is None:
+            return redirect(url_for("parceiros.entrar"))
+    except Exception:
+        current_app.logger.exception("Falha na guarda da central de parceiros")
+    return None
 
 
 def _central():
@@ -377,8 +417,11 @@ def entrar():
         if not permitir(f"parcod:{request.remote_addr}", 10, 600):
             flash("Muitas tentativas. Aguarde alguns minutos e tente de novo.", "error")
             return render_template("parceiros/entrar.html", ir=ir), 429
+        if not permitir("parcod:global", 60, 600):
+            flash("Muitas tentativas. Aguarde alguns minutos e tente de novo.", "error")
+            return render_template("parceiros/entrar.html", ir=ir), 429
         cod = (request.form.get("codigo") or "").strip()
-        p = db.session.scalar(select(Parceiro).where(Parceiro.codigo == cod)) if 20 <= len(cod) <= 64 else None
+        p = db.session.scalar(select(Parceiro).where(Parceiro.codigo == cod)) if 4 <= len(cod) <= 64 else None
         if p and p.ativo:
             session.pop("par", None)
             session["par"] = {"pid": p.id, "v": p.token_versao}
@@ -719,7 +762,9 @@ def novo():
     if request.method == "GET":
         return redirect(url_for("parceiros_admin.lista", aba="parceiros", novo=1))
     try:
-        p = Parceiro(**_form_parceiro(request.form), codigo=_novo_codigo())
+        campos = _form_parceiro(request.form)
+        digitado = (request.form.get("codigo") or "").strip()
+        p = Parceiro(**campos, codigo=_codigo_escolhido(digitado) if digitado else _novo_codigo())
         if p.aceite_uso:
             p.aceite_em = _hoje()
         db.session.add(p)
@@ -743,6 +788,10 @@ def editar(pid):
             p.aceite_em = _hoje()
         for k, v in campos.items():
             setattr(p, k, v)
+        digitado = (request.form.get("codigo") or "").strip()
+        if digitado and digitado != p.codigo:
+            p.codigo = _codigo_escolhido(digitado, p.id)
+            p.token_versao += 1
         db.session.commit()
         flash("Parceiro atualizado.", "success")
         return redirect(url_for("parceiros_admin.lista", aba="parceiros", editar=pid))
@@ -752,15 +801,41 @@ def editar(pid):
         return _tela("parceiros", form_p=_ou_404(Parceiro, pid), form_d=_dados_do_form(request.form), form_aberto=True)
 
 
-@bp_admin.post("/<int:pid>/codigo", endpoint="codigo")
+_PAG_CODIGO = """<!doctype html><html lang="pt-br"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Código de acesso</title>
+<body style="font-family:system-ui,sans-serif;background:#f1f5f9;margin:0;padding:24px">
+<form method="post" style="max-width:460px;margin:40px auto;background:#fff;padding:24px;border-radius:14px;box-shadow:0 2px 12px #0001">
+<h2 style="margin:0 0 4px">Código de acesso</h2>
+<p style="margin:0 0 16px;color:#64748b">{{ p.nome }}</p>
+{% if erro %}<p style="background:#fee2e2;color:#991b1b;padding:10px;border-radius:8px">{{ erro }}</p>{% endif %}
+<input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+<label style="font-weight:600">Código atual</label>
+<input name="codigo" value="{{ valor }}" placeholder="4 a 40 caracteres (letras, números, - ou _)" autocomplete="off"
+ style="width:100%;box-sizing:border-box;padding:12px;margin:6px 0 16px;border:1px solid #cbd5e1;border-radius:8px;font:18px monospace">
+<button type="submit" style="padding:12px 18px;border:0;border-radius:8px;background:#0f766e;color:#fff;font-weight:600;cursor:pointer">Salvar código</button>
+<button type="submit" name="auto" value="1" style="padding:12px 18px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;cursor:pointer">Gerar automático (6 dígitos)</button>
+<a href="{{ voltar }}" style="margin-left:8px;color:#64748b">Voltar</a>
+<p style="color:#64748b;font-size:13px;margin-top:16px">Ao trocar o código, o anterior para de funcionar e as sessões abertas desse parceiro caem.</p>
+</form></body></html>"""
+
+
+@bp_admin.route("/<int:pid>/codigo", methods=["GET", "POST"], endpoint="codigo")
 def codigo(pid):
-    """Gera um código novo. O anterior para de funcionar e as sessões abertas caem."""
+    """Define o código de acesso (digitado) ou gera um automático de 6 dígitos. O anterior deixa de valer."""
     p = _ou_404(Parceiro, pid)
-    p.codigo = _novo_codigo()
+    voltar = url_for("parceiros_admin.lista", aba="parceiros", editar=pid)
+    if request.method == "GET":
+        return render_template_string(_PAG_CODIGO, p=p, valor=p.codigo or "", erro=None, voltar=voltar, csrf_token=csrf_token)
+    digitado = (request.form.get("codigo") or "").strip()
+    try:
+        novo = _novo_codigo() if (request.form.get("auto") or not digitado) else _codigo_escolhido(digitado, p.id)
+    except ErroNegocio as e:
+        return render_template_string(_PAG_CODIGO, p=p, valor=digitado, erro=str(e), voltar=voltar, csrf_token=csrf_token), 400
+    p.codigo = novo
     p.token_versao += 1
     db.session.commit()
-    flash("Novo código gerado. O anterior não funciona mais.", "success")
-    return redirect(url_for("parceiros_admin.lista", aba="parceiros", editar=pid))
+    flash("Código atualizado. O anterior não funciona mais.", "success")
+    return redirect(voltar)
 
 
 @bp_admin.post("/<int:pid>/revogar", endpoint="revogar")
@@ -853,5 +928,6 @@ def repasse_pagar(rid):
 def registrar(app):
     app.config.setdefault("PARCEIROS_TENANT", os.environ.get("PARCEIROS_TENANT", "lpparceiros").strip().lower())
     app.add_template_filter(brl, "brl")
+    app.before_request(_guarda_central)
     for bp in (bp_parceiros, bp_publico, bp_admin):
         app.register_blueprint(bp)
