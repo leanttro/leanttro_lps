@@ -15,7 +15,8 @@
 <div><label>WhatsApp (com DDD)</label><input class="campo" name="whatsapp" value="{{ form_d.whatsapp }}" required></div>
 <div><label>Tipo</label><select class="campo" name="tipo">{% for k, n in TIPOS.items() %}<option value="{{ k }}" {{ 'selected' if form_d.tipo == k }}>{{ n }}</option>{% endfor %}</select></div>
 <div><label>Endereço da página de vendas (revendedor, ex.: joao-sites)</label><input class="campo" name="slug" value="{{ form_d.slug }}"></div>
-<div><label>Preço de parceiro vale até</label><input class="campo" type="date" name="preco_ate" value="{{ form_d.preco_ate }}"></div></div>
+<div><label>Preço de parceiro vale até</label><input class="campo" type="date" name="preco_ate" value="{{ form_d.preco_ate }}"></div>
+<div><label>Código de acesso (4 a 40 caracteres; vazio = gera 6 dígitos)</label><input class="campo" name="codigo" value="{{ form_p.codigo if form_p and form_p.codigo else '' }}" maxlength="40" autocomplete="off" placeholder="ex.: 482913"></div></div>
 <label class="ck"><input type="checkbox" name="aceite_uso" {{ 'checked' if form_d.aceite_uso }}> Autorizou usar o projeto como exemplo</label>
 <label class="ck"><input type="checkbox" name="ativo" {{ 'checked' if form_d.ativo }}> Ativo</label>
 <label>Observações</label><textarea class="campo" name="obs" rows="3">{{ form_d.obs }}</textarea>
@@ -23,7 +24,8 @@
 {% if form_p %}<hr style="margin:16px 0;border:0;border-top:1px solid #e2e8f0"><h2 style="font-weight:700;margin:0 0 8px">Acesso</h2>
 {% if form_p.codigo %}<div class="cod">{{ form_p.codigo }}</div><p class="sub" style="margin-top:6px">{% if acesso_url %}Entrar em: {{ acesso_url }}{% else %}Cadastre um domínio no tenant para montar o link.{% endif %}</p>{% else %}<p class="sub">Sem código: este parceiro não consegue entrar.</p>{% endif %}
 <div class="mini">{% if acesso_wa %}<a class="btn btn-p" href="{{ acesso_wa }}" target="_blank" rel="noopener">Enviar código por WhatsApp</a>{% endif %}
-<form method="post" action="{{ url_for('parceiros_admin.codigo', pid=form_p.id) }}" onsubmit="return confirm('Gerar código novo? O atual para de funcionar.')"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="btn btn-s">Gerar novo código</button></form>
+<form method="post" action="{{ url_for('parceiros_admin.codigo', pid=form_p.id) }}" onsubmit="return confirm('Gerar código novo? O atual para de funcionar.')"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="btn btn-s">Gerar novo código (6 dígitos)</button></form>
+<a class="btn btn-s" href="{{ url_for('parceiros_admin.codigo', pid=form_p.id) }}">Definir código</a>
 {% if form_p.codigo %}<form method="post" action="{{ url_for('parceiros_admin.revogar', pid=form_p.id) }}" onsubmit="return confirm('Cortar o acesso agora?')"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="btn btn-d">Revogar acesso</button></form>{% endif %}</div>{% endif %}</div>
 {% else %}<p><a class="btn btn-p" href="{{ url_for('parceiros_admin.lista', aba='parceiros', novo=1) }}">Novo parceiro</a></p>{% endif %}
 <div class="box sc"><table><thead><tr><th>Parceiro</th><th>Tipo</th><th>Status</th><th>Indic.</th><th>Pedidos</th><th>A pagar</th><th>Pago</th><th></th></tr></thead><tbody>
