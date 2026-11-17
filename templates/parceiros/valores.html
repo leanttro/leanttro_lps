@@ -14,15 +14,14 @@
 html{scroll-behavior:smooth}
 body{margin:0;font-family:Inter,Arial,sans-serif;color:var(--ink);background:#faf9ff}
 a{color:inherit;text-decoration:none}
-.topbar{height:60px;background:linear-gradient(105deg,#7024ed,#5720d9 55%,#7a25ef);display:flex;align-items:center;justify-content:space-between;padding:0 max(calc((100% - 904px)/2),5.8%);color:white;position:relative;z-index:5;box-shadow:0 3px 18px #4c10ba25}
-.brand{font-size:28px;font-weight:900;font-style:italic;letter-spacing:-1.8px;line-height:1}
-.brand span{font-style:normal}
-.nav{display:flex;align-items:center;gap:34px;font-size:12px;font-weight:700}
-.nav a:not(.nav-pill){display:flex;align-items:center;gap:8px}
-.nav i{width:7px;height:7px;border-right:1.5px solid white;border-bottom:1.5px solid white;transform:rotate(45deg);margin-top:-4px}
-.nav-pill{background:#10072d;border-radius:24px;padding:10px 18px}
-.menu-toggle{display:none;background:none;border:0;padding:8px}
-.menu-toggle span{display:block;width:22px;height:2px;background:white;margin:5px}
+.topbar{height:62px;padding:0 max(5.8%,calc((100% - 1320px)/2));display:flex;align-items:center;justify-content:space-between;color:#fff;background:linear-gradient(105deg,#5010df,#7627ff 65%,#5411d8);position:relative;z-index:5;box-shadow:0 5px 25px #18004455}
+.brand{display:flex;align-items:center;flex:0 0 auto}.brand img{display:block;width:158px;height:auto;max-height:42px;object-fit:contain;filter:brightness(0) invert(1)}
+.nav{display:flex;align-items:center;gap:32px;font-size:13px;font-weight:650}.nav a{opacity:.96}.nav form{margin:0}
+.nav-pill{background:#100020;color:#fff;padding:11px 19px;border-radius:24px;border:0;font:inherit;font-weight:650;cursor:pointer}
+.menu-toggle{display:none}
+.feat{list-style:none;margin:0 0 12px;padding:0;display:flex;flex-direction:column;gap:6px}
+.feat li{position:relative;padding-left:24px;font-size:14px;line-height:1.3;letter-spacing:-.2px}
+.feat li:before{content:"✓";position:absolute;left:0;top:1px;width:16px;height:16px;border-radius:50%;background:#efe4ff;color:#6c12f4;font-size:10px;font-weight:900;display:flex;align-items:center;justify-content:center}
 .hero{height:354px;position:relative;overflow:hidden;background:linear-gradient(112deg,#10051f 0%,#130626 49%,#28075b 100%);color:white}
 .hero:before,.hero:after{content:"";position:absolute;inset:-30%;pointer-events:none}
 .hero:before{background:linear-gradient(125deg,transparent 0 38%,#29085d70 38% 59%,transparent 59%),linear-gradient(130deg,transparent 0 76%,#4e0bbd70 76% 86%,transparent 86%);transform:skewX(-8deg)}
@@ -91,16 +90,30 @@ a{color:inherit;text-decoration:none}
 .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
 .reveal.visible{opacity:1;transform:translateY(0)}
 @media(max-width:980px){.section-wrap{width:92%}.hero-inner{width:92%;gap:24px}.discount-copy strong{font-size:100px}.discount-copy b{font-size:31px}.discount-seal{width:130px;height:130px}.seal-inner{width:105px;height:105px}.seal-inner span{font-size:70px}.hero h1{font-size:58px}}
-@media(max-width:720px){.topbar{height:62px;padding:0 5%}.brand{font-size:25px}.nav{display:none;position:absolute;top:62px;left:0;right:0;background:#5f19d8;padding:18px 6%;flex-direction:column;align-items:stretch;gap:18px;box-shadow:0 12px 18px #1b073b30}.nav.open{display:flex}.nav-pill{text-align:center}.menu-toggle{display:block}.hero{height:auto;min-height:560px}.hero-inner{width:100%;padding:34px 6% 28px;display:flex;flex-direction:column;align-items:stretch;gap:20px}.hero-copy{position:relative;z-index:2}.hero h1{font-size:58px}.hero-copy p{font-size:16px}.desktop{display:none}.hero-divider{display:none}.discount-panel{height:190px;padding:18px 22px}.discount-copy strong{font-size:91px}.discount-copy b{font-size:27px}.discount-copy p{font-size:16px}.discount-seal{width:116px;height:116px}.seal-inner{width:94px;height:94px}.seal-inner span{font-size:62px}.pricing{padding:34px 0 40px}.section-heading{padding:0 2px}.section-heading h2{font-size:29px;line-height:1.12}.section-heading p{font-size:15px;line-height:1.4;margin-top:7px}.product-grid{grid-template-columns:1fr;gap:13px}.price-card,.price-card.compact{min-height:0;padding:17px 19px}.price-card p br{display:none}.price{font-size:38px}.outline-btn{margin-top:13px}.details-grid{grid-template-columns:1fr;gap:12px;margin:22px 0 28px}.detail-card{min-height:0;padding:17px}.important{padding:20px;display:grid;grid-template-columns:55px 1fr;gap:13px}.info-icon{width:54px;height:54px;font-size:31px}.important-copy h3{font-size:19px}.important-copy p{font-size:13px}.important-copy br{display:none}.important-divider{display:none}.contact-btn{grid-column:1/-1;width:100%;height:48px}.detail-item>div{font-size:13px}.detail-item p{font-size:11px}}
+@media(max-width:720px){.topbar{padding:0 22px}.brand img{width:132px}.menu-toggle{display:flex;width:42px;height:42px;align-items:center;justify-content:center;flex-direction:column;gap:5px;border:1px solid #ffffff66;border-radius:12px;background:#100020;color:#fff;cursor:pointer;padding:0}.menu-toggle span{display:block;width:19px;height:2px;border-radius:2px;background:#fff;margin:0}.nav{display:none;position:absolute;top:62px;left:0;right:0;z-index:10;padding:14px 22px 18px;background:linear-gradient(105deg,#5010df,#7627ff 65%,#5411d8);box-shadow:0 12px 20px #18004433;flex-direction:column;align-items:stretch;gap:4px}.nav.open{display:flex}.nav a{display:block;padding:13px 10px}.nav-pill{margin-top:5px;text-align:center;width:100%}.hero{height:auto;min-height:560px}.hero-inner{width:100%;padding:34px 6% 28px;display:flex;flex-direction:column;align-items:stretch;gap:20px}.hero-copy{position:relative;z-index:2}.hero h1{font-size:58px}.hero-copy p{font-size:16px}.desktop{display:none}.hero-divider{display:none}.discount-panel{height:190px;padding:18px 22px}.discount-copy strong{font-size:91px}.discount-copy b{font-size:27px}.discount-copy p{font-size:16px}.discount-seal{width:116px;height:116px}.seal-inner{width:94px;height:94px}.seal-inner span{font-size:62px}.pricing{padding:34px 0 40px}.section-heading{padding:0 2px}.section-heading h2{font-size:29px;line-height:1.12}.section-heading p{font-size:15px;line-height:1.4;margin-top:7px}.product-grid{grid-template-columns:1fr;gap:13px}.price-card,.price-card.compact{min-height:0;padding:17px 19px}.price-card p br{display:none}.price{font-size:38px}.outline-btn{margin-top:13px}.details-grid{grid-template-columns:1fr;gap:12px;margin:22px 0 28px}.detail-card{min-height:0;padding:17px}.important{padding:20px;display:grid;grid-template-columns:55px 1fr;gap:13px}.info-icon{width:54px;height:54px;font-size:31px}.important-copy h3{font-size:19px}.important-copy p{font-size:13px}.important-copy br{display:none}.important-divider{display:none}.contact-btn{grid-column:1/-1;width:100%;height:48px}.detail-item>div{font-size:13px}.detail-item p{font-size:11px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}.reveal{opacity:1;transform:none}}
+
+
+/* Download table options */
+.download-wrap{position:relative;display:flex;justify-content:flex-end;margin:-8px 8px 20px}
+.download-trigger{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 19px;border:0;border-radius:26px;background:linear-gradient(105deg,#6415ed,#8a2cff);color:#fff;font:800 13px Inter,Arial,sans-serif;cursor:pointer;box-shadow:0 7px 18px #741cff2b;transition:.2s}
+.download-trigger:hover{transform:translateY(-2px);box-shadow:0 10px 22px #741cff40}
+.download-trigger span{font-size:18px;line-height:1}
+.download-options{display:none;position:absolute;right:0;top:calc(100% + 9px);z-index:20;width:255px;padding:8px;background:#fff;border:1px solid #e4d9ff;border-radius:16px;box-shadow:0 14px 35px #26104b25}
+.download-options.open{display:grid;gap:6px}
+.download-option{display:flex;align-items:center;gap:11px;width:100%;padding:12px;border:0;border-radius:11px;background:#fff;color:#171035;text-align:left;font:700 13px Inter,Arial,sans-serif;cursor:pointer}
+.download-option:hover{background:#f4edff}
+.download-option .download-icon{width:36px;height:36px;display:grid;place-items:center;flex:none;border-radius:11px;background:#efe5ff;color:#741cff;font-size:19px}
+.download-option small{display:block;margin-top:3px;color:#716987;font-size:10px;font-weight:500}
+@media(max-width:720px){.download-wrap{justify-content:stretch;margin:0 0 18px}.download-trigger{width:100%}.download-options{width:100%}}
 
   </style>
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="{{ request.script_root }}/" aria-label="Leanttro">LEANTTRO<span>.</span></a>
-    <nav class="nav"><a href="{{ request.script_root }}/">Central</a><a href="{{ url_indicar }}">Indicações</a>{% if p.tipo == 'revendedor' %}<a href="{{ url_for('parceiros.loja') }}">Minha loja</a>{% endif %}<form method="post" action="{{ url_for('parceiros.sair') }}" style="display:contents"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="nav-pill" style="border:0;color:#fff;cursor:pointer;font:inherit;font-weight:700">Sair</button></form></nav>
-    <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <a class="brand" href="{{ request.script_root }}/" aria-label="Leanttro"><img src="https://res.cloudinary.com/dhu1cqvrb/image/upload/f_auto,q_auto,h_80/v1779207400/leanttro_bohuce.png" alt="LEANTTRO."></a>
+    <nav class="nav" id="mainNav"><a href="{{ url_for('parceiros.valores') }}">Valores</a>{% if p.tipo == 'revendedor' %}<a href="{{ url_for('parceiros.loja') }}">Minha loja</a>{% endif %}<a href="{{ url_indicar }}">Indicações</a><form method="post" action="{{ url_for('parceiros.sair') }}"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="nav-pill" type="submit">Sair</button></form></nav>
+    <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="mainNav"><span></span><span></span><span></span></button>
   </header>
 
   <main>
@@ -108,7 +121,6 @@ a{color:inherit;text-decoration:none}
       <div class="hero-shapes"></div>
       <div class="hero-inner">
         <div class="hero-copy reveal">
-          <div class="eyebrow"><span class="handshake">◆</span> ÁREA EXCLUSIVA</div>
           <h1>Área de<br><em>Parceiros</em></h1>
           <p>Aproveite condições especiais, gerencie<br class="desktop"> seus pedidos e faça ainda mais negócios<br class="desktop"> com a Leanttro.</p>
           <span class="short-line"></span>
@@ -134,25 +146,41 @@ a{color:inherit;text-decoration:none}
         <p>Aproveite nossos valores diferenciados e ofereça o melhor para seus clientes.</p>
       </div>
 
+      <div class="download-wrap reveal">
+        <button class="download-trigger" type="button" id="downloadTableButton" aria-expanded="false" aria-controls="downloadTableOptions">
+          <span>↓</span> Baixar tabela de valores
+        </button>
+        <div class="download-options" id="downloadTableOptions">
+          <button class="download-option" type="button" data-format="a4">
+            <span class="download-icon">▤</span>
+            <span>Versão computador<small>PDF em folha A4 • formato vertical</small></span>
+          </button>
+          <button class="download-option" type="button" data-format="mobile">
+            <span class="download-icon">▯</span>
+            <span>Versão celular<small>PDF vertical • proporção 9:16</small></span>
+          </button>
+        </div>
+      </div>
+
       <div class="product-grid">
         <article class="price-card reveal">
           <div class="card-heading"><span class="icon-box">🚀</span><h3>Landing Básica</h3></div>
           <div class="price">R$ {{ CATALOGO.lp_basica.parceiro // 100 }}</div>
-          <p>7 seções, celular, WhatsApp e formulário, aviso por e-mail, SEO básico,<br>1 rodada de ajustes, contrato e NF.</p>
+          <ul class="feat"><li>7 seções</li><li>Celular</li><li>WhatsApp e formulário</li><li>Aviso por e-mail</li><li>SEO básico</li><li>1 rodada de ajustes</li><li>Contrato e NF</li></ul>
           <a class="outline-btn" href="{{ wa('Olá! Tenho interesse na Landing Básica.') }}">Contratar agora <b>›</b></a>
         </article>
 
         <article class="price-card reveal">
           <div class="card-heading"><span class="icon-box">▱</span><h3>Landing Completa</h3></div>
           <div class="price">R$ {{ CATALOGO.lp_completa.parceiro // 100 }}</div>
-          <p>Até 12 seções, painel de contatos, Pixel e Analytics, texto escrito ou revisado,<br>2 a 3 rodadas, 1 mês de suporte, contrato e NF.</p>
+          <ul class="feat"><li>Até 12 seções</li><li>Painel de contatos</li><li>Pixel e Analytics</li><li>Texto escrito ou revisado</li><li>2 a 3 rodadas</li><li>1 mês de suporte</li><li>Contrato e NF</li></ul>
           <a class="outline-btn" href="{{ wa('Olá! Tenho interesse na Landing Completa.') }}">Contratar agora <b>›</b></a>
         </article>
 
         <article class="price-card reveal">
           <div class="card-heading"><span class="icon-box">▣</span><h3>Site Profissional</h3></div>
           <div class="price">R$ {{ CATALOGO.site_prof.parceiro // 100 }}</div>
-          <p>Até 5 páginas, painel admin, blog, contatos no banco, SEO básico,<br>contrato e NF.</p>
+          <ul class="feat"><li>Até 5 páginas</li><li>Painel admin</li><li>Blog</li><li>Contatos no banco</li><li>SEO básico</li><li>Contrato e NF</li></ul>
           <a class="outline-btn" href="{{ wa('Olá! Tenho interesse na Site Profissional.') }}">Contratar agora <b>›</b></a>
         </article>
 
@@ -266,6 +294,117 @@ if ('IntersectionObserver' in window) {
 } else {
   revealItems.forEach(item => item.classList.add('visible'));
 }
+
+
+// Menu e geração da tabela em layout pronto para salvar como PDF.
+const downloadButton = document.getElementById('downloadTableButton');
+const downloadOptions = document.getElementById('downloadTableOptions');
+
+downloadButton.addEventListener('click', () => {
+  const isOpen = downloadOptions.classList.toggle('open');
+  downloadButton.setAttribute('aria-expanded', String(isOpen));
+});
+
+document.addEventListener('click', (event) => {
+  if (!event.target.closest('.download-wrap')) {
+    downloadOptions.classList.remove('open');
+    downloadButton.setAttribute('aria-expanded', 'false');
+  }
+});
+
+function openPriceTable(format) {
+  const logo = document.querySelector('.brand img')?.src || '';
+  const heading = document.querySelector('.section-heading')?.cloneNode(true);
+  const products = document.querySelector('.product-grid')?.cloneNode(true);
+  const details = document.querySelector('.details-grid')?.cloneNode(true);
+  const important = document.querySelector('.important')?.cloneNode(true);
+
+  [products, details, important].forEach((element) => {
+    if (!element) return;
+    element.querySelectorAll('a, button').forEach((item) => item.remove());
+  });
+
+  const isMobile = format === 'mobile';
+  const pageTitle = isMobile ? 'Tabela de valores — Celular' : 'Tabela de valores — Leanttro';
+  const printWindow = window.open('', '_blank');
+
+  if (!printWindow) {
+    alert('O navegador bloqueou a nova janela. Permita pop-ups para baixar a tabela.');
+    return;
+  }
+
+  const printStyles = `
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;font-family:Inter,Arial,sans-serif;color:#0c0a32;background:#fff}
+    body{padding:${isMobile ? '5mm' : '10mm'};}
+    .sheet{width:100%;margin:0 auto}
+    .print-header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:${isMobile ? '4mm' : '7mm'};margin-bottom:${isMobile ? '4mm' : '7mm'};border-bottom:2px solid #741cff}
+    .print-header img{width:${isMobile ? '35mm' : '47mm'};max-height:14mm;object-fit:contain}
+    .print-label{text-align:right;color:#741cff;font-size:${isMobile ? '6.5pt' : '8pt'};font-weight:800;letter-spacing:1px}
+    .section-heading{margin:0 0 ${isMobile ? '4mm' : '7mm'};padding:0}
+    .section-kicker{font-size:${isMobile ? '6pt' : '8pt'};font-weight:900;color:#741cff;margin-bottom:1mm}
+    .section-kicker span{display:inline-block;width:5mm;height:1px;background:#741cff;vertical-align:middle;margin-right:2mm}
+    .section-heading h2{font-size:${isMobile ? '14pt' : '23pt'};line-height:1.05;letter-spacing:-.7px;margin:0 0 1.5mm;font-weight:900}
+    .section-heading h2 em{font-style:normal;color:#8c2dff}
+    .section-heading p{font-size:${isMobile ? '7pt' : '9pt'};line-height:1.3;margin:0;color:#40395d}
+    .product-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:${isMobile ? '2mm' : '4mm'}}
+    .price-card{min-height:0;padding:${isMobile ? '2.4mm' : '4mm'};border:1px solid #e3d7ff;border-radius:${isMobile ? '2mm' : '4mm'};background:#fdfcff;break-inside:avoid}
+    .card-heading{display:flex;align-items:center;gap:2mm;min-height:0}
+    .icon-box{width:${isMobile ? '7mm' : '10mm'};height:${isMobile ? '7mm' : '10mm'};border-radius:2mm;background:#eee2ff;color:#741cff;display:grid;place-items:center;font-size:${isMobile ? '10pt' : '15pt'};flex:none}
+    .card-heading h3{font-size:${isMobile ? '7pt' : '10pt'};line-height:1.1;margin:0;font-weight:800}
+    .price{font-size:${isMobile ? '14pt' : '22pt'};line-height:1.05;font-weight:900;letter-spacing:-.5px;margin:${isMobile ? '2mm' : '3mm'} 0 1mm}
+    .price.smaller{font-size:${isMobile ? '10pt' : '16pt'}}
+    .price-card p{font-size:${isMobile ? '6pt' : '8pt'};line-height:1.25;margin:0}
+    .feat{list-style:none;margin:1mm 0 0;padding:0;display:grid;grid-template-columns:1fr;gap:.5mm}
+    .feat li{font-size:${isMobile ? '5.7pt' : '7.5pt'};line-height:1.2;padding-left:3mm;position:relative}
+    .feat li:before{content:"✓";position:absolute;left:0;color:#741cff;font-weight:900}
+    .details-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:${isMobile ? '1.5mm' : '3mm'};margin:${isMobile ? '3mm' : '5mm'} 0}
+    .detail-card{padding:${isMobile ? '2mm' : '3mm'};border:1px solid #dfd3ff;border-radius:3mm;background:#fff;break-inside:avoid}
+    .detail-title{display:flex;align-items:center;gap:2mm;margin-bottom:2mm}
+    .detail-title span{font-size:${isMobile ? '10pt' : '15pt'};color:#741cff;font-weight:900}
+    .detail-title h3{font-size:${isMobile ? '6.2pt' : '8.5pt'};line-height:1.1;margin:0;font-weight:800}
+    .detail-item{margin:0 0 2mm}
+    .detail-item>div{display:flex;justify-content:space-between;gap:1mm;align-items:baseline;font-size:${isMobile ? '5.3pt' : '7pt'};line-height:1.2}
+    .detail-item>div:before{content:"•";color:#741cff;font-weight:900}
+    .detail-item b{margin-right:auto}
+    .detail-item strong{font-size:inherit;white-space:nowrap}
+    .detail-item p{font-size:${isMobile ? '4.8pt' : '6pt'};line-height:1.2;margin:1mm 0 0 2mm;color:#40395d}
+    .important{display:flex;align-items:center;gap:3mm;padding:${isMobile ? '2.5mm' : '4mm'};border-radius:3mm;background:linear-gradient(105deg,#10051f,#31076d);color:#fff}
+    .info-icon{width:${isMobile ? '7mm' : '10mm'};height:${isMobile ? '7mm' : '10mm'};display:grid;place-items:center;border:1px solid #8c43e8;border-radius:50%;color:#c59aff;font-size:${isMobile ? '11pt' : '16pt'};flex:none}
+    .important-copy{flex:1}
+    .important-copy h3{font-size:${isMobile ? '7pt' : '9pt'};margin:0 0 1mm}
+    .important-copy p{font-size:${isMobile ? '5.5pt' : '7pt'};line-height:1.3;margin:0}
+    @page{size:${isMobile ? '108mm 192mm' : 'A4 portrait'};margin:0}
+    @media print{body{padding:${isMobile ? '5mm' : '10mm'}}}
+  `;
+
+  printWindow.document.open();
+  printWindow.document.write(`<!DOCTYPE html>
+    <html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${pageTitle}</title><style>${printStyles}</style></head>
+    <body><main class="sheet">
+      <header class="print-header"><img src="${logo}" alt="Leanttro"><div class="print-label">TABELA DE VALORES<br>CONDIÇÕES PARA PARCEIROS</div></header>
+      ${heading ? heading.outerHTML : ''}
+      ${products ? products.outerHTML : ''}
+      ${details ? details.outerHTML : ''}
+      ${important ? important.outerHTML : ''}
+    </main><script>
+      const logoImage = document.querySelector('.print-header img');
+      const startPrint = () => setTimeout(() => { window.focus(); window.print(); }, 350);
+      if (logoImage.complete) startPrint();
+      else { logoImage.onload = startPrint; logoImage.onerror = startPrint; }
+      window.onafterprint = () => window.close();
+    <\/script></body></html>`);
+  printWindow.document.close();
+}
+
+downloadOptions.querySelectorAll('[data-format]').forEach((option) => {
+  option.addEventListener('click', () => {
+    downloadOptions.classList.remove('open');
+    downloadButton.setAttribute('aria-expanded', 'false');
+    openPriceTable(option.dataset.format);
+  });
+});
 
   </script>
 </body>
