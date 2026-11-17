@@ -320,7 +320,7 @@ class SchemaInfo(db.Model):
 CODIGO_RE = re.compile(r"^lp[a-z0-9_]+$")
 CAMINHO_RE = re.compile(r"^(/[a-z0-9][a-z0-9_-]{0,59}){1,4}$")
 CAMINHOS_RESERVADOS = {"painel", "_admin", "m", "s", "static", "blog", "lead", "api", "healthz", "obrigado", "categoria", "produto",
-                       "sitemap.xml", "robots.txt", "favicon.ico", "placeholder.svg", "_dominio_ok"}
+                       "sitemap.xml", "robots.txt", "favicon.ico", "placeholder.svg", "_dominio_ok", "p", "parceiro"}
 DOMINIO_RE = re.compile(r"^(?=.{1,253}$)([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$")
 EMAIL_RE = re.compile(r"^[^@\s]{1,64}@[^@\s]+\.[^@\s]{2,}$")
 
@@ -3009,6 +3009,13 @@ def create_app(config=None):
 
     for bp in (bp_site, bp_api, bp_painel, bp_superadmin):
         app.register_blueprint(bp)
+
+    # Módulo de parceiros (parceiros.py). Isolado: se falhar, o restante da plataforma continua no ar.
+    try:
+        import parceiros
+        parceiros.registrar(app)
+    except Exception:
+        app.logger.exception("Módulo de parceiros NÃO carregado (o resto da plataforma segue normal)")
 
     app.before_request(resolver_contexto)
     app.after_request(aplicar_cookie_tenant)
