@@ -54,7 +54,7 @@ a{color:inherit;text-decoration:none}
 .section-kicker span{width:22px;height:2px;background:#7a1cff}
 .section-heading h2{font-size:35px;letter-spacing:-1.5px;margin:0 0 4px;font-weight:900}
 .section-heading p{font-size:17px;margin:0}
-.product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.product-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
 .price-card{min-height:260px;background:linear-gradient(145deg,#fff,#fdfcff);border:1px solid #e3d7ff;border-radius:20px;padding:14px 23px 13px;box-shadow:0 7px 18px #5c24a00a;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s}
 .price-card:hover,.detail-card:hover{transform:translateY(-4px);box-shadow:0 14px 30px #6825b51b}
 .card-heading{display:flex;align-items:center;gap:13px;min-height:47px}
@@ -101,11 +101,11 @@ a{color:inherit;text-decoration:none}
 
 
 /* Download table options */
-.download-wrap{position:relative;display:flex;justify-content:flex-end;margin:-8px 8px 20px}
+.download-wrap{position:relative;z-index:30;display:flex;justify-content:flex-end;margin:-8px 8px 20px}
 .download-trigger{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 19px;border:0;border-radius:26px;background:linear-gradient(105deg,#6415ed,#8a2cff);color:#fff;font:800 13px Inter,Arial,sans-serif;cursor:pointer;box-shadow:0 7px 18px #741cff2b;transition:.2s}
 .download-trigger:hover{transform:translateY(-2px);box-shadow:0 10px 22px #741cff40}
 .download-trigger span{font-size:18px;line-height:1}
-.download-options{display:none;position:absolute;right:0;top:calc(100% + 9px);z-index:20;width:255px;padding:8px;background:#fff;border:1px solid #e4d9ff;border-radius:16px;box-shadow:0 14px 35px #26104b25}
+.download-options{display:none;position:absolute;right:0;top:calc(100% + 9px);z-index:9999;width:255px;padding:8px;background:#fff;border:1px solid #e4d9ff;border-radius:16px;box-shadow:0 14px 35px #26104b25}
 .download-options.open{display:grid;gap:6px}
 .download-option{display:flex;align-items:center;gap:11px;width:100%;padding:12px;border:0;border-radius:11px;background:#fff;color:#171035;text-align:left;font:700 13px Inter,Arial,sans-serif;cursor:pointer}
 .download-option:hover{background:#f4edff}
