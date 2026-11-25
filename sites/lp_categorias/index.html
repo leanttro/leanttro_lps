@@ -91,7 +91,7 @@ button{font:inherit}
 .feature-info{padding:11px 12px 13px}
 .feature-info h3{font-size:15px;line-height:1.2;margin:0 0 5px;color:var(--navy)}
 .feature-info p{font-size:13px;margin:0;color:#273653}
-.final-cta{margin:26px 0 34px;border-radius:20px;min-height:116px;padding:22px 7%;display:flex;align-items:center;justify-content:space-between;gap:20px;color:white;background:linear-gradient(90deg,rgba(4,31,78,.94),rgba(5,56,117,.88)),var(--cta-image) center/cover}
+.final-cta{margin:26px auto 34px;border-radius:20px;min-height:116px;padding:22px 7%;display:flex;align-items:center;justify-content:space-between;gap:20px;color:white;background:linear-gradient(90deg,rgba(4,31,78,.94),rgba(5,56,117,.88)),var(--cta-image) center/cover}
 .final-cta .cta-title{display:flex;align-items:center;gap:18px}
 .handshake{font-size:50px;color:var(--yellow)}
 .final-cta h2{font-size:25px;margin:0 0 3px;letter-spacing:-.7px}
@@ -126,7 +126,7 @@ footer:before{content:"";position:absolute;top:-13px;left:0;right:0;height:8px;b
  .section-head{align-items:flex-start;flex-direction:column;margin-top:25px}.section-head h2{font-size:25px}
  .featured{grid-template-columns:repeat(2,1fr);gap:10px}.feature-card .photo{height:125px}
  .feature-info h3{font-size:14px}.feature-info p{font-size:12px}
- .final-cta{align-items:flex-start;flex-direction:column;padding:22px;margin:22px 0}.final-cta h2{font-size:22px}.final-cta p{font-size:14px}.handshake{font-size:40px}
+ .final-cta{align-items:flex-start;flex-direction:column;padding:22px;margin:22px auto}.final-cta h2{font-size:22px}.final-cta p{font-size:14px}.handshake{font-size:40px}
  .footer-inner{align-items:flex-start;flex-direction:column}.footer-links{gap:12px 18px}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
@@ -164,7 +164,6 @@ footer:before{content:"";position:absolute;top:-13px;left:0;right:0;height:8px;b
    <a class="pill-btn" href="#explore">Explore o Seu Vizinho <span aria-hidden="true">⌄</span></a>
   </div>
   <div class="hero-photo">
-   <span class="hero-spark" aria-hidden="true">✳</span>
    <img src="{% endraw %}{{ img_abs('hero', w=1400) if tem_img('hero') else 'https://images.unsplash.com/photo-1590736969955-71cc94901144?auto=format&fit=crop&w=1400&q=90' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1590736969955-71cc94901144?auto=format&fit=crop&w=1400&q=90'" alt="Pessoa trabalhando em uma peça artesanal de crochê">
   </div>
  </section>
