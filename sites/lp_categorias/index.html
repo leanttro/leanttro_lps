@@ -14,18 +14,18 @@
 <meta property="og:image" content="{% endraw %}{{ img_abs('og', w=1200) if tem_img('og') else '' }}{% raw %}">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Allura&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
 <style>
 :root{
   --font-sans:-apple-system,BlinkMacSystemFont,"SF Pro Display",Inter,"Segoe UI",system-ui,sans-serif;
-  --font-script:"Snell Roundhand","Apple Chancery",Allura,cursive;
+  --font-script:"Brush Script MT","Segoe Script",cursive;
   --navy:#08265c;--blue:#0874df;--yellow:#ffb900;--green:#08a94f;
   --pink:#d51a9c;--purple:#7439d5;--ink:#10244a;--muted:#53627b;
   --paper:#fff;--soft:#f5f4ff;--radius:22px;--shadow:0 12px 30px rgba(8,38,92,.13);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;font-family:var(--font-sans);color:var(--ink);background:#fff;overflow-x:hidden;-webkit-text-size-adjust:100%}
+body{margin:0;font-family:var(--font-sans);color:var(--ink);background:#fff;overflow-x:hidden;-webkit-text-size-adjust:100%;font-optical-sizing:auto;-webkit-font-smoothing:antialiased}
 button{font-family:inherit}
 a{color:inherit;text-decoration:none}
 img{display:block;width:100%;height:100%;object-fit:cover}
@@ -58,7 +58,7 @@ button{font:inherit}
 .hero-copy{padding:62px 0 70px;position:relative;z-index:2}
 .hero h1{font-size:clamp(38px,4.4vw,60px);line-height:.99;letter-spacing:-3px;color:var(--navy);margin:0 0 18px;font-weight:950}
 .hero h1 .mb{display:none}.hero h1 .db{display:inline}
-.hero h1 em{display:block;font-family:var(--font-script);color:#0874df;font-size:1.22em;font-weight:700;letter-spacing:-1px;line-height:1.15;-webkit-text-stroke:.6px #0874df}
+.hero h1 em{display:block;font-family:var(--font-script);color:#0874df;font-size:1.22em;font-weight:700;letter-spacing:-2px;line-height:1.08}
 .hero-copy p{font-size:20px;line-height:1.35;font-weight:650;color:var(--navy);max-width:440px;margin:18px 0 25px}
 .hero-photo{position:absolute;top:0;bottom:0;right:0;width:74%;height:auto;overflow:hidden}
 .hero-photo:before{content:"";position:absolute;z-index:1;inset:0 auto 0 0;width:40%;background:linear-gradient(90deg,#fff8ef 0%,rgba(255,248,239,.65) 45%,transparent 100%)}
@@ -103,9 +103,10 @@ button{font:inherit}
 .feature-info{padding:11px 12px 13px}
 .feature-info h3{font-size:15px;line-height:1.2;margin:0 0 5px;color:var(--navy)}
 .feature-info p{font-size:13px;margin:0;color:#273653}
-.final-cta{margin:26px auto 34px;border-radius:20px;min-height:116px;padding:22px 7%;display:flex;align-items:center;justify-content:space-between;gap:20px;color:white;background:linear-gradient(90deg,rgba(4,31,78,.94),rgba(5,56,117,.88)),var(--cta-image) center/cover}
+.final-cta{position:relative;overflow:hidden;margin:26px auto 34px;border-radius:20px;min-height:116px;padding:22px 7%;display:flex;align-items:center;justify-content:space-between;gap:20px;color:white;background:linear-gradient(90deg,rgba(4,31,78,.94),rgba(5,56,117,.88)),var(--cta-image) center/cover}
 .final-cta .cta-title{display:flex;align-items:center;gap:18px}
-.handshake{font-size:50px;color:var(--yellow)}
+.handshake{width:62px;height:62px;flex:none;display:block}
+.cta-doodle{position:absolute;right:2.5%;bottom:8px;width:120px;height:44px;pointer-events:none;opacity:.9}
 .final-cta h2{font-size:25px;margin:0 0 3px;letter-spacing:-.7px}
 .final-cta p{margin:0;color:#ffcf28;font-weight:800;font-size:17px}
 footer{background:#06265d;color:#fff;padding:34px 0 22px;border-top:8px solid var(--yellow);position:relative}
@@ -140,7 +141,7 @@ footer:before{content:"";position:absolute;top:-13px;left:0;right:0;height:8px;b
  .section-head{align-items:flex-start;flex-direction:column;margin-top:25px}.section-head h2{font-size:25px}
  .featured{grid-template-columns:repeat(2,1fr);gap:10px}.feature-card .photo{height:125px}
  .feature-info h3{font-size:14px}.feature-info p{font-size:12px}
- .final-cta{align-items:flex-start;flex-direction:column;padding:22px;margin:22px auto}.final-cta h2{font-size:22px}.final-cta p{font-size:14px}.handshake{font-size:40px}
+ .final-cta{align-items:flex-start;flex-direction:column;padding:22px;margin:22px auto}.final-cta h2{font-size:22px}.final-cta p{font-size:14px}.handshake{width:50px;height:50px}.cta-doodle{display:none}
  .footer-logo{width:150px;height:64px}.footer-inner{align-items:flex-start;flex-direction:column}.footer-links{gap:12px 18px}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
@@ -217,19 +218,20 @@ footer:before{content:"";position:absolute;top:-13px;left:0;right:0;height:8px;b
  <section class="container">
   <div class="section-head">
    <h2><span>✳</span> Em Destaque</h2>
-   <div class="chips"><a class="chip" href="https://artesanatonarede.com.br/category/aulas/">▶ Aulas</a><a class="chip" href="https://artesanatonarede.com.br/">▥ Enquetes</a><a class="chip" href="https://artesanatonarede.com.br/">♣ Comunidade</a></div>
+   <div class="chips"><a class="chip" href="https://www.portalseuvizinho.com.br/categorias#categorias">▶ Aulas</a><a class="chip" href="https://www.portalseuvizinho.com.br/categorias#artigos">✦ Artigos</a><a class="chip" href="https://www.portalseuvizinho.com.br/categorias#enquetes">▥ Enquetes</a><a class="chip" href="https://www.portalseuvizinho.com.br/categorias#comunidade">♣ Comunidade</a></div>
   </div>
   <div class="featured">
-   <a class="feature-card" href="https://artesanatonarede.com.br/category/aulas/"><div class="photo"><img src="{% endraw %}{{ img_abs('destaque_1', w=600) if tem_img('destaque_1') else 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=600&q=85' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=600&q=85'" alt="Peça de crochê"><span class="tag">▶ Aulas</span></div><div class="feature-info"><h3>Tapete de Crochê Fácil</h3><p>Aprenda passo a passo!</p></div></a>
-   <a class="feature-card" href="https://artesanatonarede.com.br/category/aulas/"><div class="photo"><img src="{% endraw %}{{ img_abs('destaque_2', w=600) if tem_img('destaque_2') else 'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=600&q=85' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=600&q=85'" alt="Bordado artesanal"><span class="tag">▶ Aulas</span></div><div class="feature-info"><h3>Bordado Moderno</h3><p>Técnicas e dicas incríveis!</p></div></a>
-   <a class="feature-card" href="https://artesanatonarede.com.br/category/aulas/"><div class="photo"><img src="{% endraw %}{{ img_abs('destaque_3', w=600) if tem_img('destaque_3') else 'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=600&q=85' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=600&q=85'" alt="Materiais coloridos"><span class="tag">✦ Dicas</span></div><div class="feature-info"><h3>Escolha o fio ideal</h3><p>Dicas de quem entende!</p></div></a>
-   <a class="feature-card" href="https://artesanatonarede.com.br/"><div class="photo"><img src="{% endraw %}{{ img_abs('destaque_4', w=600) if tem_img('destaque_4') else 'https://images.unsplash.com/photo-1493106641515-6b5631de4bb9?auto=format&fit=crop&w=600&q=85' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1493106641515-6b5631de4bb9?auto=format&fit=crop&w=600&q=85'" alt="Artesanato feito à mão"><span class="tag" style="background:#d51a65">♣ Comunidade</span></div><div class="feature-info"><h3>Participe do nosso grupo!</h3><p>Troque ideias e inspire-se!</p></div></a>
+   <a class="feature-card" href="https://www.portalseuvizinho.com.br/categorias#categorias"><div class="photo"><img src="{% endraw %}{{ img_abs('destaque_1', w=600) if tem_img('destaque_1') else 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=600&q=85' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=600&q=85'" alt="Peça de crochê"><span class="tag">▶ Aulas</span></div><div class="feature-info"><h3>Tapete de Crochê Fácil</h3><p>Aprenda passo a passo!</p></div></a>
+   <a class="feature-card" href="https://www.portalseuvizinho.com.br/categorias#categorias"><div class="photo"><img src="{% endraw %}{{ img_abs('destaque_2', w=600) if tem_img('destaque_2') else 'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=600&q=85' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=600&q=85'" alt="Bordado artesanal"><span class="tag">▶ Aulas</span></div><div class="feature-info"><h3>Bordado Moderno</h3><p>Técnicas e dicas incríveis!</p></div></a>
+   <a class="feature-card" href="https://www.portalseuvizinho.com.br/categorias#artigos"><div class="photo"><img src="{% endraw %}{{ img_abs('destaque_3', w=600) if tem_img('destaque_3') else 'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=600&q=85' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=600&q=85'" alt="Materiais coloridos"><span class="tag">✦ Artigos</span></div><div class="feature-info"><h3>Escolha o fio ideal</h3><p>Dicas de quem entende!</p></div></a>
+   <a class="feature-card" href="https://www.portalseuvizinho.com.br/categorias#comunidade"><div class="photo"><img src="{% endraw %}{{ img_abs('destaque_4', w=600) if tem_img('destaque_4') else 'https://images.unsplash.com/photo-1493106641515-6b5631de4bb9?auto=format&fit=crop&w=600&q=85' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1493106641515-6b5631de4bb9?auto=format&fit=crop&w=600&q=85'" alt="Artesanato feito à mão"><span class="tag" style="background:#d51a65">♣ Comunidade</span></div><div class="feature-info"><h3>Participe do nosso grupo!</h3><p>Troque ideias e inspire-se!</p></div></a>
   </div>
  </section>
 
  <section class="container final-cta" style="--cta-image:url('{% endraw %}{{ img_abs('cta', w=1600) if tem_img('cta') else 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1600&q=80' }}{% raw %}')">
-  <div class="cta-title"><div class="handshake">♡</div><div><h2>Seu Vizinho é mais que um site.</h2><p>É uma rede de pessoas, ideias e oportunidades!</p></div></div>
+  <div class="cta-title"><svg class="handshake" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 59C10 43 3 31 3 21.500 3 12.500 10 6 18.500 6c6 0 10 3 13.500 8C35.500 9 39.500 6 45.500 6 54 6 61 12.500 61 21.500 61 31 54 43 32 59z" fill="#ffb900"/><g transform="rotate(-24 14 31)"><rect x="8" y="24" width="9" height="15" rx="2" fill="#0b3a8c"/></g><g transform="rotate(24 50 31)"><rect x="47" y="24" width="9" height="15" rx="2" fill="#0b3a8c"/></g><path d="M18 29l9-5h8l6 4 6 2v5l-8 8-6 4-4-2-4 1-6-4-4-5z" fill="#1d6fe0"/><path d="M27 36l6 5M31 33l6 5M35 30l6 5" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none"/></svg><div><h2>Seu Vizinho é mais que um site.</h2><p>É uma rede de pessoas, ideias e oportunidades!</p></div></div>
   <a class="pill-btn" href="https://lojaseuvizinho.com.br/">Faça parte agora&nbsp; →</a>
+  <svg class="cta-doodle" viewBox="0 0 120 44" fill="none" aria-hidden="true"><path d="M4 40C30 40 42 22 62 18" stroke="#ffb900" stroke-width="1.6" stroke-dasharray="3 5" stroke-linecap="round"/><path d="M92 38C80 30 72 22 72 14c0-5 3.500-8 8-8 4 0 7 2.500 8 5 1-2.500 4-5 8-5 4.500 0 8 3 8 8 0 8-8 16-20 24z" stroke="#ffb900" stroke-width="2.200" stroke-linejoin="round" transform="translate(4 0)"/></svg>
  </section>
 </main>
 
