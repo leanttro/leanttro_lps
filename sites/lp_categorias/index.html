@@ -1,4 +1,4 @@
-{% macro IMG(slot, w) %}{{ img(slot, w=w) if img is defined else img_abs(slot, w=w) }}{% endmacro %}
+{% macro IMG(slot, w) %}{{ img_abs(slot, w=w) }}{% endmacro %}
 {% raw %}<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
