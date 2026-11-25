@@ -26,18 +26,26 @@ a{color:inherit;text-decoration:none}
 img{display:block;width:100%;height:100%;object-fit:cover}
 button{font:inherit}
 .container{width:min(1200px,calc(100% - 44px));margin-inline:auto}
-.site-header{position:relative;z-index:5;background:rgba(255,255,255,.97);box-shadow:0 4px 22px rgba(8,38,92,.06)}
+.site-header{position:relative;z-index:5;background:rgba(255,255,255,.97)}
 .header-inner{min-height:104px;display:flex;align-items:center;justify-content:space-between;gap:28px}
-.brand{display:flex;align-items:center;gap:12px;min-width:245px}
-.brand-mark{width:68px;height:62px;position:relative;display:grid;place-items:center;color:var(--blue)}
-.brand-mark svg{width:68px;height:62px}
+.brand{display:flex;align-items:center;min-width:0;flex:none}
+.brand-mark{width:200px;height:86px;position:relative;display:flex;align-items:center;justify-content:flex-start;color:var(--blue)}
+.brand-mark img{width:100%;height:100%;object-fit:contain;object-position:left center}
+.brand-mark svg{width:auto;height:100%}
 .brand-name{font-size:31px;line-height:.86;font-weight:900;letter-spacing:-1.5px;color:var(--navy)}
 .brand-name small{display:block;font-size:9px;letter-spacing:-.1px;margin-top:8px;font-weight:700}
-.main-nav{display:flex;align-items:center;gap:12px}
-.nav-link{display:flex;align-items:center;gap:10px;padding:12px 16px;border-right:1px solid #e9edf5;font-weight:800;color:var(--navy);transition:.2s}
-.nav-link:hover{color:var(--blue);transform:translateY(-2px)}
-.nav-link .nav-icon{font-size:26px}
-.nav-link small{display:block;font-size:12px;font-weight:500;color:#52617b;margin-top:2px}
+.main-nav{display:flex;align-items:center;gap:0}
+.nav-link{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:7px;padding:4px 34px;color:#0c2a66;font-weight:800;font-size:19px;line-height:1;transition:.2s}
+.nav-link + .nav-link{border-left:1px solid #e1e6f0}
+.nav-link:hover{transform:translateY(-2px)}
+.nav-link .nav-icon{display:block;width:34px;height:34px}
+.nav-link .nav-icon svg{width:100%;height:100%;display:block}
+.nav-link .nav-txt{display:block}
+.nav-link small{display:block;font-size:13px;font-weight:500;color:#3b5a92;margin-top:4px}
+.main-nav .pill-btn{margin-left:34px;background:linear-gradient(180deg,#ffb12a 0%,#ff8a00 100%);color:#fff;font-size:19px;font-weight:800;padding:15px 30px;gap:11px;box-shadow:0 8px 18px rgba(255,138,0,.32)}
+.main-nav .pill-btn:hover{box-shadow:0 12px 22px rgba(255,138,0,.4)}
+.main-nav .pill-btn svg{width:26px;height:26px;flex:none}
+.site-header:after{content:"";position:absolute;left:0;right:0;top:calc(100% - 1px);height:46px;pointer-events:none;background:rgba(255,255,255,.97);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 46' preserveAspectRatio='none'%3E%3Cpath d='M0 0H1440V10C1180 40 930 4 700 16 440 30 210 38 0 14Z'/%3E%3C/svg%3E") center/100% 100% no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 46' preserveAspectRatio='none'%3E%3Cpath d='M0 0H1440V10C1180 40 930 4 700 16 440 30 210 38 0 14Z'/%3E%3C/svg%3E") center/100% 100% no-repeat}
 .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;background:var(--yellow);color:#10244a;padding:15px 25px;border-radius:999px;font-weight:900;box-shadow:0 5px 12px rgba(255,185,0,.24);transition:.2s;border:0;cursor:pointer}
 .pill-btn:hover{transform:translateY(-3px);filter:brightness(1.03);box-shadow:0 9px 18px rgba(255,185,0,.3)}
 .menu-toggle{display:none;background:none;border:0;color:var(--navy);font-size:28px;cursor:pointer}
@@ -98,14 +106,14 @@ footer:before{content:"";position:absolute;top:-13px;left:0;right:0;height:8px;b
 @media(max-width:900px){
  .header-inner{min-height:88px}.brand{min-width:0}.brand-name{font-size:26px}
  .menu-toggle{display:block}.main-nav{display:none;position:absolute;top:88px;left:0;right:0;background:white;padding:14px 22px 22px;box-shadow:0 14px 18px #10244a18;flex-direction:column;align-items:stretch}
- .main-nav.open{display:flex}.nav-link{border:0;border-bottom:1px solid #edf0f5}.main-nav .pill-btn{margin-top:8px}
+ .main-nav.open{display:flex}.nav-link{flex-direction:row;justify-content:flex-start;text-align:left;gap:14px;padding:14px 4px;font-size:18px;border:0!important;border-bottom:1px solid #edf0f5!important}.nav-link small{margin-top:3px}.main-nav .pill-btn{margin:14px 0 0;justify-content:center}.site-header:after{height:26px}
  .hero{grid-template-columns:1fr .9fr;min-height:400px}.hero-photo{height:400px}.hero h1{font-size:clamp(38px,6vw,54px)}
  .quick-card{height:205px}.quick-content{left:17px;max-width:90%}.quick-content h2{font-size:18px}
  .community{grid-template-columns:1fr}.craft-gallery img{height:150px}
 }
 @media(max-width:640px){
  .container{width:min(100% - 28px,520px)}
- .header-inner{min-height:76px}.brand-mark,.brand-mark svg{width:54px;height:52px}.brand-name{font-size:23px}.brand-name small{font-size:8px;margin-top:6px}
+ .header-inner{min-height:76px}.brand-mark{width:150px;height:64px}.brand-name{font-size:23px}.brand-name small{font-size:8px;margin-top:6px}
  .main-nav{top:76px}
  .hero{display:flex;flex-direction:column;align-items:stretch;background:#fff8ef}
  .hero-copy{padding:38px 0 22px}.hero h1{font-size:clamp(42px,12vw,58px);letter-spacing:-2px}.hero-copy p{font-size:17px;margin:13px 0 19px}
@@ -137,14 +145,13 @@ footer:before{content:"";position:absolute;top:-13px;left:0;right:0;height:8px;b
      <path d="M17 67c0-11 5-17 11-17s11 6 11 17M51 67c0-11 5-17 11-17s11 6 11 17M34 68c0-13 5-20 11-20s11 7 11 20" fill="#0874df"/>
     </svg>
    {% endraw %}{% endif %}{% raw %}</span>
-   <span class="brand-name">Seu<br>Vizinho<small>Conectando pessoas, ideias e oportunidades</small></span>
   </a>
   <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
   <nav class="main-nav" id="mainNav" aria-label="Navegação principal">
-   <a class="nav-link" href="https://lojaseuvizinho.com.br/"><span class="nav-icon">🛒</span><span>Loja<small>Marketplace</small></span></a>
-   <a class="nav-link" href="https://www.portallojaseuvizinho.com.br/"><span class="nav-icon">▤</span><span>Portal<small>Conteúdo</small></span></a>
-   <a class="nav-link" href="https://artesanatonarede.com.br/category/aulas/"><span class="nav-icon">🎨</span><span>Artesanato<small>Aulas e Comunidade</small></span></a>
-   <a class="pill-btn" href="#explore">♟ Participe!</a>
+   <a class="nav-link" href="https://lojaseuvizinho.com.br/"><span class="nav-icon"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M2.5 4.5h4.2l3.4 15.2c.2.9 1 1.5 1.9 1.5h11.6c.9 0 1.7-.6 1.9-1.5l2.2-9.4c.2-.8-.4-1.6-1.2-1.6H8.2" stroke="#0b2a6b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="#0b2a6b" fill-opacity=".92"/><circle cx="13" cy="26.2" r="2.4" fill="#0b2a6b"/><circle cx="23" cy="26.2" r="2.4" fill="#0b2a6b"/></svg></span><span class="nav-txt">Loja<small>Marketplace</small></span></a>
+   <a class="nav-link" href="https://www.portallojaseuvizinho.com.br/"><span class="nav-icon"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M4 4.5h19v23H7.5A3.5 3.5 0 0 1 4 24z" stroke="#1d6fd6" stroke-width="2.4" stroke-linejoin="round"/><path d="M23 10h5v14.5a3 3 0 0 1-3 3h-2" stroke="#1d6fd6" stroke-width="2.4" stroke-linejoin="round"/><rect x="8" y="8.5" width="7" height="6" rx=".8" fill="#1d6fd6"/><path d="M17.5 9h2.8M17.5 12.5h2.8M8 18h12M8 21.5h12M8 25h8" stroke="#1d6fd6" stroke-width="2" stroke-linecap="round"/></svg></span><span class="nav-txt">Portal<small>Conteúdo</small></span></a>
+   <a class="nav-link" href="https://artesanatonarede.com.br/category/aulas/"><span class="nav-icon"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 3C8.3 3 2.5 8.6 2.5 15.6c0 6.7 5.6 12.4 12.6 12.4 2.3 0 3.3-1.4 3.3-2.8 0-2.3-2.3-2.5-2.3-4.6 0-1.6 1.2-2.6 2.9-2.6h4.2c3.3 0 5.3-2.2 5.3-5.2C28.5 6.8 23 3 16 3z" fill="#ee5f9b"/><circle cx="9.3" cy="14.5" r="2.2" fill="#fff"/><circle cx="13.2" cy="8.8" r="2.2" fill="#fff"/><circle cx="19.8" cy="8.6" r="2.2" fill="#fff"/><circle cx="24.5" cy="13" r="2.1" fill="#fff"/></svg></span><span class="nav-txt">Artesanato<small>Aulas e Comunidade</small></span></a>
+   <a class="pill-btn" href="#explore"><svg viewBox="0 0 32 32" fill="#fff" aria-hidden="true"><circle cx="16" cy="9.5" r="4.6"/><path d="M7.5 25.5c0-5 3.8-8.4 8.5-8.4s8.5 3.4 8.5 8.4z"/><circle cx="6.2" cy="12.5" r="3.2" opacity=".92"/><circle cx="25.8" cy="12.5" r="3.2" opacity=".92"/><path d="M0 24c0-3.6 2.4-6 5.6-6 .9 0 1.7.2 2.4.5-1.6 1.5-2.5 3.6-2.6 5.5zM32 24c0-3.6-2.4-6-5.6-6-.9 0-1.7.2-2.4.5 1.6 1.5 2.5 3.6 2.6 5.5z" opacity=".92"/></svg>Participe!</a>
   </nav>
  </div>
 </header>
