@@ -52,6 +52,7 @@ button{font:inherit}
 .hero{position:relative;min-height:470px;display:grid;grid-template-columns:.95fr 1.05fr;align-items:center;overflow:hidden;background:#fff8ef}
 .hero-copy{padding:62px 0 70px;position:relative;z-index:2}
 .hero h1{font-size:clamp(38px,4.4vw,60px);line-height:.99;letter-spacing:-3px;color:var(--navy);margin:0 0 18px;font-weight:950}
+.hero h1 .mb{display:none}.hero h1 .db{display:inline}
 .hero h1 em{display:block;font-family:"Brush Script MT","Segoe Script",cursive;color:#0874df;font-size:1.22em;font-weight:700;letter-spacing:-2px;line-height:1.08}
 .hero-copy p{font-size:20px;line-height:1.35;font-weight:650;color:var(--navy);max-width:440px;margin:18px 0 25px}
 .hero-photo{position:absolute;top:0;bottom:0;right:0;width:74%;height:auto;overflow:hidden}
@@ -71,13 +72,19 @@ button{font:inherit}
 .quick-content h2{font-size:28px;margin:0 0 6px;letter-spacing:-.5px;font-weight:900}
 .quick-content p{margin:0 0 16px;line-height:1.3;font-size:19px;font-weight:600}
 .mini-btn{display:inline-flex;background:#fff;color:var(--navy);font-size:17px;font-weight:850;border-radius:999px;padding:13px 26px;box-shadow:0 4px 12px rgba(0,0,0,.25)}
-.community{margin-top:30px;border-radius:24px;background:linear-gradient(110deg,#f2eaff,#e6f0ff);padding:25px 28px;display:grid;grid-template-columns:.85fr 1.4fr;gap:25px;align-items:center;overflow:hidden}
-.community-copy h2{font-size:29px;line-height:1.08;letter-spacing:-1px;color:var(--navy);margin:0 0 12px}
+.community{margin-top:30px;border-radius:24px;background:linear-gradient(110deg,#f2eaff,#e6f0ff);padding:25px 28px;display:grid;grid-template-columns:.85fr 1.4fr;gap:25px;align-items:center;overflow:hidden;position:relative}
+.community-title{display:flex;align-items:flex-start;gap:12px;margin:0 0 12px;position:relative}.community-icon{flex:none;width:46px;height:46px;margin-top:2px}.community-icon svg{width:100%;height:100%;display:block}.community-spark{color:var(--yellow);font-size:26px;line-height:1;align-self:flex-start;margin-left:-4px}
+.community-copy h2{font-size:29px;line-height:1.08;letter-spacing:-1px;color:var(--navy);margin:0}
 .community-copy p{font-size:16px;line-height:1.45;margin:0 0 17px;color:#172b50}
 .dark-btn{display:inline-flex;align-items:center;gap:8px;background:var(--navy);color:#fff;padding:11px 19px;border-radius:999px;font-weight:800;font-size:14px}
-.craft-gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:center;transform:rotate(-2deg)}
-.craft-gallery img{height:190px;border:8px solid white;border-radius:5px;box-shadow:0 8px 18px #19335a24}
-.craft-gallery img:nth-child(even){transform:translateY(12px) rotate(3deg)}
+.craft-gallery{position:relative;display:flex;align-items:center;justify-content:center;padding:14px 4px 58px}
+.craft-gallery img{flex:1 1 0;min-width:0;width:auto;height:200px;margin-left:-12px;border:7px solid white;border-radius:5px;box-shadow:0 8px 18px #19335a30;background:#e6edff;color:transparent;font-size:0;position:relative}
+.craft-gallery img:nth-of-type(1){margin-left:0;transform:rotate(-7deg) translateY(4px);z-index:1}
+.craft-gallery img:nth-of-type(2){transform:rotate(4deg) translateY(16px);z-index:2}
+.craft-gallery img:nth-of-type(3){transform:rotate(-4deg) translateY(-2px);z-index:3}
+.craft-gallery img:nth-of-type(4){transform:rotate(5deg) translateY(12px);z-index:4}
+.gallery-line{position:absolute;left:2%;right:2%;bottom:6px;width:96%;height:46px;pointer-events:none}
+.gallery-heart{position:absolute;left:50%;bottom:2px;width:32px;height:32px;transform:translateX(-50%);pointer-events:none}
 .section-head{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:26px 4px 14px}
 .section-head h2{font-size:27px;letter-spacing:-1px;margin:0;color:var(--navy)}
 .section-head h2 span{color:var(--yellow);font-size:32px}
@@ -109,20 +116,20 @@ footer:before{content:"";position:absolute;top:-13px;left:0;right:0;height:8px;b
  .main-nav.open{display:flex}.nav-link{flex-direction:row;justify-content:flex-start;text-align:left;gap:14px;padding:14px 4px;font-size:18px;border:0!important;border-bottom:1px solid #edf0f5!important}.nav-link small{margin-top:3px}.main-nav .pill-btn{margin:14px 0 0;justify-content:center}.site-header:after{height:26px}
  .hero{grid-template-columns:1fr .9fr;min-height:400px}.hero-photo{width:68%}.hero h1{font-size:clamp(38px,6vw,54px)}
  .quick-card{height:205px}.quick-content{padding:16px 18px}.quick-content h2{font-size:24px}.quick-content p{font-size:17px}.mini-btn{font-size:15px;padding:11px 22px}
- .community{grid-template-columns:1fr}.craft-gallery img{height:150px}
+ .community{grid-template-columns:1fr}.craft-gallery img{height:170px}
 }
 @media(max-width:640px){
  .container{width:min(100% - 28px,520px)}
  .header-inner{min-height:76px}.brand-mark{width:150px;height:64px}.brand-name{font-size:23px}.brand-name small{font-size:8px;margin-top:6px}
  .main-nav{top:76px}
  .hero{display:flex;flex-direction:column;align-items:stretch;background:#fff8ef}
- .hero-copy{padding:38px 0 22px;text-align:center}.hero h1{font-size:clamp(42px,12vw,58px);letter-spacing:-2px}.hero-copy p{font-size:17px;margin:13px auto 19px}
+ .hero-copy{padding:38px 0 22px;text-align:center}.hero h1{font-size:clamp(34px,11vw,56px);letter-spacing:-2px;white-space:nowrap}.hero h1 .mb{display:inline}.hero h1 .db{display:none}.hero-copy p{font-size:17px;margin:13px auto 19px}
  .hero-photo{position:relative;width:auto;height:290px;margin-inline:-14px}.hero-photo:before{display:none}.hero-photo img{object-position:80% 38%;transform:translateX(-5%) scale(1.18);transform-origin:70% 50%}
  .hero-spark{top:8%;left:8%}
  .quick-links{grid-template-columns:1fr;margin-top:15px;gap:12px}
  .quick-card{height:175px}.quick-content{padding:14px 18px}
- .community{padding:22px 18px;gap:20px;margin-top:20px}.community-copy h2{font-size:26px}
- .craft-gallery{grid-template-columns:repeat(2,1fr);gap:8px}.craft-gallery img{height:145px;border-width:6px}
+ .community{padding:22px 16px 14px;gap:14px;margin-top:20px}.community-copy h2{font-size:24px}.community-icon{width:40px;height:40px}
+ .craft-gallery{padding:10px 0 50px}.craft-gallery img{height:120px;border-width:5px;margin-left:-8px}
  .section-head{align-items:flex-start;flex-direction:column;margin-top:25px}.section-head h2{font-size:25px}
  .featured{grid-template-columns:repeat(2,1fr);gap:10px}.feature-card .photo{height:125px}
  .feature-info h3{font-size:14px}.feature-info p{font-size:12px}
@@ -159,7 +166,7 @@ footer:before{content:"";position:absolute;top:-13px;left:0;right:0;height:8px;b
 <main id="inicio">
  <section class="hero">
   <div class="container hero-copy">
-   <h1>Tudo o que você<br>precisa, em um só <em>lugar!</em></h1>
+   <h1>Tudo o que<br class="mb"> você<br class="db"> precisa,<br class="mb"> em um só <em>lugar!</em></h1>
    <p>Compre, aprenda, compartilhe<br>e faça parte da nossa comunidade.</p>
    <a class="pill-btn" href="#explore">Explore o Seu Vizinho <span aria-hidden="true">⌄</span></a>
   </div>
@@ -182,7 +189,11 @@ footer:before{content:"";position:absolute;top:-13px;left:0;right:0;height:8px;b
 
  <section class="container community">
   <div class="community-copy">
-   <h2>Aprenda, compartilhe e faça parte da nossa comunidade!</h2>
+   <div class="community-title">
+    <span class="community-icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="14" r="6.5" fill="#0b4fb3"/><path d="M11 40c0-8.5 5.3-14 13-14s13 5.5 13 14z" fill="#0b4fb3"/><circle cx="9.5" cy="19.5" r="4.6" fill="#ff8a00"/><path d="M0 40c0-6.6 3.6-11 9.2-11 1.6 0 3 .4 4.200 1.100C10.800 32.600 9.500 36 9.300 40z" fill="#ff8a00"/><circle cx="38.500" cy="19.500" r="4.600" fill="#d51a9c"/><path d="M48 40c0-6.600-3.600-11-9.200-11-1.600 0-3 .4-4.200 1.100 2.600 2.500 3.900 5.900 4.100 9.900z" fill="#d51a9c"/></svg></span>
+    <h2>Aprenda, compartilhe e faça parte da nossa comunidade!</h2>
+    <span class="community-spark" aria-hidden="true">✦</span>
+   </div>
    <p>No Artesanato na Rede você encontra aulas, enquetes e um espaço especial para trocar ideias com outros apaixonados por artesanato.</p>
    <a class="dark-btn" href="https://artesanatonarede.com.br/category/aulas/">Conheça o projeto&nbsp; →</a>
   </div>
@@ -191,6 +202,8 @@ footer:before{content:"";position:absolute;top:-13px;left:0;right:0;height:8px;b
    <img src="{% endraw %}{{ img_abs('comunidade_2', w=500) if tem_img('comunidade_2') else 'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=500&q=85' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=500&q=85'" alt="Materiais e criação artesanal">
    <img src="{% endraw %}{{ img_abs('comunidade_3', w=500) if tem_img('comunidade_3') else 'https://images.unsplash.com/photo-1590736969955-71cc94901144?auto=format&fit=crop&w=500&q=85' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1590736969955-71cc94901144?auto=format&fit=crop&w=500&q=85'" alt="Peça artesanal colorida">
    <img src="{% endraw %}{{ img_abs('comunidade_4', w=500) if tem_img('comunidade_4') else 'https://images.unsplash.com/photo-1493106641515-6b5631de4bb9?auto=format&fit=crop&w=500&q=85' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1493106641515-6b5631de4bb9?auto=format&fit=crop&w=500&q=85'" alt="Decoração feita à mão">
+   <svg class="gallery-line" viewBox="0 0 600 46" preserveAspectRatio="none" aria-hidden="true"><path d="M6 6C90 6 170 44 285 38 400 32 470 4 594 8" fill="none" stroke="#7c5cd6" stroke-width="2" stroke-dasharray="4 6" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>
+   <svg class="gallery-heart" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 27C6 20 3.500 14.500 3.500 10.800 3.500 7.300 6.200 5 9.200 5c2.800 0 5 1.700 6.800 4.300C17.800 6.700 20 5 22.800 5c3 0 5.700 2.300 5.700 5.800C28.500 14.500 26 20 16 27z" fill="#ece8ff" stroke="#7c5cd6" stroke-width="2" stroke-linejoin="round"/></svg>
   </div>
  </section>
 
