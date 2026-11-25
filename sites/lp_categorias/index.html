@@ -1,4 +1,3 @@
-{% macro IMG(slot, w) %}{{ img(slot, w=w) if img is defined else img_abs(slot, w=w) }}{% endmacro %}
 {% raw %}<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -138,7 +137,7 @@ footer:before{content:"";position:absolute;top:-13px;left:0;right:0;height:8px;b
  <div class="container header-inner">
   <a class="brand" href="#inicio" aria-label="Seu Vizinho - início">
    <span class="brand-mark" aria-hidden="true">
-   {% endraw %}{% if tem_img('logo') %}<img src="{{ IMG('logo', 300) }}" alt="Seu Vizinho" style="width:100%;height:100%;object-fit:contain">{% else %}{% raw %}
+   {% endraw %}{% if tem_img('logo') %}<img src="{{ img_abs('logo', w=300) }}" alt="Seu Vizinho" style="width:100%;height:100%;object-fit:contain">{% else %}{% raw %}
     <svg viewBox="0 0 90 78" fill="none" xmlns="http://www.w3.org/2000/svg">
      <path d="M7 34 45 5l38 29M17 29v40h56V29" stroke="#ffb400" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
      <path d="M45 20v11" stroke="#0874df" stroke-width="5" stroke-linecap="round"/>
@@ -166,18 +165,18 @@ footer:before{content:"";position:absolute;top:-13px;left:0;right:0;height:8px;b
   </div>
   <div class="hero-photo">
    <span class="hero-spark" aria-hidden="true">✳</span>
-   <img src="{% endraw %}{{ IMG('hero', 1400) if tem_img('hero') else 'https://images.unsplash.com/photo-1590736969955-71cc94901144?auto=format&fit=crop&w=1400&q=90' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1590736969955-71cc94901144?auto=format&fit=crop&w=1400&q=90'" alt="Pessoa trabalhando em uma peça artesanal de crochê">
+   <img src="{% endraw %}{{ img_abs('hero', w=1400) if tem_img('hero') else 'https://images.unsplash.com/photo-1590736969955-71cc94901144?auto=format&fit=crop&w=1400&q=90' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1590736969955-71cc94901144?auto=format&fit=crop&w=1400&q=90'" alt="Pessoa trabalhando em uma peça artesanal de crochê">
   </div>
  </section>
 
  <section class="container quick-links" id="explore" aria-label="Conheça nossos ambientes">
-  <a class="quick-card green" style="--card-image:url('{% endraw %}{{ IMG('card_loja', 900) if tem_img('card_loja') else 'https://images.unsplash.com/photo-1543087903-1ac2ec7aa8c5?auto=format&fit=crop&w=900&q=85' }}{% raw %}')" href="https://lojaseuvizinho.com.br/">
+  <a class="quick-card green" style="--card-image:url('{% endraw %}{{ img_abs('card_loja', w=900) if tem_img('card_loja') else 'https://images.unsplash.com/photo-1543087903-1ac2ec7aa8c5?auto=format&fit=crop&w=900&q=85' }}{% raw %}')" href="https://lojaseuvizinho.com.br/">
    <div class="quick-content"><h2>Loja Seu Vizinho</h2><p>Marketplace de produtos<br>e lojas locais.</p><span class="mini-btn">Acessar a Loja&nbsp; →</span></div>
   </a>
-  <a class="quick-card blue" style="--card-image:url('{% endraw %}{{ IMG('card_portal', 900) if tem_img('card_portal') else 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=85' }}{% raw %}')" href="https://www.portallojaseuvizinho.com.br/">
+  <a class="quick-card blue" style="--card-image:url('{% endraw %}{{ img_abs('card_portal', w=900) if tem_img('card_portal') else 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=85' }}{% raw %}')" href="https://www.portallojaseuvizinho.com.br/">
    <div class="quick-content"><h2>Portal Seu Vizinho</h2><p>Notícias, artigos,<br>aulas e muito mais.</p><span class="mini-btn">Acessar o Portal&nbsp; →</span></div>
   </a>
-  <a class="quick-card pink" style="--card-image:url('{% endraw %}{{ IMG('card_artesanato', 900) if tem_img('card_artesanato') else '' }}{% raw %}')" href="https://artesanatonarede.com.br/category/aulas/">
+  <a class="quick-card pink" style="--card-image:url('{% endraw %}{{ img_abs('card_artesanato', w=900) if tem_img('card_artesanato') else '' }}{% raw %}')" href="https://artesanatonarede.com.br/category/aulas/">
    <div class="quick-content"><h2>Artesanato na Rede</h2><p>Aulas, enquetes<br>e comunidade.</p><span class="mini-btn">Acessar agora&nbsp; →</span></div>
   </a>
  </section>
@@ -189,10 +188,10 @@ footer:before{content:"";position:absolute;top:-13px;left:0;right:0;height:8px;b
    <a class="dark-btn" href="https://artesanatonarede.com.br/category/aulas/">Conheça o projeto&nbsp; →</a>
   </div>
   <div class="craft-gallery" aria-label="Exemplos de trabalhos artesanais">
-   <img src="{% endraw %}{{ IMG('comunidade_1', 500) if tem_img('comunidade_1') else 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=500&q=85' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=500&q=85'" alt="Detalhe de trabalho artesanal">
-   <img src="{% endraw %}{{ IMG('comunidade_2', 500) if tem_img('comunidade_2') else 'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=500&q=85' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=500&q=85'" alt="Materiais e criação artesanal">
-   <img src="{% endraw %}{{ IMG('comunidade_3', 500) if tem_img('comunidade_3') else 'https://images.unsplash.com/photo-1590736969955-71cc94901144?auto=format&fit=crop&w=500&q=85' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1590736969955-71cc94901144?auto=format&fit=crop&w=500&q=85'" alt="Peça artesanal colorida">
-   <img src="{% endraw %}{{ IMG('comunidade_4', 500) if tem_img('comunidade_4') else 'https://images.unsplash.com/photo-1493106641515-6b5631de4bb9?auto=format&fit=crop&w=500&q=85' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1493106641515-6b5631de4bb9?auto=format&fit=crop&w=500&q=85'" alt="Decoração feita à mão">
+   <img src="{% endraw %}{{ img_abs('comunidade_1', w=500) if tem_img('comunidade_1') else 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=500&q=85' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=500&q=85'" alt="Detalhe de trabalho artesanal">
+   <img src="{% endraw %}{{ img_abs('comunidade_2', w=500) if tem_img('comunidade_2') else 'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=500&q=85' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=500&q=85'" alt="Materiais e criação artesanal">
+   <img src="{% endraw %}{{ img_abs('comunidade_3', w=500) if tem_img('comunidade_3') else 'https://images.unsplash.com/photo-1590736969955-71cc94901144?auto=format&fit=crop&w=500&q=85' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1590736969955-71cc94901144?auto=format&fit=crop&w=500&q=85'" alt="Peça artesanal colorida">
+   <img src="{% endraw %}{{ img_abs('comunidade_4', w=500) if tem_img('comunidade_4') else 'https://images.unsplash.com/photo-1493106641515-6b5631de4bb9?auto=format&fit=crop&w=500&q=85' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1493106641515-6b5631de4bb9?auto=format&fit=crop&w=500&q=85'" alt="Decoração feita à mão">
   </div>
  </section>
 
@@ -202,14 +201,14 @@ footer:before{content:"";position:absolute;top:-13px;left:0;right:0;height:8px;b
    <div class="chips"><a class="chip" href="https://artesanatonarede.com.br/category/aulas/">▶ Aulas</a><a class="chip" href="https://artesanatonarede.com.br/">▥ Enquetes</a><a class="chip" href="https://artesanatonarede.com.br/">♣ Comunidade</a></div>
   </div>
   <div class="featured">
-   <a class="feature-card" href="https://artesanatonarede.com.br/category/aulas/"><div class="photo"><img src="{% endraw %}{{ IMG('destaque_1', 600) if tem_img('destaque_1') else 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=600&q=85' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=600&q=85'" alt="Peça de crochê"><span class="tag">▶ Aulas</span></div><div class="feature-info"><h3>Tapete de Crochê Fácil</h3><p>Aprenda passo a passo!</p></div></a>
-   <a class="feature-card" href="https://artesanatonarede.com.br/category/aulas/"><div class="photo"><img src="{% endraw %}{{ IMG('destaque_2', 600) if tem_img('destaque_2') else 'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=600&q=85' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=600&q=85'" alt="Bordado artesanal"><span class="tag">▶ Aulas</span></div><div class="feature-info"><h3>Bordado Moderno</h3><p>Técnicas e dicas incríveis!</p></div></a>
-   <a class="feature-card" href="https://artesanatonarede.com.br/category/aulas/"><div class="photo"><img src="{% endraw %}{{ IMG('destaque_3', 600) if tem_img('destaque_3') else 'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=600&q=85' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=600&q=85'" alt="Materiais coloridos"><span class="tag">✦ Dicas</span></div><div class="feature-info"><h3>Escolha o fio ideal</h3><p>Dicas de quem entende!</p></div></a>
-   <a class="feature-card" href="https://artesanatonarede.com.br/"><div class="photo"><img src="{% endraw %}{{ IMG('destaque_4', 600) if tem_img('destaque_4') else 'https://images.unsplash.com/photo-1493106641515-6b5631de4bb9?auto=format&fit=crop&w=600&q=85' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1493106641515-6b5631de4bb9?auto=format&fit=crop&w=600&q=85'" alt="Artesanato feito à mão"><span class="tag" style="background:#d51a65">♣ Comunidade</span></div><div class="feature-info"><h3>Participe do nosso grupo!</h3><p>Troque ideias e inspire-se!</p></div></a>
+   <a class="feature-card" href="https://artesanatonarede.com.br/category/aulas/"><div class="photo"><img src="{% endraw %}{{ img_abs('destaque_1', w=600) if tem_img('destaque_1') else 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=600&q=85' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=600&q=85'" alt="Peça de crochê"><span class="tag">▶ Aulas</span></div><div class="feature-info"><h3>Tapete de Crochê Fácil</h3><p>Aprenda passo a passo!</p></div></a>
+   <a class="feature-card" href="https://artesanatonarede.com.br/category/aulas/"><div class="photo"><img src="{% endraw %}{{ img_abs('destaque_2', w=600) if tem_img('destaque_2') else 'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=600&q=85' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=600&q=85'" alt="Bordado artesanal"><span class="tag">▶ Aulas</span></div><div class="feature-info"><h3>Bordado Moderno</h3><p>Técnicas e dicas incríveis!</p></div></a>
+   <a class="feature-card" href="https://artesanatonarede.com.br/category/aulas/"><div class="photo"><img src="{% endraw %}{{ img_abs('destaque_3', w=600) if tem_img('destaque_3') else 'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=600&q=85' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=600&q=85'" alt="Materiais coloridos"><span class="tag">✦ Dicas</span></div><div class="feature-info"><h3>Escolha o fio ideal</h3><p>Dicas de quem entende!</p></div></a>
+   <a class="feature-card" href="https://artesanatonarede.com.br/"><div class="photo"><img src="{% endraw %}{{ img_abs('destaque_4', w=600) if tem_img('destaque_4') else 'https://images.unsplash.com/photo-1493106641515-6b5631de4bb9?auto=format&fit=crop&w=600&q=85' }}{% raw %}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1493106641515-6b5631de4bb9?auto=format&fit=crop&w=600&q=85'" alt="Artesanato feito à mão"><span class="tag" style="background:#d51a65">♣ Comunidade</span></div><div class="feature-info"><h3>Participe do nosso grupo!</h3><p>Troque ideias e inspire-se!</p></div></a>
   </div>
  </section>
 
- <section class="container final-cta" style="--cta-image:url('{% endraw %}{{ IMG('cta', 1600) if tem_img('cta') else 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1600&q=80' }}{% raw %}')">
+ <section class="container final-cta" style="--cta-image:url('{% endraw %}{{ img_abs('cta', w=1600) if tem_img('cta') else 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1600&q=80' }}{% raw %}')">
   <div class="cta-title"><div class="handshake">♡</div><div><h2>Seu Vizinho é mais que um site.</h2><p>É uma rede de pessoas, ideias e oportunidades!</p></div></div>
   <a class="pill-btn" href="https://lojaseuvizinho.com.br/">Faça parte agora&nbsp; →</a>
  </section>
